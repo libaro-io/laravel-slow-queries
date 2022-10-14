@@ -1,0 +1,58 @@
+{
+  "name": "libaro/laravel-slow-queries",
+  "description": "This is my package laravel-slow-queries",
+  "keywords": [
+    "libaro",
+    "laravel",
+    "laravel-slow-queries"
+  ],
+  "homepage": "https://github.com/libaro/laravel-slow-queries",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Libaro",
+      "email": "info@libaro.be",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.0"
+  },
+  "require-dev": {
+    "nunomaduro/larastan": "^2.0",
+    "orchestra/testbench": "^v7.5.0",
+    "phpstan/phpstan": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Libaro\\LaravelSlowQueries\\": "src",
+      "Libaro\\LaravelSlowQueries\\Database\\Factories\\": "database/factories"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Libaro\\LaravelSlowQueries\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "analyse": "vendor/bin/phpstan analyse",
+    "analyse-json": "vendor/bin/phpstan analyse --error-format=json",
+    "test": "vendor/bin/pest",
+    "test-coverage": "vendor/bin/pest --coverage"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Libaro\\LaravelSlowQueries\\LaravelSlowQueriesServiceProvider"
+      ],
+      "aliases": {
+        "LaravelSlowQueries": "Libaro\\LaravelSlowQueries\\Facades\\LaravelSlowQueries"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
