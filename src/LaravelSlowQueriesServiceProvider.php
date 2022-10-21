@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 class LaravelSlowQueriesServiceProvider extends ServiceProvider
 {
 
+
+
     public function boot(): void
     {
         $this->publishes([
@@ -20,7 +22,7 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
         }
 
         $this->startListeningWhenEnabled();
-        $this->registerTerminating();
+//        $this->registerTerminating();
     }
 
     public function register()
@@ -39,14 +41,14 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * @return void
-     */
-    private function registerTerminating(): void
-    {
-        $laravelSlowQueries = new LaravelSlowQueries();
-        if ($laravelSlowQueries->isPackageEnabled()) {
-            $laravelSlowQueries->registerTerminating();
-        }
-    }
+//    /**
+//     * @return void
+//     */
+//    private function registerTerminating(): void
+//    {
+//        $laravelSlowQueries = new LaravelSlowQueries();
+//        if ($laravelSlowQueries->isPackageEnabled()) {
+//            $laravelSlowQueries->registerTerminating();
+//        }
+//    }
 }

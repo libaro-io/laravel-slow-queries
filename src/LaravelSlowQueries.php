@@ -2,6 +2,7 @@
 
 namespace Libaro\LaravelSlowQueries;
 
+use App\Domains\Auth\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
@@ -22,6 +23,11 @@ class LaravelSlowQueries
      * @var Collection<int, SlowQuery>
      */
     private Collection $slowQueries;
+
+    public function __construct()
+    {
+        $this->slowQueries = collect([]);
+    }
 
     /**
      * @return bool
@@ -45,20 +51,20 @@ class LaravelSlowQueries
      */
     public function startListening(): void
     {
-        $this->slowQueries = collect([]);
-
         DB::listen(function (QueryExecuted $queryExecuted) {
             $this->setRequest();
 
             $slowQuery = $this->getDataFromQueryExecuted($queryExecuted);
             $this->slowQueries->push($slowQuery);
         });
+
+        $this->registerTerminating();
     }
 
     /**
      * @return void
      */
-    public function registerTerminating(): void
+    private function registerTerminating(): void
     {
         $app = app();
         if ($app instanceof Application) {
