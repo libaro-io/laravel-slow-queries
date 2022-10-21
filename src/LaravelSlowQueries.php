@@ -2,6 +2,7 @@
 
 namespace Libaro\LaravelSlowQueries;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -12,16 +13,10 @@ use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
 class LaravelSlowQueries
 {
-
     /**
      * @var Request
      */
     private Request $request;
-
-//    /**
-//     * @var SlowQuery
-//     */
-//    private SlowQuery $slowQuery;
 
     /**
      * @var Collection<int, SlowQuery>
@@ -48,24 +43,29 @@ class LaravelSlowQueries
     /**
      * @return void
      */
-    public function startListening()
+    public function startListening(): void
     {
-        $this->slowQueries = collect();
+        $this->slowQueries = collect([]);
 
         DB::listen(function (QueryExecuted $queryExecuted) {
             $this->setRequest();
 
             $slowQuery = $this->getDataFromQueryExecuted($queryExecuted);
             $this->slowQueries->push($slowQuery);
-
-            Log::info($this->slowQueries->count());
-
-//            $this->saveSlowQuery();
         });
+    }
 
-        app()->terminating(function () {
-            $this->saveSlowQueries();
-        });
+    /**
+     * @return void
+     */
+    public function registerTerminating(): void
+    {
+        $app = app();
+        if ($app instanceof Application) {
+            $app->terminating(function () {
+                $this->saveSlowQueries();
+            });
+        }
     }
 
     /**
@@ -73,9 +73,10 @@ class LaravelSlowQueries
      */
     private function saveSlowQueries(): void
     {
-        foreach($this->slowQueries as $slowQuery)
-        if ($this->isQuerySlow($slowQuery) && !$this->isQueryMetaQuery($slowQuery)) {
-            $slowQuery->save();
+        foreach ($this->slowQueries as $slowQuery) {
+            if ($this->isQuerySlow($slowQuery) && !$this->isQueryMetaQuery($slowQuery)) {
+                $slowQuery->save();
+            }
         }
     }
 
