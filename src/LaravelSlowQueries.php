@@ -4,6 +4,7 @@ namespace Libaro\LaravelSlowQueries;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -17,10 +18,15 @@ class LaravelSlowQueries
      */
     private Request $request;
 
+//    /**
+//     * @var SlowQuery
+//     */
+//    private SlowQuery $slowQuery;
+
     /**
-     * @var SlowQuery
+     * @var Collection<int, SlowQuery>
      */
-    private SlowQuery $slowQuery;
+    private Collection $slowQueries;
 
     /**
      * @return bool
@@ -44,21 +50,32 @@ class LaravelSlowQueries
      */
     public function startListening()
     {
+        $this->slowQueries = collect();
+
         DB::listen(function (QueryExecuted $queryExecuted) {
             $this->setRequest();
 
-            $this->slowQuery = $this->getDataFromQueryExecuted($queryExecuted);
-            $this->saveSlowQuery();
+            $slowQuery = $this->getDataFromQueryExecuted($queryExecuted);
+            $this->slowQueries->push($slowQuery);
+
+            Log::info($this->slowQueries->count());
+
+//            $this->saveSlowQuery();
+        });
+
+        app()->terminating(function () {
+            $this->saveSlowQueries();
         });
     }
 
     /**
      * @return void
      */
-    private function saveSlowQuery(): void
+    private function saveSlowQueries(): void
     {
-        if ($this->isQuerySlow() && !$this->isQueryMetaQuery()) {
-            $this->slowQuery->save();
+        foreach($this->slowQueries as $slowQuery)
+        if ($this->isQuerySlow($slowQuery) && !$this->isQueryMetaQuery($slowQuery)) {
+            $slowQuery->save();
         }
     }
 
@@ -126,14 +143,14 @@ class LaravelSlowQueries
     /**
      * @return bool
      */
-    private function isQuerySlow(): bool
+    private function isQuerySlow(SlowQuery $slowQuery): bool
     {
-        return $this->slowQuery->duration >= $this->getSlowerThan();
+        return $slowQuery->duration >= $this->getSlowerThan();
     }
 
-    private function isQueryMetaQuery(): bool
+    private function isQueryMetaQuery(SlowQuery $slowQuery): bool
     {
-        return str_contains($this->slowQuery->query, 'slow_queries');
+        return str_contains($slowQuery->query, 'slow_queries');
     }
 
 
