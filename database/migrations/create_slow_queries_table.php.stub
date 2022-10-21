@@ -4,14 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateSlowQueriesTable extends Migration
 {
     public function up()
     {
-        Schema::create('laravel_slow_queries_table', function (Blueprint $table) {
+        Schema::create('slow_queries', function (Blueprint $table) {
             $table->id();
 
-            // add fields
+            $table->string('uri');
+            $table->string('action');
+            $table->string('query', 1000);
+            $table->float('duration');
 
             $table->timestamps();
         });
