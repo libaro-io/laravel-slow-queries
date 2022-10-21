@@ -2,14 +2,13 @@
 
 namespace Libaro\LaravelSlowQueries;
 
-use App\Domains\Auth\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
 class LaravelSlowQueries
@@ -35,15 +34,6 @@ class LaravelSlowQueries
     public function isPackageEnabled(): bool
     {
         return (bool)config('slow-queries.enabled');
-    }
-
-    /**
-     * @return float
-     */
-    public function getSlowerThan(): float
-    {
-        $slowerThan = config('slow-queries.log_queries_slower_than');
-        return is_numeric($slowerThan) ? (float)$slowerThan : 0;
     }
 
     /**
@@ -79,11 +69,7 @@ class LaravelSlowQueries
      */
     private function saveSlowQueries(): void
     {
-        foreach ($this->slowQueries as $slowQuery) {
-            if ($this->isQuerySlow($slowQuery) && !$this->isQueryMetaQuery($slowQuery)) {
-                $slowQuery->save();
-            }
-        }
+        SaveSlowQueries::dispatch($this->slowQueries);
     }
 
     /**
@@ -146,19 +132,4 @@ class LaravelSlowQueries
     {
         return $query->time;
     }
-
-    /**
-     * @return bool
-     */
-    private function isQuerySlow(SlowQuery $slowQuery): bool
-    {
-        return $slowQuery->duration >= $this->getSlowerThan();
-    }
-
-    private function isQueryMetaQuery(SlowQuery $slowQuery): bool
-    {
-        return str_contains($slowQuery->query, 'slow_queries');
-    }
-
-
 }
