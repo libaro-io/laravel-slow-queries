@@ -7,9 +7,11 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Libaro\LaravelSlowQueries\ValueObjects\SourceFrame;
 
 class LaravelSlowQueries
 {
@@ -22,6 +24,8 @@ class LaravelSlowQueries
      * @var Collection<int, SlowQuery>
      */
     private Collection $slowQueries;
+
+    private $stack;
 
     public function __construct()
     {
@@ -90,9 +94,12 @@ class LaravelSlowQueries
      */
     private function getDataFromQueryExecuted(QueryExecuted $queryExecuted): SlowQuery
     {
+        $sourceFrame = $this->getSourceFrame();
+
+
         $slowQuery = new SlowQuery();
         $slowQuery->uri = $this->getUri();
-        $slowQuery->action = $this->getAction();
+        $slowQuery->action = $this->getNameFromSourceFrame($sourceFrame);
         $slowQuery->query = $this->getQueryWithParams($queryExecuted);
         $slowQuery->duration = $this->getDuration($queryExecuted);
 
@@ -119,9 +126,35 @@ class LaravelSlowQueries
     /**
      * @return string
      */
-    private function getAction(): string
+    private function getNameFromSourceFrame(SourceFrame $sourceFrame): string
     {
+//        return $this->getNameFromSourceFrame()
+
+
         return '';
+//        dd($stack);
+    }
+    /**
+     * @return string
+     */
+    private function getLineFromSourceFrame(SourceFrame $sourceFrame): string
+    {
+//        return $this->getNameFromSourceFrame()
+
+
+        return '';
+//        dd($stack);
+    }
+
+
+    /**
+     * @return SourceFrame
+     */
+    private function getSourceFrame(): SourceFrame
+    {
+        $querySource = new QuerySource();
+        $source = $querySource->findSource();
+        return $source;
     }
 
     /**
