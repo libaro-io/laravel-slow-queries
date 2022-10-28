@@ -12,7 +12,7 @@ class SourceFrame
     /**
      * @var string
      */
-    public $name;
+    public $source_file;
 
 
 }

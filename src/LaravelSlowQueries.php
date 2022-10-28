@@ -101,7 +101,7 @@ class LaravelSlowQueries
         $slowQuery = new SlowQuery();
         $slowQuery->uri = $this->getUri();
         $slowQuery->action = $this->getNameFromSourceFrame($sourceFrame);
-        $slowQuery->action = $this->getSourceFileFromSourceFrame($sourceFrame);
+        $slowQuery->source_file = $this->getSourceFileFromSourceFrame($sourceFrame);
         $slowQuery->line = $this->getLineFromSourceFrame($sourceFrame);
         $slowQuery->query = $this->getQueryWithParams($queryExecuted);
         $slowQuery->duration = $this->getDuration($queryExecuted);
@@ -137,7 +137,8 @@ class LaravelSlowQueries
 
     private function getSourceFileFromSourceFrame(SourceFrame $sourceFrame): string
     {
-        return $sourceFrame->name;
+        $result = str_replace(base_path(), '', $sourceFrame->source_file);
+        return $result;
     }
 
     /**

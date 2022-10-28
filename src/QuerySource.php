@@ -49,13 +49,13 @@ class QuerySource
         }
 
         $frame = new SourceFrame();
-        $frame->name = $this->getName($trace);
+        $frame->source_file = $this->getSourceFile($trace);
         $frame->line = $this->getLine($trace);
 
         return $frame;
     }
 
-    private function getName($trace)
+    private function getSourceFile($trace)
     {
         return $trace['file'];
     }
