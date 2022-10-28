@@ -25,7 +25,8 @@ class LaravelSlowQueries
      */
     private Collection $slowQueries;
 
-    private $stack;
+
+//    private $stack;
 
     public function __construct()
     {
@@ -100,6 +101,8 @@ class LaravelSlowQueries
         $slowQuery = new SlowQuery();
         $slowQuery->uri = $this->getUri();
         $slowQuery->action = $this->getNameFromSourceFrame($sourceFrame);
+        $slowQuery->action = $this->getSourceFileFromSourceFrame($sourceFrame);
+        $slowQuery->line = $this->getLineFromSourceFrame($sourceFrame);
         $slowQuery->query = $this->getQueryWithParams($queryExecuted);
         $slowQuery->duration = $this->getDuration($queryExecuted);
 
@@ -124,28 +127,27 @@ class LaravelSlowQueries
     }
 
     /**
+     * @param SourceFrame $sourceFrame
      * @return string
      */
     private function getNameFromSourceFrame(SourceFrame $sourceFrame): string
     {
-//        return $this->getNameFromSourceFrame()
-
-
         return '';
-//        dd($stack);
     }
-    /**
-     * @return string
-     */
-    private function getLineFromSourceFrame(SourceFrame $sourceFrame): string
+
+    private function getSourceFileFromSourceFrame(SourceFrame $sourceFrame): string
     {
-//        return $this->getNameFromSourceFrame()
-
-
-        return '';
-//        dd($stack);
+        return $sourceFrame->name;
     }
 
+    /**
+     * @param SourceFrame $sourceFrame
+     * @return int
+     */
+    private function getLineFromSourceFrame(SourceFrame $sourceFrame): int
+    {
+        return $sourceFrame->line;
+    }
 
     /**
      * @return SourceFrame

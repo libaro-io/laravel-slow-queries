@@ -25,7 +25,9 @@ class QuerySource
     {
         $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, app('config')->get('debugbar.debug_backtrace_limit', 50));
 
-        $frame = null;
+//        dd($stack);
+
+//        $frame = null;
         foreach ($stack as $index => $trace) {
             $frame = $this->parseTrace($index, $trace);
             if ($frame) {
@@ -33,6 +35,8 @@ class QuerySource
             }
         }
 
+
+//        dd($frame);
         return $frame;
     }
 

@@ -9,7 +9,9 @@ use Illuminate\Support\Carbon;
  * @property integer $id
  * @property string $uri
  * @property string $action
+ * @property string $source_file
  * @property string $query
+ * @property integer $line
  * @property numeric $duration
  * @property Carbon $created_at
  * @property Carbon $updated_at

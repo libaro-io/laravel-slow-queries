@@ -11,10 +11,12 @@ class CreateSlowQueriesTable extends Migration
         Schema::create('slow_queries', function (Blueprint $table) {
             $table->id();
 
-            $table->string('uri');
-            $table->string('action');
-            $table->string('query', 1000);
-            $table->float('duration');
+            $table->string('uri')->nullable();
+            $table->string('action')->nullable();
+            $table->string('source_file')->nullable();
+            $table->string('line')->nullable();
+            $table->string('query', 1000)->nullable();
+            $table->float('duration')->nullable();
 
             $table->timestamps();
         });
