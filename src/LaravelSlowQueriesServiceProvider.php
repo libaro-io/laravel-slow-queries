@@ -19,12 +19,18 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
         }
 
         $this->startListeningWhenEnabled();
+        $this->registerRoutes();
 //        $this->registerTerminating();
     }
 
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/slow-queries.php', 'slow-queries');
+    }
+
+    public function registerRoutes()
+    {
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
     }
 
     /**
