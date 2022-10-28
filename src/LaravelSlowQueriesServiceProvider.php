@@ -20,6 +20,7 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
 
         $this->startListeningWhenEnabled();
         $this->registerRoutes();
+        $this->registerViews();
 //        $this->registerTerminating();
     }
 
@@ -31,6 +32,11 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
     public function registerRoutes()
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+    }
+
+    public function registerViews()
+    {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'slow-queries');
     }
 
     /**
