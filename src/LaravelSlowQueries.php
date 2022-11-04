@@ -12,7 +12,11 @@ use Illuminate\Support\Str;
 use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\ValueObjects\SourceFrame;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
+
+//TODO  id for request to slowQuery table
 class LaravelSlowQueries
 {
     /**
@@ -24,9 +28,6 @@ class LaravelSlowQueries
      * @var Collection<int, SlowQuery>
      */
     private Collection $slowQueries;
-
-
-//    private $stack;
 
     public function __construct()
     {
@@ -100,7 +101,7 @@ class LaravelSlowQueries
 
         $slowQuery = new SlowQuery();
         $slowQuery->uri = $this->getUri();
-        $slowQuery->action = $this->getNameFromSourceFrame($sourceFrame);
+        $slowQuery->action = $this->getActionFromSourceFrame($sourceFrame);
         $slowQuery->source_file = $this->getSourceFileFromSourceFrame($sourceFrame);
         $slowQuery->line = $this->getLineFromSourceFrame($sourceFrame);
         $slowQuery->query = $this->getQueryWithParams($queryExecuted);
@@ -127,33 +128,39 @@ class LaravelSlowQueries
     }
 
     /**
-     * @param SourceFrame $sourceFrame
+     * @param SourceFrame|null $sourceFrame
      * @return string
      */
-    private function getNameFromSourceFrame(SourceFrame $sourceFrame): string
+    private function getActionFromSourceFrame(?SourceFrame $sourceFrame): string
     {
-        return '';
+        return $sourceFrame->action ?? '';
     }
 
-    private function getSourceFileFromSourceFrame(SourceFrame $sourceFrame): string
+    /**
+     * @param SourceFrame|null $sourceFrame
+     * @return string
+     */
+    private function getSourceFileFromSourceFrame(?SourceFrame $sourceFrame): string
     {
-        $result = str_replace(base_path(), '', $sourceFrame->source_file);
+        $result = str_replace(base_path(), '', $sourceFrame->source_file ?? '');
         return $result;
     }
 
     /**
-     * @param SourceFrame $sourceFrame
+     * @param SourceFrame|null $sourceFrame
      * @return int
      */
-    private function getLineFromSourceFrame(SourceFrame $sourceFrame): int
+    private function getLineFromSourceFrame(?SourceFrame $sourceFrame): int
     {
-        return $sourceFrame->line;
+        return $sourceFrame->line ?? 0;
     }
 
     /**
-     * @return SourceFrame
+     * @return ?SourceFrame
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    private function getSourceFrame(): SourceFrame
+    private function getSourceFrame(): ?SourceFrame
     {
         $querySource = new QuerySource();
         $source = $querySource->findSource();
