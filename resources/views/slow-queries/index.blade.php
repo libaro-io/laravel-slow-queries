@@ -16,7 +16,7 @@
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">duration</th>
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">source_file</th>
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">line</th>
-                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">query</th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">show</th>
                                 </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -28,7 +28,9 @@
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->duration }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->source_file }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->line }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->query }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                            <a href="{{ route('slow-queries.queries.show', ['slowQuery' => $query->id ]) }}">Show</a>
+                                        </td>
 
                                     </tr>
                                 @endforeach
