@@ -5,6 +5,8 @@ namespace Libaro\LaravelSlowQueries\Models;
 use Doctrine\DBAL\Query;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Libaro\LaravelSlowQueries\Services\MissingIndexService;
 use Libaro\LaravelSlowQueries\Services\QueryHintService;
 
 /**
@@ -38,5 +40,10 @@ class SlowQuery extends Model
     public function getHintsAttribute(): array
     {
         return (new QueryHintService())->performQueryAnalysis($this->query_with_bindings);
+    }
+
+    public function getMissingIndexesAttribute(): Collection
+    {
+        return (new MissingIndexService())->getMissingIndexesForQuery($this);
     }
 }
