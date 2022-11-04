@@ -52,6 +52,15 @@
                                 </div>
                             @endif
 
+                            @if($query->missingIndexes->count())
+                                <div class="sm:col-span-2">
+                                    <dt class="text-sm font-medium text-gray-500">Possible missing indexes on these columns</dt>
+                                    @foreach($query->missingIndexes as $missingIndex)
+                                        <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{!! $missingIndex !!}</dd>
+                                    @endforeach
+                                </div>
+                            @endif
+
                         </dl>
                     </div>
                 </div>
