@@ -14,5 +14,10 @@ class SourceFrame
      */
     public $source_file;
 
+    /**
+     * @var string
+     */
+    public $action;
+
 
 }
