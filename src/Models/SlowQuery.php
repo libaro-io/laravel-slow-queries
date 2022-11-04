@@ -2,8 +2,10 @@
 
 namespace Libaro\LaravelSlowQueries\Models;
 
+use Doctrine\DBAL\Query;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Libaro\LaravelSlowQueries\Services\QueryHintService;
 
 /**
  * @property integer $id
@@ -17,6 +19,9 @@ use Illuminate\Support\Carbon;
  * @property numeric $duration
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property array $hints
+ *
  */
 
 class SlowQuery extends Model
@@ -26,4 +31,12 @@ class SlowQuery extends Model
 
     // Disable Laravel's mass assignment protection
     protected $guarded = [];
+
+    /**
+     * @return array
+     */
+    public function getHintsAttribute(): array
+    {
+        return (new QueryHintService())->performQueryAnalysis($this->query_with_bindings);
+    }
 }
