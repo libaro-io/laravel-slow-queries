@@ -33,8 +33,9 @@ class SaveSlowQueries implements ShouldQueue
      */
     public function handle(): void
     {
-        foreach($this->slowQueries as $slowQuery){
-            if($this->isQuerySlow($slowQuery) && !$this->isQueryMetaQuery($slowQuery)){
+        foreach ($this->slowQueries as $slowQuery) {
+            if (($this->isQuerySlow($slowQuery) || ($this->hasManyQueries()))
+                && !$this->isQueryMetaQuery($slowQuery)) {
                 $slowQuery->save();
             }
         }
@@ -56,6 +57,15 @@ class SaveSlowQueries implements ShouldQueue
     private function isQuerySlow(SlowQuery $slowQuery): bool
     {
         return $slowQuery->duration >= $this->getSlowerThan();
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasManyQueries()
+    {
+        $moreThan = config('slow-queries.log_queries_more_than');
+        return $this->slowQueries->count() > $moreThan;
     }
 
     /**
