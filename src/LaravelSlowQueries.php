@@ -16,7 +16,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 
-//TODO  id for request to slowQuery table
 class LaravelSlowQueries
 {
     /**
