@@ -103,7 +103,9 @@ class LaravelSlowQueries
         $slowQuery->action = $this->getActionFromSourceFrame($sourceFrame);
         $slowQuery->source_file = $this->getSourceFileFromSourceFrame($sourceFrame);
         $slowQuery->line = $this->getLineFromSourceFrame($sourceFrame);
-        $slowQuery->query = $this->getQueryWithParams($queryExecuted);
+        $slowQuery->query_hashed = $this->getHashedQuery($queryExecuted);
+        $slowQuery->query_with_bindings = $this->getQueryWithBindings($queryExecuted);
+        $slowQuery->query_without_bindings = $this->getQueryWithoutBindings($queryExecuted);
         $slowQuery->duration = $this->getDuration($queryExecuted);
 
         return $slowQuery;
@@ -113,9 +115,27 @@ class LaravelSlowQueries
      * @param QueryExecuted $query
      * @return string
      */
-    private function getQueryWithParams(QueryExecuted $query): string
+    private function getQueryWithBindings(QueryExecuted $query): string
     {
         return Str::replaceArray('?', $query->bindings, $query->sql);
+    }
+
+    /**
+     * @param QueryExecuted $query
+     * @return string
+     */
+    private function getQueryWithoutBindings(QueryExecuted $query): string
+    {
+        return $query->sql;
+    }
+
+    /**
+     * @param QueryExecuted $query
+     * @return string
+     */
+    private function getHashedQuery(QueryExecuted $query): string
+    {
+        return md5($query->sql);
     }
 
     /**
