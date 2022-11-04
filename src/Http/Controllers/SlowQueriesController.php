@@ -18,6 +18,6 @@ class SlowQueriesController extends Controller
 
     public function show(SlowQuery $slowQuery):  Factory|View
     {
-        return view('slow-queries::slow-queries.show', compact('slowQuery'));
+        return view('slow-queries::slow-queries.show', ['query' => $slowQuery]);
     }
 }
