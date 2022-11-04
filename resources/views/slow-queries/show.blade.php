@@ -37,7 +37,7 @@
                             </div>
                             <div class="sm:col-span-2">
                                 <dt class="text-sm font-medium text-gray-500">Query</dt>
-                                <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{{ $query->query }}</dd>
+                                <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{{ $query->query_with_bindings }}</dd>
                             </div>
                         </dl>
                     </div>
