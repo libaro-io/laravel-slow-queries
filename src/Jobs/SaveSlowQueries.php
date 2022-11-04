@@ -35,7 +35,7 @@ class SaveSlowQueries implements ShouldQueue
     {
         foreach ($this->slowQueries as $slowQuery) {
             if (($this->isQuerySlow($slowQuery) || ($this->hasManyQueries()))
-                && !$this->isQueryMetaQuery($slowQuery)) {
+                && !$this->isMetaQuery($slowQuery)) {
                 $slowQuery->save();
             }
         }
@@ -72,8 +72,8 @@ class SaveSlowQueries implements ShouldQueue
      * @param SlowQuery $slowQuery
      * @return bool
      */
-    private function isQueryMetaQuery(SlowQuery $slowQuery): bool
+    private function isMetaQuery(SlowQuery $slowQuery): bool
     {
-        return str_contains($slowQuery->query, 'slow_queries');
+        return str_contains($slowQuery->query_without_bindings, 'slow_queries');
     }
 }
