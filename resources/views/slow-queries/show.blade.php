@@ -15,7 +15,7 @@
                 <div class="bg-white shadow sm:rounded-lg">
                     <div class="px-4 py-5 sm:px-6">
                         <h2 id="applicant-information-title" class="text-lg font-medium leading-6 text-gray-900">Slow Query Details</h2>
-                        <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
+{{--                        <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>--}}
                     </div>
                     <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
                         <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
