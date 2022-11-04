@@ -10,7 +10,24 @@ __ideas for the future__
 
 [-] button for easier copy the query (as in copy paste)
 
-[-] button to open source file in your favorite IDE  
+[-] button to open source file in your favorite IDE
+
+[-] detect, analyse and suggest solutions for the laravel n+1 query problem 
+
+[-] trial-and-error indexes :
+        create a list of possible missing indexes for a query
+        foreach possible missing index, also loop the different combinations
+                create that index
+                run the query again (a few times)
+                measure the timings
+                delete the index again
+        
+        analyse for which combinations of generated indexes the query was fastest
+        mark one of the index combinations as 'BEST' and suggest to create those indexes
+
+
+
+
 
 [-] command to automatically clean data older than x days (x days = configurable)
 
