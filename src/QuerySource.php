@@ -12,6 +12,9 @@ use Libaro\LaravelSlowQueries\ValueObjects\SourceFrame;
 
 class QuerySource
 {
+    /**
+     * @var string[]
+     */
     protected $backtraceExcludePaths = [
         '/vendor/laravel/framework/src/Illuminate/Support',
         '/vendor/laravel/framework/src/Illuminate/Database',
@@ -21,26 +24,34 @@ class QuerySource
         'LaravelSlowQueries',
     ];
 
-    public function findSource()
+    /**
+     * @return SourceFrame|null
+     */
+    public function findSource(): ?SourceFrame
     {
-        $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, app('config')->get('debugbar.debug_backtrace_limit', 50));
+        // TODO: make configurable: backtrace limit 50
+        $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, 50);
 
-//        dd($stack);
-
-//        $frame = null;
+        $frame = null;
         foreach ($stack as $index => $trace) {
             $frame = $this->parseTrace($index, $trace);
+
+//            Log::info(json_encode($frame));
+
             if ($frame) {
                 break;
             }
         }
 
-
-//        dd($frame);
         return $frame;
     }
 
-    protected function parseTrace($index, array $trace)
+    /**
+     * @param int $index
+     * @param array $trace
+     * @return SourceFrame|null
+     */
+    protected function parseTrace(int $index, array $trace): ?SourceFrame
     {
         foreach ($this->backtraceExcludePaths as $excludePath) {
             if (str_contains($trace['file'], $excludePath)) {
@@ -51,17 +62,35 @@ class QuerySource
         $frame = new SourceFrame();
         $frame->source_file = $this->getSourceFile($trace);
         $frame->line = $this->getLine($trace);
+        $frame->action = $this->getAction($trace);
 
         return $frame;
     }
 
-    private function getSourceFile($trace)
+    /**
+     * @param array $trace
+     * @return string
+     */
+    private function getSourceFile(array $trace): string
     {
         return $trace['file'];
     }
 
-    private function getLine($trace)
+    /**
+     * @param array $trace
+     * @return int
+     */
+    private function getLine(array $trace): int
     {
         return $trace['line'] ?? 0;
+    }
+
+    /**
+     * @param array $trace
+     * @return string
+     */
+    private function getAction(array $trace): string
+    {
+        return $trace['function'];
     }
 }
