@@ -12,7 +12,9 @@ __ideas for the future__
 
 [-] button to open source file in your favorite IDE  
 
-[-] command to automatically clean data older than x days (x days = configurable)  
+[-] command to automatically clean data older than x days (x days = configurable)
+
+[-] use a sql prettifier package for better output on the detail page
 
 [-] check for possible missing indexes, based on fields used for  
         WHERE
