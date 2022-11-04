@@ -24,17 +24,17 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
 //        $this->registerTerminating();
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/slow-queries.php', 'slow-queries');
     }
 
-    public function registerRoutes()
+    public function registerRoutes(): void
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
     }
 
-    public function registerViews()
+    public function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'slow-queries');
     }
