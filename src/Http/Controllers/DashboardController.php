@@ -13,6 +13,6 @@ class DashboardController extends Controller
         /** @phpstan-ignore-next-line */
         $queries = SlowQuery::paginate();
         
-        return view('slow-queries::dashboard.show', ['title' => 'Dashboard', 'queries' => $queries]);
+        return view('slow-queries::dashboard.show', compact('queries'));
     }
 }
