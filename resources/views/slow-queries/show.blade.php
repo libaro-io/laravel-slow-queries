@@ -25,7 +25,7 @@
                             </div>
                             <div class="sm:col-span-1">
                                 <dt class="text-sm font-medium text-gray-500">Duration</dt>
-                                <dd class="mt-1 text-sm text-gray-900">{{ $query->duration }}</dd>
+                                <dd class="mt-1 text-sm text-gray-900">{{ $query->duration }} ms</dd>
                             </div>
                             <div class="sm:col-span-1">
                                 <dt class="text-sm font-medium text-gray-500">Source File</dt>
