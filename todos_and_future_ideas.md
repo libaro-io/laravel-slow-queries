@@ -12,4 +12,19 @@ __ideas for the future__
 
 [-] button to open source file in your favorite IDE  
 
+[-] command to automatically clean data older than x days (x days = configurable)  
+
+[-] check for possible missing indexes, based on fields used for  
+        WHERE
+        GROUP BY
+        JOIN
+        ORDER BY
+
+next, suggest columns for which to create indexes on, based on hightest cost according to the explain analyze results
+
+
+quick and dirty method :
+just check which columns are in the sql query for which indexes do not exist ?
+
+
 
