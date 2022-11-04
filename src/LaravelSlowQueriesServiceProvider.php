@@ -31,7 +31,7 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
 
     public function registerRoutes(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/admin.php');
     }
 
     public function registerViews(): void
