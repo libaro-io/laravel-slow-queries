@@ -59,7 +59,7 @@
                             @foreach([$query->guessedMissingIndexes, $query->suggestedMissingIndexes] as $missingIndexes)
                                 @if($missingIndexes->count())
                                     <div class="sm:col-span-2">
-                                        <dt class="text-sm font-medium text-gray-500">Possible missing indexes on these columns</dt>
+                                        <dt class="text-sm font-medium text-gray-500">You might consider creating indexes for these columns (if not already):</dt>
                                         @foreach($missingIndexes as $missingIndex)
                                             <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{!! $missingIndex !!}</dd>
                                         @endforeach
