@@ -38,9 +38,13 @@
                                 <dt class="text-sm font-medium text-gray-500">Line</dt>
                                 <dd class="mt-1 text-sm text-gray-900">{{ $query->line }}</dd>
                             </div>
+{{--                            <div class="sm:col-span-2">--}}
+{{--                                <dt class="text-sm font-medium text-gray-500">Query</dt>--}}
+{{--                                <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{{ $query->query_with_bindings }}</dd>--}}
+{{--                            </div>--}}
                             <div class="sm:col-span-2">
-                                <dt class="text-sm font-medium text-gray-500">Query</dt>
-                                <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{{ $query->query_with_bindings }}</dd>
+                                <dt class="text-sm font-medium text-gray-500">Prettified</dt>
+                                <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{!! $query->prettyQuery !!}</dd>
                             </div>
 
                             @if($query->hints)
@@ -52,15 +56,16 @@
                                 </div>
                             @endif
 
-                            @if($query->missingIndexes->count())
-                                <div class="sm:col-span-2">
-                                    <dt class="text-sm font-medium text-gray-500">Possible missing indexes on these columns</dt>
-                                    @foreach($query->missingIndexes as $missingIndex)
-                                        <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{!! $missingIndex !!}</dd>
-                                    @endforeach
-                                </div>
-                            @endif
-
+                            @foreach([$query->guessedMissingIndexes, $query->suggestedMissingIndexes] as $missingIndexes)
+                                @if($missingIndexes->count())
+                                    <div class="sm:col-span-2">
+                                        <dt class="text-sm font-medium text-gray-500">Possible missing indexes on these columns</dt>
+                                        @foreach($missingIndexes as $missingIndex)
+                                            <dd class="mt-1 text-sm bg-gray-900 text-white p-4 rounded-md">{!! $missingIndex !!}</dd>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            @endforeach
                         </dl>
                     </div>
                 </div>

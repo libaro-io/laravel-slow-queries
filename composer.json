@@ -17,7 +17,8 @@
   ],
   "require": {
     "php": "^8.0",
-    "greenlion/php-sql-parser": "^4.5"
+    "greenlion/php-sql-parser": "^4.5",
+    "jdorn/sql-formatter": "^1.2"
   },
   "require-dev": {
     "nunomaduro/larastan": "^2.0",
