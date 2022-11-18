@@ -45,7 +45,7 @@ class SlowQuery extends Model
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection
      */
     public function getGuessedMissingIndexesAttribute(): Collection
     {
@@ -55,7 +55,7 @@ class SlowQuery extends Model
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection
      */
     public function getSuggestedMissingIndexesAttribute(): Collection
     {
