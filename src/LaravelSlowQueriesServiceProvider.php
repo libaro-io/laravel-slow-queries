@@ -19,12 +19,9 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
             ], 'migrations');
         }
 
-//        $this->app->register(PHPSQLParser::class);
-
         $this->startListeningWhenEnabled();
         $this->registerRoutes();
         $this->registerViews();
-//        $this->registerTerminating();
     }
 
     public function register(): void

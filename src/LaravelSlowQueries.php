@@ -7,7 +7,6 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
@@ -95,8 +94,10 @@ class LaravelSlowQueries
      */
     private function getDataFromQueryExecuted(QueryExecuted $queryExecuted): SlowQuery
     {
-        $sourceFrame = $this->getSourceFrame();
-
+        try {
+            $sourceFrame = $this->getSourceFrame();
+        } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
 
         $slowQuery = new SlowQuery();
         $slowQuery->uri = $this->getUri();
