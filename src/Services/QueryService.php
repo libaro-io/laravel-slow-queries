@@ -16,7 +16,13 @@ class QueryService
         $t = new PHPSQLParser();
         $parsed = $t->parse($query);
 
+        $tableAliases = collect([]);
+        $whereFields = collect([]);
+        $joinFields = collect([]);
+        $orderFields = collect([]);
+
         dd($parsed);
+
 
         return [];
 //        return $parsed;

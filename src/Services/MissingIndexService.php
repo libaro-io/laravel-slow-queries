@@ -42,16 +42,16 @@ SQL;
 
     /**
      * @param SlowQuery $slowQuery
-     * @return Collection
+     * @return Collection<int, string>
      */
-    public function getMissingIndexesForQuery(SlowQuery $slowQuery): Collection
+    public function getGuessedMissingIndexes(SlowQuery $slowQuery): Collection
     {
         $missingIndexes = collect([]);
 
         foreach ($this->getGlobalMissingIndexes() as $globalMissingIndex) {
             // TODO : also check table name
 
-            if(str_contains($slowQuery->query_with_bindings, $globalMissingIndex->COLUMN_NAME)){
+            if (str_contains($slowQuery->query_with_bindings, $globalMissingIndex->COLUMN_NAME)) {
                 $missingIndexes->push($globalMissingIndex->COLUMN_NAME);
             }
         }
@@ -60,9 +60,20 @@ SQL;
     }
 
     /**
+     * @param SlowQuery $slowQuery
+     * @return Collection<int, string>
+     */
+    public function getSuggestedMissingIndexes(SlowQuery $slowQuery): Collection
+    {
+        $result = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
+
+    }
+
+    /**
      * @return string
      */
-    private function getSchemaName(): string
+    private
+    function getSchemaName(): string
     {
         /** @phpstan-ignore-next-line */
         return DB::getDatabaseName();

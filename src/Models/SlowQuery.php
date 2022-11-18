@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Services\MissingIndexService;
 use Libaro\LaravelSlowQueries\Services\QueryHintService;
 use Libaro\LaravelSlowQueries\Services\QueryService;
+use SqlFormatter;
 
 /**
  * @property integer $id
@@ -18,6 +19,7 @@ use Libaro\LaravelSlowQueries\Services\QueryService;
  * @property string $query_hashed               // hashed query is used for easier grouping and handling queries that are the same (except for the bindings values)
  * @property string $query_with_bindings
  * @property string $query_without_bindings
+ * @property string $prettyQuery
  * @property integer $line
  * @property numeric $duration
  * @property Carbon $created_at
@@ -43,21 +45,36 @@ class SlowQuery extends Model
     }
 
     /**
-     * @return Collection
+     * @return Collection<int, string>
      */
-    public function getMissingIndexesAttribute(): Collection
+    public function getGuessedMissingIndexesAttribute(): Collection
     {
-
-        $t = (new QueryService())->breakupQuery($this->query_with_bindings);
-
-
-        return (new MissingIndexService())->getMissingIndexesForQuery($this);
+        // guessing missing indexes based on script that tries to find missing indexes globally
+        // from information schema and KEY_COLUMN_USAGE
+        return (new MissingIndexService())->getGuessedMissingIndexes($this);
     }
 
     /**
-     * @return array
+     * @return Collection<int, string>
      */
-    public function getQueryParts()
+    public function getSuggestedMissingIndexesAttribute(): Collection
     {
+        return (new MissingIndexService())->getSuggestedMissingIndexes($this);
+    }
+
+//    /**
+//     * @return array
+//     */
+//    public function getQueryParts()
+//    {
+//    }
+
+    /**
+     * @return String
+     */
+    public
+    function getPrettyQueryAttribute()
+    {
+        return SqlFormatter::format($this->query_with_bindings);
     }
 }
