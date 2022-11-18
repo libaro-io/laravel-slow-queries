@@ -89,7 +89,7 @@ SQL;
             }
         };
 
-        return $columns;
+        return $columns->unique();
     }
 
     /**
