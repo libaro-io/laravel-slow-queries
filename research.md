@@ -11,3 +11,6 @@ https://dev.mysql.com/blog-archive/mysql-explain-analyze/
 https://github.com/rap2hpoutre/mysql-xplain-xplain
 
 https://code.google.com/archive/p/php-sql-parser/wikis/ComplexExample.wiki
+
+
+https://docs.percona.com/percona-toolkit/
