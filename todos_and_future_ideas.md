@@ -55,7 +55,6 @@ __ideas for the future__
         GROUP BY
         JOIN
         ORDER BY
-
 next, suggest columns for which to create indexes on, based on hightest cost according to the explain analyze results
 
 
@@ -63,4 +62,36 @@ quick and dirty method :
 just check which columns are in the sql query for which indexes do not exist ?
 
 
+
+
+
+[-] bugfix : query
+select
+`permissions`.*,
+`model_has_permissions`.`model_id` as `pivot_model_id`,
+`model_has_permissions`.`permission_id` as `pivot_permission_id`,
+`model_has_permissions`.`model_type` as `pivot_model_type`
+from
+`permissions`
+inner join `model_has_permissions` on `permissions`.`id` = `model_has_permissions`.`permission_id`
+where
+`model_has_permissions`.`model_id` in (1)
+and `model_has_permissions`.`model_type` = App\Domains\Auth\Models\User
+
+should be saved as this instead: (notice the missing single quotes)
+select
+`permissions`.*,
+`model_has_permissions`.`model_id` as `pivot_model_id`,
+`model_has_permissions`.`permission_id` as `pivot_permission_id`,
+`model_has_permissions`.`model_type` as `pivot_model_type`
+from
+`permissions`
+inner join `model_has_permissions` on `permissions`.`id` = `model_has_permissions`.`permission_id`
+where
+`model_has_permissions`.`model_id` in (1)
+and `model_has_permissions`.`model_type` = 'App\Domains\Auth\Models\User'
+
+
+[-] bugfix : also parse and + or in where, etc 
+e.g. http://localhost:8000/slow-queries/queries/8
 
