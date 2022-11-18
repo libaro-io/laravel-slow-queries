@@ -61,12 +61,12 @@ SQL;
 
     /**
      * @param SlowQuery $slowQuery
-     * @return Collection<int, string>
+     * @return Collection<int, array>
      */
     public function getSuggestedMissingIndexes(SlowQuery $slowQuery): Collection
     {
         $result = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
-
+        return $result;
     }
 
     /**
