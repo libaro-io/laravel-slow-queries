@@ -6,9 +6,10 @@ namespace Libaro\LaravelSlowQueries\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Libaro\LaravelSlowQueries\ValueObjects\OrderByField;
 use Libaro\LaravelSlowQueries\ValueObjects\ParsedQuery;
 use Libaro\LaravelSlowQueries\ValueObjects\TableAlias;
-use Libaro\LaravelSlowQueries\ValueObjects\WhereField;
+use Libaro\LaravelSlowQueries\ValueObjects\Field;
 use PHPSQLParser\PHPSQLParser;
 
 /*
@@ -32,9 +33,13 @@ class QueryService
     const PARTS_TABLE = 0;
     const PARTS_FIELD = 1;
 
+    const DIRECTION = 'direction';
 
     const WHERE = 'WHERE';
+    const ORDER = 'ORDER';
 
+    const COLLECTIONS = ['whereFields', 'orderByFields'];
+    const CLEANUP_CHARS = ['[', ']'];
 
     /**
      * @param string $query
@@ -53,7 +58,10 @@ class QueryService
         $parsedQuery = new ParsedQuery();
         $parsedQuery->tableAliases = $this->getAliases($parsed);
         $parsedQuery->whereFields = $this->getWhereFields($parsed);
+        $parsedQuery->orderByFields = $this->getOrderByFields($parsed);
 
+
+        $parsedQuery = $this->cleanup($parsedQuery);
         return $parsedQuery;
     }
 
@@ -74,7 +82,7 @@ class QueryService
             ) {
                 $tableAlias = new TableAlias();
                 $tableAlias->tableName = $part[self::TABLE];
-                $tableAlias->alias =  $part[self::ALIAS]['name'];
+                $tableAlias->alias = $part[self::ALIAS]['name'];
 
                 $results->push($tableAlias);
             }
@@ -86,25 +94,132 @@ class QueryService
 
     /**
      * @param array $parsed
-     * @return Collection<int, WhereField>
+     * @return Collection<int, Field>
      */
     private function getWhereFields(array $parsed): Collection
     {
         $parts = $parsed[self::WHERE];
         $results = collect([]);
 
-        foreach($parts as $part){
-            if($part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::COLREF){
-                $whereField = new WhereField();
+        foreach ($parts as $part) {
+            if ($part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::COLREF) {
+                $field = new Field();
 
-                $whereField->fullName = $part[self::BASE_EXPR];
-                $whereField->tableNameOrAlias = $part[self::NO_QUOTES][self::PARTS][self::PARTS_TABLE];
-                $whereField->fieldName = $part[self::NO_QUOTES][self::PARTS][self::PARTS_FIELD];
+                $field->fullName = $part[self::BASE_EXPR];
+                $field->tableNameOrAlias = $part[self::NO_QUOTES][self::PARTS][self::PARTS_TABLE];
+                $field->fieldName = $part[self::NO_QUOTES][self::PARTS][self::PARTS_FIELD];
 
-                $results->push($whereField);
+                $results->push($field);
             }
         }
 
         return $results;
+    }
+
+    /**
+     * @param array $parsed
+     * @return Collection<int, OrderByField>
+     */
+    private function getOrderByFields(array $parsed)
+    {
+        $parts = $parsed[self::ORDER];
+        $results = collect([]);
+
+        foreach ($parts as $part) {
+            if ($part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::COLREF) {
+                $field = new OrderByField();
+
+                $field->fullName = $part[self::BASE_EXPR];
+                $field->tableNameOrAlias = $part[self::NO_QUOTES][self::PARTS][self::PARTS_TABLE];
+                $field->fieldName = $part[self::NO_QUOTES][self::PARTS][self::PARTS_FIELD];
+                $field->orderDirection = $part[self::DIRECTION];
+
+                $results->push($field);
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * @param ParsedQuery $parsedQuery
+     * @return ParsedQuery
+     */
+    private function cleanup(ParsedQuery $parsedQuery)
+    {
+        $mappedAliases = $this->getMappedAliases($parsedQuery);
+
+        $parsedQuery = $this->replaceAliasesByTableNames($parsedQuery, $mappedAliases);
+        $parsedQuery = $this->cleanupFieldNames($parsedQuery, $mappedAliases);
+
+        return $parsedQuery;
+    }
+
+    /**
+     * @param ParsedQuery $parsedQuery
+     * @return array
+     */
+    private function getMappedAliases(ParsedQuery $parsedQuery)
+    {
+        $mappedAliases = [];
+        foreach($parsedQuery->tableAliases as $tableAlias){
+            // only add if not added yet
+            if(!isset($mappedAliases[$tableAlias->alias])){
+                $mappedAliases[$tableAlias->alias] = $tableAlias->tableName;
+            }
+        }
+
+        return $mappedAliases;
+    }
+
+    /**
+     * @param ParsedQuery $parsedQuery
+     * @param array $mappedAliases
+     * @return ParsedQuery
+     */
+    private function replaceAliasesByTableNames(ParsedQuery $parsedQuery, array $mappedAliases){
+        foreach(self::COLLECTIONS as $collectionName){
+            $collection = $parsedQuery->$collectionName;
+
+            // loop every field in the collection and replace alias names by real table names
+            $parsedQuery->$collectionName = $collection->map(function($field) use ($mappedAliases) {
+                /** @var  Field  $field */
+
+                $alias = $field->tableNameOrAlias;
+
+                if(isset($mappedAliases[$alias])){;
+                    $tableName = $mappedAliases[$alias];
+                    $field->tableNameOrAlias = str_replace($alias, $tableName, $alias);
+
+                }
+
+                return $field;
+            });
+        }
+
+        return $parsedQuery;
+    }
+
+    /**
+     * @param ParsedQuery $parsedQuery
+     * @return ParsedQuery
+     */
+    private function cleanupFieldNames(ParsedQuery $parsedQuery, array $mappedAliases){
+        foreach(self::COLLECTIONS as $collectionName){
+            $collection = $parsedQuery->$collectionName;
+
+            // loop every field in the collection and replace alias names by real table names
+            $parsedQuery->$collectionName = $collection->map(function($field) use ($mappedAliases) {
+                /** @var  Field  $field */
+
+                foreach(self::CLEANUP_CHARS as $char){
+                    $field->fieldName = str_replace($char, '', $field->fieldName);
+                }
+
+                return $field;
+            });
+        }
+
+        return $parsedQuery;
     }
 }
