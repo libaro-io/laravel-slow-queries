@@ -150,7 +150,7 @@ class QueryService
         $mappedAliases = $this->getMappedAliases($parsedQuery);
 
         $parsedQuery = $this->replaceAliasesByTableNames($parsedQuery, $mappedAliases);
-        $parsedQuery = $this->cleanupFieldNames($parsedQuery, $mappedAliases);
+        $parsedQuery = $this->cleanupFieldNames($parsedQuery);
 
         return $parsedQuery;
     }
@@ -162,9 +162,9 @@ class QueryService
     private function getMappedAliases(ParsedQuery $parsedQuery)
     {
         $mappedAliases = [];
-        foreach($parsedQuery->tableAliases as $tableAlias){
+        foreach ($parsedQuery->tableAliases as $tableAlias) {
             // only add if not added yet
-            if(!isset($mappedAliases[$tableAlias->alias])){
+            if (!isset($mappedAliases[$tableAlias->alias])) {
                 $mappedAliases[$tableAlias->alias] = $tableAlias->tableName;
             }
         }
@@ -177,17 +177,19 @@ class QueryService
      * @param array $mappedAliases
      * @return ParsedQuery
      */
-    private function replaceAliasesByTableNames(ParsedQuery $parsedQuery, array $mappedAliases){
-        foreach(self::COLLECTIONS as $collectionName){
+    private function replaceAliasesByTableNames(ParsedQuery $parsedQuery, array $mappedAliases)
+    {
+        foreach (self::COLLECTIONS as $collectionName) {
             $collection = $parsedQuery->$collectionName;
 
             // loop every field in the collection and replace alias names by real table names
-            $parsedQuery->$collectionName = $collection->map(function($field) use ($mappedAliases) {
-                /** @var  Field  $field */
+            $parsedQuery->$collectionName = $collection->map(function ($field) use ($mappedAliases) {
+                /** @var  Field $field */
 
                 $alias = $field->tableNameOrAlias;
 
-                if(isset($mappedAliases[$alias])){;
+                if (isset($mappedAliases[$alias])) {
+                    ;
                     $tableName = $mappedAliases[$alias];
                     $field->tableNameOrAlias = str_replace($alias, $tableName, $alias);
 
@@ -204,15 +206,15 @@ class QueryService
      * @param ParsedQuery $parsedQuery
      * @return ParsedQuery
      */
-    private function cleanupFieldNames(ParsedQuery $parsedQuery, array $mappedAliases){
-        foreach(self::COLLECTIONS as $collectionName){
+    private function cleanupFieldNames(ParsedQuery $parsedQuery)
+    {
+        foreach (self::COLLECTIONS as $collectionName) {
             $collection = $parsedQuery->$collectionName;
 
-            // loop every field in the collection and replace alias names by real table names
-            $parsedQuery->$collectionName = $collection->map(function($field) use ($mappedAliases) {
-                /** @var  Field  $field */
-
-                foreach(self::CLEANUP_CHARS as $char){
+            // loop every field in the collection and cleanup the field names
+            $parsedQuery->$collectionName = $collection->map(function ($field) {
+                foreach (self::CLEANUP_CHARS as $char) {
+                    /** @var  Field $field */
                     $field->fieldName = str_replace($char, '', $field->fieldName);
                 }
 

@@ -68,7 +68,7 @@ SQL;
     {
         $result = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
 
-        dd($result);
+//        dd($result);
         // TODO: convert ParsedQuery to array/collection of suggested indexes
 
         return $result;
