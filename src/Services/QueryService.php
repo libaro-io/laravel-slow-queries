@@ -38,7 +38,7 @@ class QueryService
     const WHERE = 'WHERE';
     const ORDER = 'ORDER';
 
-    const COLLECTIONS = ['whereFields', 'orderByFields'];
+    const FIELD_COLLECTIONS = ['whereFields', 'orderByFields'];
     const CLEANUP_CHARS = ['[', ']'];
 
     /**
@@ -179,7 +179,7 @@ class QueryService
      */
     private function replaceAliasesByTableNames(ParsedQuery $parsedQuery, array $mappedAliases)
     {
-        foreach (self::COLLECTIONS as $collectionName) {
+        foreach (self::FIELD_COLLECTIONS as $collectionName) {
             $collection = $parsedQuery->$collectionName;
 
             // loop every field in the collection and replace alias names by real table names
@@ -208,7 +208,7 @@ class QueryService
      */
     private function cleanupFieldNames(ParsedQuery $parsedQuery)
     {
-        foreach (self::COLLECTIONS as $collectionName) {
+        foreach (self::FIELD_COLLECTIONS as $collectionName) {
             $collection = $parsedQuery->$collectionName;
 
             // loop every field in the collection and cleanup the field names

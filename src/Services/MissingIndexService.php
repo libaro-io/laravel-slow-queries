@@ -6,6 +6,7 @@ namespace Libaro\LaravelSlowQueries\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Libaro\LaravelSlowQueries\ValueObjects\Field;
 use Libaro\LaravelSlowQueries\ValueObjects\ParsedQuery;
 
 class MissingIndexService
@@ -62,18 +63,50 @@ SQL;
 
     /**
      * @param SlowQuery $slowQuery
-     * @return ParsedQuery
+     * @return Collection<int, string>
      */
-    public function getSuggestedMissingIndexes(SlowQuery $slowQuery): ParsedQuery
+    public function getSuggestedMissingIndexes(SlowQuery $slowQuery): Collection
     {
-        $result = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
-
-//        dd($result);
-        // TODO: convert ParsedQuery to array/collection of suggested indexes
-
-        return $result;
+        $parsedQuery = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
+        return $this->mapParsedQueryToFieldsArray($parsedQuery);
     }
 
+    /**
+     * @param ParsedQuery $parsedQuery
+     * @return Collection<int, string>
+     */
+    private function mapParsedQueryToFieldsArray(ParsedQuery $parsedQuery): Collection
+    {
+        $columns = collect([]);
+
+        foreach (QueryService::FIELD_COLLECTIONS as $collection) {
+            foreach ($parsedQuery->$collection as $field) {
+                /** @var  Field $field */
+                $fieldType = $this->getFieldTypeForCollection($collection);
+                $column = "$field->tableNameOrAlias.$field->fieldName ($fieldType)";
+
+                $columns->push($column);
+            }
+        };
+
+        return $columns;
+    }
+
+    /**
+     * @param string $collection
+     * @return string
+     */
+    private function getFieldTypeForCollection(string $collection)
+    {
+        switch($collection){
+            case 'whereFields':
+                return 'where';
+            case 'orderByFields':
+                return 'order by';
+            default:
+                return '';
+        }
+    }
     /**
      * @return string
      */

@@ -61,8 +61,7 @@ class SlowQuery extends Model
     public function getSuggestedMissingIndexesAttribute(): Collection
     {
         $result = (new MissingIndexService())->getSuggestedMissingIndexes($this);
-
-        return collect([]);
+        return $result;
     }
 
 //    /**
