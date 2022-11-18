@@ -96,14 +96,20 @@ class LaravelSlowQueries
     {
         try {
             $sourceFrame = $this->getSourceFrame();
+            $action = $this->getActionFromSourceFrame($sourceFrame);
+            $sourceFile = $this->getSourceFileFromSourceFrame($sourceFrame);
+            $line = $this->getLineFromSourceFrame($sourceFrame);
         } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+            $action = '';
+            $sourceFile = '';
+            $line = 0;
         }
 
         $slowQuery = new SlowQuery();
         $slowQuery->uri = $this->getUri();
-        $slowQuery->action = $this->getActionFromSourceFrame($sourceFrame);
-        $slowQuery->source_file = $this->getSourceFileFromSourceFrame($sourceFrame);
-        $slowQuery->line = $this->getLineFromSourceFrame($sourceFrame);
+        $slowQuery->action = $action;
+        $slowQuery->source_file = $sourceFile;
+        $slowQuery->line = $line;
         $slowQuery->query_hashed = $this->getHashedQuery($queryExecuted);
         $slowQuery->query_with_bindings = $this->getQueryWithBindings($queryExecuted);
         $slowQuery->query_without_bindings = $this->getQueryWithoutBindings($queryExecuted);
