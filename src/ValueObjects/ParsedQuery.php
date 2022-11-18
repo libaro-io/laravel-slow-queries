@@ -13,9 +13,14 @@ class ParsedQuery
     public $tableAliases;
 
     /**
-     * @var Collection<int, WhereField>
+     * @var Collection<int, Field>
      */
     public $whereFields;
+
+    /**
+     * @var Collection<int, OrderByField>
+     */
+    public $orderByFields;
 
 
 
