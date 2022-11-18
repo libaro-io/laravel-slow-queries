@@ -67,6 +67,10 @@ SQL;
     public function getSuggestedMissingIndexes(SlowQuery $slowQuery): ParsedQuery
     {
         $result = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
+
+        dd($result);
+        // TODO: convert ParsedQuery to array/collection of suggested indexes
+
         return $result;
     }
 
