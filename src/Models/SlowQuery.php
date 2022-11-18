@@ -56,11 +56,13 @@ class SlowQuery extends Model
     }
 
     /**
-     * @return ParsedQuery
+     * @return Collection<int, string>
      */
-    public function getSuggestedMissingIndexesAttribute(): ParsedQuery
+    public function getSuggestedMissingIndexesAttribute(): Collection
     {
-        return (new MissingIndexService())->getSuggestedMissingIndexes($this);
+        $result = (new MissingIndexService())->getSuggestedMissingIndexes($this);
+
+        return collect([]);
     }
 
 //    /**
@@ -73,8 +75,7 @@ class SlowQuery extends Model
     /**
      * @return String
      */
-    public
-    function getPrettyQueryAttribute()
+    public function getPrettyQueryAttribute()
     {
         return SqlFormatter::format($this->query_with_bindings);
     }
