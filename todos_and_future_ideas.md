@@ -1,6 +1,23 @@
 __ideas for the future__
 
+[-] more consistency in names (variables, package prefixes for tables, etc)
+
 [-] also log guid/id for same request to slowQuery table
+
+[-] filtering + sorting in admin pages
+
+[-] add dashboard widgets
+        top x (eg 10, configurable) slowest pages
+        top x (eg 10, configurable) slowest queries
+        top x (eg 10, configurable) pages with too many queries (> x, configurable) (the n+1 problem)
+
+[-] admin pages for
+        slowest pages
+        slowest queries
+        pages with too many queries
+        pages with duplicate queries
+
+                
 
 [-] also log queries that take to much data / MB
 
