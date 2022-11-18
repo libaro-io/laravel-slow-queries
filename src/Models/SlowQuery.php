@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Services\MissingIndexService;
 use Libaro\LaravelSlowQueries\Services\QueryHintService;
+use Libaro\LaravelSlowQueries\Services\QueryService;
 
 /**
  * @property integer $id
@@ -25,7 +26,6 @@ use Libaro\LaravelSlowQueries\Services\QueryHintService;
  * @property array $hints
  *
  */
-
 class SlowQuery extends Model
 {
 //    use HasFactory;
@@ -42,8 +42,22 @@ class SlowQuery extends Model
         return (new QueryHintService())->performQueryAnalysis($this->query_with_bindings);
     }
 
+    /**
+     * @return Collection
+     */
     public function getMissingIndexesAttribute(): Collection
     {
+
+        $t = (new QueryService())->breakupQuery($this->query_with_bindings);
+
+
         return (new MissingIndexService())->getMissingIndexesForQuery($this);
+    }
+
+    /**
+     * @return array
+     */
+    public function getQueryParts()
+    {
     }
 }
