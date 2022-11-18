@@ -15,9 +15,9 @@ class CreateSlowQueriesTable extends Migration
             $table->string('action')->nullable();
             $table->string('source_file')->nullable();
             $table->string('line')->nullable();
-            $table->string('query_hashed', 1000)->nullable();
-            $table->string('query_with_bindings', 1000)->nullable();
-            $table->string('query_without_bindings', 1000)->nullable();
+            $table->string('query_hashed', 32)->nullable();
+            $table->text('query_with_bindings')->nullable();
+            $table->text('query_without_bindings')->nullable();
             $table->float('duration')->nullable();
 
             $table->timestamps();
