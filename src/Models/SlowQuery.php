@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Services\MissingIndexService;
 use Libaro\LaravelSlowQueries\Services\QueryHintService;
 use Libaro\LaravelSlowQueries\Services\QueryService;
+use Libaro\LaravelSlowQueries\ValueObjects\ParsedQuery;
 use SqlFormatter;
 
 /**
@@ -45,7 +46,7 @@ class SlowQuery extends Model
     }
 
     /**
-     * @return Collection
+     * @return Collection<int, string>
      */
     public function getGuessedMissingIndexesAttribute(): Collection
     {
@@ -55,9 +56,9 @@ class SlowQuery extends Model
     }
 
     /**
-     * @return Collection
+     * @return ParsedQuery
      */
-    public function getSuggestedMissingIndexesAttribute(): Collection
+    public function getSuggestedMissingIndexesAttribute(): ParsedQuery
     {
         return (new MissingIndexService())->getSuggestedMissingIndexes($this);
     }

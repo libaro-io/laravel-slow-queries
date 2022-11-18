@@ -49,7 +49,7 @@ class QueryService
         $whereFields = collect([]);
         $joinFields = collect([]);
         $orderFields = collect([]);
-        
+
         $parsedQuery = new ParsedQuery();
         $parsedQuery->tableAliases = $this->getAliases($parsed);
         $parsedQuery->whereFields = $this->getWhereFields($parsed);

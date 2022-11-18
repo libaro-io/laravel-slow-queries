@@ -6,6 +6,7 @@ namespace Libaro\LaravelSlowQueries\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Libaro\LaravelSlowQueries\ValueObjects\ParsedQuery;
 
 class MissingIndexService
 {
@@ -61,9 +62,9 @@ SQL;
 
     /**
      * @param SlowQuery $slowQuery
-     * @return Collection<int, array>
+     * @return ParsedQuery
      */
-    public function getSuggestedMissingIndexes(SlowQuery $slowQuery): Collection
+    public function getSuggestedMissingIndexes(SlowQuery $slowQuery): ParsedQuery
     {
         $result = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
         return $result;
