@@ -2,17 +2,22 @@
 
 namespace Libaro\LaravelSlowQueries\ValueObjects;
 
-class TableAlias
+class WhereField
 {
     /**
      * @var string
      */
-    public $tableName;
+    public $tableNameOrAlias;
 
     /**
      * @var string
      */
-    public $alias;
+    public $fieldName;
+
+    /**
+     * @var string
+     */
+    public $fullName;
 
 
 
