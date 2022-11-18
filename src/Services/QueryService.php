@@ -98,6 +98,8 @@ class QueryService
      */
     private function getWhereFields(array $parsed): Collection
     {
+//        dd($parsed);
+
         $parts = $parsed[self::WHERE];
         $results = collect([]);
 
@@ -105,9 +107,12 @@ class QueryService
             if ($part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::COLREF) {
                 $field = new Field();
 
+//                dd($part);
                 $field->fullName = $part[self::BASE_EXPR];
                 $field->tableNameOrAlias = $part[self::NO_QUOTES][self::PARTS][self::PARTS_TABLE];
-                $field->fieldName = $part[self::NO_QUOTES][self::PARTS][self::PARTS_FIELD];
+                $field->fieldName = $part[self::NO_QUOTES][self::PARTS][self::PARTS_FIELD] ?? '';
+
+//                dd($field, $part);
 
                 $results->push($field);
             }
@@ -122,6 +127,11 @@ class QueryService
      */
     private function getOrderByFields(array $parsed)
     {
+        if(!isset($parsed[self::ORDER])){
+            return collect([]);
+        }
+
+
         $parts = $parsed[self::ORDER];
         $results = collect([]);
 
