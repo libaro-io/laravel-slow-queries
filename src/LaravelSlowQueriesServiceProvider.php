@@ -3,6 +3,7 @@
 namespace Libaro\LaravelSlowQueries;
 
 use Illuminate\Support\ServiceProvider;
+use PHPSQLParser\PHPSQLParser;
 
 class LaravelSlowQueriesServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,8 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
                 __DIR__ . '/../database/migrations/create_slow_queries_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_slow_queries_table.php'),
             ], 'migrations');
         }
+
+//        $this->app->register(PHPSQLParser::class);
 
         $this->startListeningWhenEnabled();
         $this->registerRoutes();
