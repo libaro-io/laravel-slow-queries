@@ -61,7 +61,9 @@ class QueryService
         $parsedQuery->orderByFields = $this->getOrderByFields($parsed);
 
 
+
         $parsedQuery = $this->cleanup($parsedQuery);
+//        dd($parsedQuery);
         return $parsedQuery;
     }
 
@@ -74,6 +76,10 @@ class QueryService
         $parts = $parsed[self::FROM];
         $results = collect([]);
 
+
+//        dd($parts);
+
+
         foreach ($parts as $part) {
             if (
                 $part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::TABLE
@@ -85,6 +91,9 @@ class QueryService
                 $tableAlias->alias = $part[self::ALIAS]['name'];
 
                 $results->push($tableAlias);
+            } else {
+
+
             }
 
         }
@@ -100,20 +109,43 @@ class QueryService
     {
 //        dd($parsed);
 
-        $parts = $parsed[self::WHERE];
+        $items = $parsed[self::WHERE];
         $results = collect([]);
 
-        foreach ($parts as $part) {
-            if ($part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::COLREF) {
+        foreach ($items as $item) {
+            if ($item[self::EXPR_TYPE] && $item[self::EXPR_TYPE] === self::COLREF) {
                 $field = new Field();
 
-//                dd($part);
-                $field->fullName = $part[self::BASE_EXPR];
-                $field->tableNameOrAlias = $part[self::NO_QUOTES][self::PARTS][self::PARTS_TABLE];
-                $field->fieldName = $part[self::NO_QUOTES][self::PARTS][self::PARTS_FIELD] ?? '';
 
-//                dd($field, $part);
+                // try if needed data can be found in the parts
+                if($item[self::NO_QUOTES] && $item[self::NO_QUOTES][self::PARTS]){
+                    // try to guess fieldname (and sometimes tablename)
+                    $parts = $item[self::NO_QUOTES][self::PARTS];
 
+                    if(count($parts) === 2){
+                        // probably both tablename and fieldname are supplied
+//                        dd($item);
+
+                        $fieldName = $parts[1];
+                        $tableName = $parts[0];
+                    } else if(count($parts) === 1){
+                        // probably only fieldname is supplied // no tablename
+                        $fieldName = $parts[0];
+                        $tableName = '';
+                    } else {
+                        $tableName = '';
+                        $fieldName = '';
+                    }
+
+                    $field->fullName = $tableName ? "$tableName.$fieldName" : $fieldName;
+                    $field->tableNameOrAlias = $tableName;
+                    $field->fieldName = $fieldName;
+                } else {
+                    $field->fullName = $item[self::BASE_EXPR];
+                    $field->tableNameOrAlias = $item[self::NO_QUOTES][self::PARTS][self::PARTS_TABLE];
+                    $field->fieldName = $item[self::NO_QUOTES][self::PARTS][self::PARTS_FIELD] ?? '';
+                }
+;
                 $results->push($field);
             }
         }
@@ -159,8 +191,8 @@ class QueryService
     {
         $mappedAliases = $this->getMappedAliases($parsedQuery);
 
-        $parsedQuery = $this->replaceAliasesByTableNames($parsedQuery, $mappedAliases);
         $parsedQuery = $this->cleanupFieldNames($parsedQuery);
+        $parsedQuery = $this->replaceAliasesByTableNames($parsedQuery, $mappedAliases);
 
         return $parsedQuery;
     }
@@ -202,6 +234,7 @@ class QueryService
                     ;
                     $tableName = $mappedAliases[$alias];
                     $field->tableNameOrAlias = str_replace($alias, $tableName, $alias);
+                    $field->fullName = "$field->tableNameOrAlias.$field->fieldName";
 
                 }
 
