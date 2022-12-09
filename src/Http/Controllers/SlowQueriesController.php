@@ -10,8 +10,8 @@ class SlowQueriesController extends Controller
 {
     public function index():  Factory|View
     {
-        /** @phpstan-ignore-next-line */
-        $queries = SlowQuery::paginate();
+        $queries = SlowQuery::query()
+            ->paginate();
 
         return view('slow-queries::slow-queries.index', compact('queries'));
     }
