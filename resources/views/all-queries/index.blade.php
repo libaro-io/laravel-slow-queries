@@ -29,7 +29,7 @@
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->source_file }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{{ $query->line }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                                            <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->id ]) }}"><i class="fa-solid fa-eye"></i></a>
+                                            <a href="{{ route('slow-queries.allqueries.show', ['slowQuery' => $query->id ]) }}"><i class="fa-solid fa-eye"></i></a>
                                         </td>
 
                                     </tr>

@@ -11,12 +11,29 @@ Route::middleware(config('slow-queries.middleware'))
             return redirect(route('slow-queries.dashboard.show'));
         });
 
+        /****************************************************************
+         * Dashboard
+         ****************************************************************/
         Route::get('/dashboard', 'Libaro\LaravelSlowQueries\Http\Controllers\DashboardController@show')
             ->name('dashboard.show');
 
-        Route::get('/queries', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@index')
-            ->name('queries.index');
 
-        Route::get('/queries/{slowQuery}', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@show')
-            ->name('queries.show');
+        /****************************************************************
+         * All Queries / raw data
+         ****************************************************************/
+        Route::get('/allqueries', 'Libaro\LaravelSlowQueries\Http\Controllers\AllQueriesController@index')
+            ->name('allqueries.index');
+
+        Route::get('/allqueries/{slowQuery}', 'Libaro\LaravelSlowQueries\Http\Controllers\AllQueriesController@show')
+            ->name('allqueries.show');
+
+
+        /****************************************************************
+         * Slow Queries / grouped by hash
+         ****************************************************************/
+        Route::get('/slowqueries', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@index')
+            ->name('slowqueries.index');
+
+        Route::get('/slowqueries/{slowQuery}', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@show')
+            ->name('slowqueries.show');
     });
