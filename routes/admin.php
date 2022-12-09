@@ -7,12 +7,16 @@ Route::middleware(config('slow-queries.middleware'))
     ->prefix(config('slow-queries.url-prefix'))
     ->group(function () {
 
-    Route::get('/dashboard', 'Libaro\LaravelSlowQueries\Http\Controllers\DashboardController@show')
-        ->name('dashboard.show');
+        Route::get('/', function () {
+            return redirect(route('slow-queries.dashboard.show'));
+        });
 
-    Route::get('/queries', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@index')
-        ->name('queries.index');
+        Route::get('/dashboard', 'Libaro\LaravelSlowQueries\Http\Controllers\DashboardController@show')
+            ->name('dashboard.show');
 
-    Route::get('/queries/{slowQuery}', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@show')
-        ->name('queries.show');
-});
+        Route::get('/queries', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@index')
+            ->name('queries.index');
+
+        Route::get('/queries/{slowQuery}', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@show')
+            ->name('queries.show');
+    });
