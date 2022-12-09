@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\ValueObjects\OrderByField;
 use Libaro\LaravelSlowQueries\ValueObjects\ParsedQuery;
-use Libaro\LaravelSlowQueries\ValueObjects\TableAlias;
+use Libaro\LaravelSlowQueries\ValueObjects\Table;
 use Libaro\LaravelSlowQueries\ValueObjects\Field;
 use PHPSQLParser\PHPSQLParser;
+use Schema;
+use Str;
 
 /*
  * the idea is to break up the query into separate parts: select, from, where, orderby
@@ -50,31 +52,31 @@ class QueryService
         $t = new PHPSQLParser();
         $parsed = $t->parse($query);
 
-        $tableAliases = collect([]);
+        $tables = collect([]);
         $whereFields = collect([]);
         $joinFields = collect([]);
         $orderFields = collect([]);
 
         $parsedQuery = new ParsedQuery();
-        $parsedQuery->tableAliases = $this->getAliases($parsed);
+        $parsedQuery->tables = $this->getTables($parsed);
         $parsedQuery->whereFields = $this->getWhereFields($parsed);
         $parsedQuery->orderByFields = $this->getOrderByFields($parsed);
 
 
 
         $parsedQuery = $this->cleanup($parsedQuery);
-//        dd($parsedQuery);
+        dd($parsedQuery);
         return $parsedQuery;
     }
 
     /**
      * @param array $parsed
-     * @return Collection<int, TableAlias>
+     * @return Collection<int, Table>
      */
-    private function getAliases(array $parsed): Collection
+    private function getTables(array $parsed): Collection
     {
         $parts = $parsed[self::FROM];
-        $results = collect([]);
+        $tables = collect([]);
 
 
 //        dd($parts);
@@ -86,19 +88,53 @@ class QueryService
                 && $part[self::ALIAS] && count($part[self::ALIAS])
 
             ) {
-                $tableAlias = new TableAlias();
-                $tableAlias->tableName = $part[self::TABLE];
-                $tableAlias->alias = $part[self::ALIAS]['name'];
+                $table = new Table();
+                $table->tableName = $part[self::TABLE];
+                $table->alias = $part[self::ALIAS]['name'];
 
-                $results->push($tableAlias);
-            } else {
+                $tables->push($table);
+            } else if($part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::TABLE){
+                $table = new Table();
+                $table->tableName = $part[self::TABLE];
+                $table->alias = '';
 
-
+                $tables->push($table);
             }
-
         }
 
-        return $results;
+        $tables = $tables->map(function($table){
+            /** @var Table $table */
+            $table->tableName = $this->cleanTableName($table->tableName);
+            $table->alias = $table->alias ? $this->cleanTableName($table->alias) : null;
+            return $table;
+        });
+
+        // now get all column names for the tables
+        // used later for easier handling of columns
+        foreach($tables as $table){
+            /** @var Table $table */
+            $table->columnNames = $this->getColumNamesForTable($table);
+        }
+
+//        dd($tables);
+
+        return $tables;
+    }
+
+    /**
+     * @param Table $table
+     * @return Collection<int, string>
+     */
+    private function getColumNamesForTable(Table $table): Collection
+    {
+        /* @phpstan-ignore-next-line */
+        $columns = Schema::getColumnListing($table->tableName);
+
+        /* @phpstan-ignore-next-line */
+        $columns = collect($columns);
+
+        /** @var Collection<int, string> $columns */
+        return $columns;
     }
 
     /**
@@ -189,7 +225,7 @@ class QueryService
      */
     private function cleanup(ParsedQuery $parsedQuery)
     {
-        $mappedAliases = $this->getMappedAliases($parsedQuery);
+        $mappedAliases = $this->getMappedTables($parsedQuery);
 
         $parsedQuery = $this->cleanupFieldNames($parsedQuery);
         $parsedQuery = $this->replaceAliasesByTableNames($parsedQuery, $mappedAliases);
@@ -201,13 +237,13 @@ class QueryService
      * @param ParsedQuery $parsedQuery
      * @return array
      */
-    private function getMappedAliases(ParsedQuery $parsedQuery)
+    private function getMappedTables(ParsedQuery $parsedQuery)
     {
         $mappedAliases = [];
-        foreach ($parsedQuery->tableAliases as $tableAlias) {
+        foreach ($parsedQuery->tables as $table) {
             // only add if not added yet
-            if (!isset($mappedAliases[$tableAlias->alias])) {
-                $mappedAliases[$tableAlias->alias] = $tableAlias->tableName;
+            if (isset($table->alias) && !isset($mappedAliases[$table->alias])) {
+                $mappedAliases[$table->alias] = $table->tableName;
             }
         }
 
@@ -266,5 +302,13 @@ class QueryService
         }
 
         return $parsedQuery;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function cleanTableName(string $name){
+        return str_replace('`', '', $name);
     }
 }

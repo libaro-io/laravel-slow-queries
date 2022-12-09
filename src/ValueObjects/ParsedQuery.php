@@ -8,9 +8,9 @@ use Illuminate\Support\Collection;
 class ParsedQuery
 {
     /**
-     * @var Collection<int, TableAlias>
+     * @var Collection<int, Table>
      */
-    public $tableAliases;
+    public $tables;
 
     /**
      * @var Collection<int, Field>
