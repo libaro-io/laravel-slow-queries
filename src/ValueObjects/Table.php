@@ -2,7 +2,9 @@
 
 namespace Libaro\LaravelSlowQueries\ValueObjects;
 
-class TableAlias
+use Illuminate\Support\Collection;
+
+class Table
 {
     /**
      * @var string
@@ -10,10 +12,15 @@ class TableAlias
     public $tableName;
 
     /**
-     * @var string
+     * @var ?string
      */
     public $alias;
 
+
+    /**
+     * @var Collection<int, string>
+     */
+    public $columnNames;
 
 
 }
