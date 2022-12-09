@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Libaro ~ Slow Queries</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/e9e218acb7.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div>

@@ -12,11 +12,11 @@
                                 <tr>
                                     <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">ID</th>
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">uri</th>
-                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">action</th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">action (ms)</th>
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">duration</th>
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">source_file</th>
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">line</th>
-                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">show</th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">info</th>
                                 </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -27,9 +27,9 @@
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->action }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->duration }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->source_file }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->line }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                            <a href="{{ route('slow-queries.queries.show', ['slowQuery' => $query->id ]) }}">Show</a>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{{ $query->line }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                                            <a href="{{ route('slow-queries.queries.show', ['slowQuery' => $query->id ]) }}"><i class="fa-solid fa-eye"></i></a>
                                         </td>
 
                                     </tr>
