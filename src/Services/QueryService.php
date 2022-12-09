@@ -62,6 +62,10 @@ class QueryService
         $parsedQuery->whereFields = $this->getWhereFields($parsed);
         $parsedQuery->orderByFields = $this->getOrderByFields($parsed);
 
+        // TODO: add havingFields and
+//        $parsedQuery->havingFields = ...
+//        $parsedQuery->joinFields = ...
+
 
 
         $parsedQuery = $this->cleanup($parsedQuery);
