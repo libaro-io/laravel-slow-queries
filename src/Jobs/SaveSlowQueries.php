@@ -74,6 +74,9 @@ class SaveSlowQueries implements ShouldQueue
      */
     private function isMetaQuery(SlowQuery $slowQuery): bool
     {
-        return str_contains($slowQuery->query_without_bindings, 'slow_queries');
+        return
+            str_contains($slowQuery->query_without_bindings, 'slow_queries')
+            ||
+            str_contains($slowQuery->source_file, 'laravel-slow-queries');
     }
 }
