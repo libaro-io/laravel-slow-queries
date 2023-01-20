@@ -63,7 +63,8 @@
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
         <h2 class="text-md font-medium text-gray-900">Query</h2>
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">
-            <dd class="mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $query->prettyQuery !!}</dd>
+            <button type="button" class="float-right sm:order-0 order-1 mt-5 ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-0" onclick="copyToClipboard()">Copy</button>
+            <dd id="query" class="mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $query->prettyQuery !!}</dd>
         </div>
     </div>
     @if($query->hints)
@@ -129,5 +130,17 @@
                 </ul>
             </div>
         </div>
+        <input type="text" id="query" value="{{$query->query_with_bindings}}">
     @endif
+
+    <script>
+
+        function copyToClipboard() {
+
+            navigator.clipboard.writeText("hallo");
+
+            alert("Query copied to clipboard!");
+        }
+    </script>
 @endsection
+
