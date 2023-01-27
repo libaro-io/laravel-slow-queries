@@ -40,7 +40,7 @@
                                 {{$query->duration}}
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->query_hashed ]) }}"><i
+                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
