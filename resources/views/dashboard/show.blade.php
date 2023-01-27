@@ -217,9 +217,8 @@
 
         var range = axis.createAxisRange(rangeDataItem);
 
-        var handDataItem = axis.makeDataItem({
-            value: 6000
-        });
+        var handDataItem = axis.makeDataItem({});
+        handDataItem.set("value", 0);
 
         var hand = handDataItem.set("bullet", am5xy.AxisBullet.new(root, {
             sprite: am5radar.ClockHand.new(root, {
@@ -230,5 +229,16 @@
         }));
 
         axis.createAxisRange(handDataItem);
+
+        handDataItem.get("grid").set("visible", false);
+
+        setInterval(() => {
+            handDataItem.animate({
+                key: "value",
+                to: Math.round(Math.random() * 10000),
+                duration: 800,
+                easing: am5.ease.out(am5.ease.cubic)
+            });
+        }, 2000);
     });
 </script>
