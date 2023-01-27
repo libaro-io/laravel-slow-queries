@@ -50,14 +50,16 @@ class DashboardDataService
      */
     public function getSlowestQueries(): \Illuminate\Database\Eloquent\Collection|array
     {
-        $tenSlowestQueries = SlowQuery::query()
+        $slowestQueries = SlowQuery::query()
             ->where('created_at', '>=', $this->from)
             ->where('created_at', '<=', $this->to)
+            ->groupBy('query_without_bindings', 'uri')
             ->orderByDesc('duration')
             ->limit($this->numberOfItems)
+            ->selectRaw('query_without_bindings, uri, avg(duration) as duration, min(id) as id')
             ->get();
 
-        return $tenSlowestQueries;
+        return $slowestQueries;
     }
 
     /**
@@ -78,9 +80,11 @@ class DashboardDataService
             ) derived
             
             group by the_uri
+            order by the_duration desc
+            limit ?
 SQL;
 
-        $records = DB::select($sql);
+        $records = DB::select($sql, [$this->numberOfItems]);
         $collection = collect($records);
 
         return $collection;
