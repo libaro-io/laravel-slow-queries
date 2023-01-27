@@ -23,6 +23,7 @@ use SqlFormatter;
  * @property string $prettyQuery
  * @property integer $line
  * @property numeric $duration
+ * @property string $request_guid
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *

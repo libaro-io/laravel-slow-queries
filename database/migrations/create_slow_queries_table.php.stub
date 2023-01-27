@@ -20,6 +20,9 @@ class CreateSlowQueriesTable extends Migration
             $table->text('query_without_bindings')->nullable();
             $table->float('duration')->nullable();
 
+            $table->string('request_guid')->nullable();
+
+
             $table->timestamps();
         });
     }
