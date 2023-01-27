@@ -12,7 +12,16 @@ class DashboardController extends Controller
     {
         /** @phpstan-ignore-next-line */
         $queries = SlowQuery::paginate();
+
+        $tenSlowestQueries = SlowQuery::query()
+            ->orderByDesc('duration')
+            ->limit(10)
+            ->get();
         
-        return view('slow-queries::dashboard.show', compact('queries'));
+        return view('slow-queries::dashboard.show')
+            ->with([
+                'queries' => $queries,
+                'tenSlowestQueries' => $tenSlowestQueries,
+            ]);
     }
 }
