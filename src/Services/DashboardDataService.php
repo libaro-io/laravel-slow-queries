@@ -47,7 +47,7 @@ class DashboardDataService
     /**
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function getSlowestQueriesForDateRange(): \Illuminate\Database\Eloquent\Collection|array
+    public function getSlowestQueries(): \Illuminate\Database\Eloquent\Collection|array
     {
         $tenSlowestQueries = SlowQuery::query()
             ->where('created_at', '>=', $this->from)
