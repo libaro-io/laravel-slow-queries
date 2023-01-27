@@ -189,4 +189,80 @@
         </div>
     </div>
 
+    <style>
+        #gaugeDiv {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+
 @endsection
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
+
+<script>
+    var root = am5.Root.new("gaugeDiv");
+
+    var gauge = root.container.children.push(
+        am5radar.RadarChart.new(root, {
+            startAngle: -180,
+            endAngle: 0,
+            radius: am5.percent(95),
+            innerRadius: am5.percent(98),
+        })
+    );
+
+    var axisRenderer = am5radar.AxisRendererCircular.new(root, {
+        strokeOpacity: 1,
+        strokewidth: 15,
+        strokeGradient: am5.LinearGradient.new(root, {
+            rotation: 0,
+            stops: [
+                { color: am5.color(0x19d228) },
+                { color: am5.color(0xf4fb16) },
+                { color: am5.color(0xf6d32b) },
+                { color: am5.color(0xfb7116) },
+            ]
+        })
+
+    });
+
+    axisRenderer.ticks.template.setAll({
+        visible: true,
+        strokeOpacity: 0.5,
+    });
+
+    axisRenderer.grid.template.setAll({
+        visible:false,
+    })
+
+    var axis = chart.xAxes.push(
+        am5xy.ValueAxis.new(root, {
+            min: 0,
+            max: 15000,
+            renderer: axisRenderer,
+        })
+    );
+
+    var rangeDataItem = axis.makeDataItem({
+        value: 0,
+        value: 12500,
+    });
+
+    var range = axis.createAxisRange(rangeDataItem);
+
+    var handDataItem = axis.makeDataItem({
+        value: 0
+    });
+
+    var hand = handDataItem.set("bullet", am5xy.AxisBullet.new(root, {
+        sprite: am5radar.ClockHand.new(root, {
+            radius: am5.percent(98),
+            innerRadius: 15,
+            pinRadius: 10,
+        })
+    }));
+
+    axis.createAxisRange(handDataItem);
+</script>
