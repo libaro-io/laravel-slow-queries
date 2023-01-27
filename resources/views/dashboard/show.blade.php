@@ -4,9 +4,12 @@
     <h1>Dashboard</h1>
 
     <div class="grid grid-cols-2 gap-5">
+        {{----------------------------------}}
+        {{-- slowest queries              --}}
+        {{----------------------------------}}
         <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">10 Slowest Queries</h3>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Slowest Queries</h3>
                 <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
@@ -14,33 +17,33 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            URL
-                        </th>
-                        <th scope="col" class="px-6 py-3">
                             QUERY
                         </th>
+{{--                        <th scope="col" class="px-6 py-3">--}}
+{{--                            URL--}}
+{{--                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-center">
                             Duration (s)
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
-{{--                            View--}}
+                            {{--                            View--}}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($slowestQueries as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <th class="px-6 py-4">
-                                {{$query->uri}}
-                            </th>
-                            <td class="px-6 py-4 text-center">
-                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->query_without_bindings, 30, false)}}
+                            <td class="px-2 py-4" fstyle="width: 70%;">
+                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->query_without_bindings, 50, false)}}
                             </td>
-                            <td class="px-6 py-4 text-center">
+{{--                            <td class="px-2 py-4" fstyle="width: 15%;">--}}
+{{--                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->uri, 15)}}--}}
+{{--                            </td>--}}
+                            <td class="px-2 py-4 text-center">
                                 {{ceil($query->duration / 1000)}}
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query ]) }}"><i
+                            <td class="px-2 py-4 text-center">
+                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->id ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
@@ -49,6 +52,10 @@
                 </table>
             </div>
         </div>
+
+        {{----------------------------------}}
+        {{-- gauge                        --}}
+        {{----------------------------------}}
         <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">Average Query Duration</h3>
@@ -58,18 +65,13 @@
                 <div id="gaugediv"></div>
             </div>
         </div>
+
+        {{----------------------------------}}
+        {{-- slowest pages     --}}
+        {{----------------------------------}}
         <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Page Speed Hierarchy</h3>
-                <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
-            </div>
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
-               <div id="treemapdiv"></div>
-            </div>
-        </div>
-        <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
-            <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">10 Longest Queries</h3>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Slowest pages</h3>
                 <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
@@ -77,13 +79,13 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            Query Id
+                            URI
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            URL
-                        </th>
+{{--                        <th scope="col" class="px-6 py-3">--}}
+{{--                            URL--}}
+{{--                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-center">
-                            Duration
+                            Duration (s)
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
                             View
@@ -91,26 +93,36 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($slowestQueries as $query)
+                    @foreach($slowestPages as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$query->id}}
+                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->the_uri, 50)}}
                             </th>
-                            <td class="px-6 py-4">
-                                {{$query->uri}}
+                            <td class="px-6 py-4 text-center">
+                                {{round($query->the_duration / 1000)}}
                             </td>
                             <td class="px-6 py-4 text-center">
-                                {{$query->duration}}
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->query_hashed ]) }}"><i
+                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => 1 ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        {{----------------------------------}}
+        {{-- drill down slowest pages     --}}
+        {{----------------------------------}}
+        <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
+            <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Slowest pages Hierarchy</h3>
+                <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
+            </div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
+                <div id="treemapdiv"></div>
             </div>
         </div>
     </div>
@@ -154,10 +166,10 @@
             strokeGradient: am5.LinearGradient.new(root, {
                 rotation: 0,
                 stops: [
-                    { color: am5.color(0x19d228) },
-                    { color: am5.color(0xf4fb16) },
-                    { color: am5.color(0xf6d32b) },
-                    { color: am5.color(0xfb7116) },
+                    {color: am5.color(0x19d228)},
+                    {color: am5.color(0xf4fb16)},
+                    {color: am5.color(0xf6d32b)},
+                    {color: am5.color(0xfb7116)},
                 ]
             })
 
@@ -169,7 +181,7 @@
         });
 
         axisRenderer.grid.template.setAll({
-            visible:false,
+            visible: false,
         })
 
         var axis = gauge.xAxes.push(
@@ -216,8 +228,7 @@
     // DRILL DOWN CHART
 
 
-
-    am5.ready(function() {
+    am5.ready(function () {
         // Create root element
 // https://www.amcharts.com/docs/v5/getting-started/#Root_element
         var root = am5.Root.new("treemapdiv");
