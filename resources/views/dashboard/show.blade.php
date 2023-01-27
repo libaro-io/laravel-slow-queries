@@ -175,14 +175,14 @@
         var axis = gauge.xAxes.push(
             am5xy.ValueAxis.new(root, {
                 min: 0,
-                max: 15000,
+                max: 5000,
                 renderer: axisRenderer,
             })
         );
 
         var rangeDataItem = axis.makeDataItem({
             value: 0,
-            value: 12500,
+            value: {{round($avgDuration)}},
         });
 
         var range = axis.createAxisRange(rangeDataItem);
@@ -205,7 +205,7 @@
         setInterval(() => {
             handDataItem.animate({
                 key: "value",
-                to: Math.round(Math.random() * 10000),
+                to: {{round($avgDuration)}} + Math.round(Math.random() * 750),
                 duration: 800,
                 easing: am5.ease.out(am5.ease.cubic)
             });
