@@ -58,4 +58,13 @@ class DashboardDataService
 
         return $tenSlowestQueries;
     }
+
+    public function getAvgDuration(){
+        $avgDuration = SlowQuery::query()
+            ->where('created_at', '>=', $this->from)
+            ->where('created_at', '<=', $this->to)
+            ->avg('duration');
+
+        return $avgDuration;
+    }
 }
