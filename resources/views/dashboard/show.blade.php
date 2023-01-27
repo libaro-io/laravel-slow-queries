@@ -14,30 +14,30 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            Query Id
-                        </th>
-                        <th scope="col" class="px-6 py-3">
                             URL
                         </th>
-                        <th scope="col" class="px-6 py-3 text-center">
-                            Duration
+                        <th scope="col" class="px-6 py-3">
+                            QUERY
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
-                            View
+                            Duration (s)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center">
+{{--                            View--}}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($tenSlowestQueries as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$query->id}}
-                            </th>
-                            <td class="px-6 py-4">
+                            <th class="px-6 py-4">
                                 {{$query->uri}}
+                            </th>
+                            <td class="px-6 py-4 text-center">
+                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->query_without_bindings, 30, false)}}
                             </td>
                             <td class="px-6 py-4 text-center">
-                                {{$query->duration}}
+                                {{ceil($query->duration / 1000)}}
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query ]) }}"><i
@@ -75,7 +75,8 @@
                     <tbody>
                     @foreach($tenSlowestQueries as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$query->id}}
                             </th>
                             <td class="px-6 py-4">
@@ -120,7 +121,8 @@
                     <tbody>
                     @foreach($tenSlowestQueries as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$query->id}}
                             </th>
                             <td class="px-6 py-4">
@@ -165,7 +167,8 @@
                     <tbody>
                     @foreach($tenSlowestQueries as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$query->id}}
                             </th>
                             <td class="px-6 py-4">
