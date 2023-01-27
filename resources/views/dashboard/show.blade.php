@@ -28,7 +28,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($tenSlowestQueries as $query)
+                    @foreach($SlowestQueries as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <th class="px-6 py-4">
                                 {{$query->uri}}
@@ -91,7 +91,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($tenSlowestQueries as $query)
+                    @foreach($SlowestQueries as $query)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
