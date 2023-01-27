@@ -3,6 +3,7 @@
 namespace Libaro\LaravelSlowQueries\Services;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
 class DashboardDataService
@@ -59,6 +60,35 @@ class DashboardDataService
         return $tenSlowestQueries;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getSlowestPages()
+    {
+        // TODO : filter on date range
+        $sql = /** @lang sql */
+            <<<SQL
+            select the_uri, avg(the_duration) as the_duration, avg(the_count) as the_count
+            from
+            (
+                select request_guid, sum(duration) as the_duration, count(*) as the_count, min(uri) as the_uri
+                from slow_queries
+                group by request_guid
+                order by 3 desc
+            ) derived
+            
+            group by the_uri
+SQL;
+
+        $records = DB::select($sql);
+        $collection = collect($records);
+
+        return $collection;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getAvgDuration(){
         $avgDuration = SlowQuery::query()
             ->where('created_at', '>=', $this->from)
