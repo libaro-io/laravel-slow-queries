@@ -25,6 +25,7 @@ class DashboardController extends Controller
                 'slowestQueries' => $dashboardDataService->getSlowestQueries(),
                 'slowestPages' => $dashboardDataService->getSlowestPages(),
                 'avgDuration' => $dashboardDataService->getAvgDuration(),
+                'numberOfItems' => $itemsPerWidget,
             ]);
     }
 }
