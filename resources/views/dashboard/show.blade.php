@@ -260,7 +260,7 @@
 // Generate and set data
 // https://www.amcharts.com/docs/v5/charts/hierarchy/#Setting_data
         var maxLevels = 2;
-        var maxNodes = 10;
+        var maxNodes = 3;
         var maxValue = 100;
 
         var data = {
@@ -300,27 +300,27 @@
                         }
                     ]
                 },
-                {
-                    name: "Third",
-                    children: [
-                        {
-                            name: "/categories",
-                            value: 335
-                        },
-                        {
-                            name: "/categories/id?=3",
-                            value: 148
-                        },
-                        {
-                            name: "/categories/id?=5",
-                            value: 126
-                        },
-                        {
-                            name: "/categories/id?=2",
-                            value: 26
-                        }
-                    ]
-                },
+                // {
+                //     name: "Third",
+                //     children: [
+                //         {
+                //             name: "/categories",
+                //             value: 335
+                //         },
+                //         {
+                //             name: "/categories/id?=3",
+                //             value: 148
+                //         },
+                //         {
+                //             name: "/categories/id?=5",
+                //             value: 126
+                //         },
+                //         {
+                //             name: "/categories/id?=2",
+                //             value: 26
+                //         }
+                //     ]
+                // },
                 {
                     name: "Fourth",
                     children: [
@@ -332,18 +332,18 @@
                             name: "/products/id?=1389",
                             value: 148
                         },
-                        {
-                            name: "/products/id?=609",
-                            value: 89
-                        },
-                        {
-                            name: "/products/id?=207",
-                            value: 64
-                        },
-                        {
-                            name: "/product/id?=45",
-                            value: 16
-                        }
+                        // {
+                        //     name: "/products/id?=609",
+                        //     value: 89
+                        // },
+                        // {
+                        //     name: "/products/id?=207",
+                        //     value: 64
+                        // },
+                        // {
+                        //     name: "/product/id?=45",
+                        //     value: 16
+                        // }
                     ]
                 },
                 {
@@ -353,10 +353,10 @@
                             name: "/home",
                             value: 687
                         },
-                        {
-                            name: "/home/search",
-                            value: 148
-                        }
+                        // {
+                        //     name: "/home/search",
+                        //     value: 148
+                        // }
                     ]
                 }
             ]
