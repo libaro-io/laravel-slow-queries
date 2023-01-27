@@ -13,6 +13,8 @@ class DashboardController extends Controller
         /** @phpstan-ignore-next-line */
         $queries = SlowQuery::paginate();
 
+        $itemsPerWidget = config('slow-queries.items_per_widget');
+
         $tenSlowestQueries = SlowQuery::query()
             ->orderByDesc('duration')
             ->limit(10)
