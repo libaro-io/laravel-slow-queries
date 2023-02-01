@@ -6,7 +6,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
-class DashboardDataService
+class SlowPagesDataService
 {
 
     /**
