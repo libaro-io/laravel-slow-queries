@@ -13,8 +13,8 @@
                 <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
-                <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table class="table-auto w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             QUERY
@@ -32,7 +32,7 @@
                     </thead>
                     <tbody>
                     @foreach($slowestQueries as $query)
-                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <tr class="bg-white border-b">
                             <td class="px-2 py-4" fstyle="width: 70%;">
                                 {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->query_without_bindings, 50, false)}}
                             </td>
@@ -75,8 +75,8 @@
                 <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
-                <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table class="table-auto w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             URI
@@ -94,9 +94,9 @@
                     </thead>
                     <tbody>
                     @foreach($slowestPages as $query)
-                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <tr class="bg-white border-b">
                             <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->the_uri, 50)}}
                             </th>
                             <td class="px-6 py-4 text-center">
