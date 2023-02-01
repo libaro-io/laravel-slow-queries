@@ -31,12 +31,6 @@
 {{--                            Slow Queries--}}
 {{--                        </a>--}}
                         <a href="{{ route('slow-queries.allqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                            <i class="fa-regular fa-clock fa-fw"></i>&nbsp;&nbsp;
-
-
-                            Slow Queries
-                        </a>
-                        <a href="{{ route('slow-queries.allqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                             <i class="fa-solid fa-file fa-fw"></i>&nbsp;&nbsp;
                             Slow Pages
                         </a>
@@ -44,6 +38,19 @@
                             <i class="fa-solid fa-circle-plus fa-fw"></i>&nbsp;&nbsp;
 
                             N+1 Queries
+                        </a>
+
+                        <a href="{{ route('slow-queries.slowqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fa-regular fa-clock fa-fw"></i>&nbsp;&nbsp;
+
+
+                            Slow Queries
+                        </a>
+                        <a href="{{ route('slow-queries.allqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;
+
+
+                            All Queries
                         </a>
                     </nav>
                 </div>
@@ -70,7 +77,7 @@
 
             <main class="flex-1">
                 <div class="py-6">
-                    <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+                    <div class="mx-auto fmax-w-7xl px-4 sm:px-6 md:px-8">
                         @yield('content')
                     </div>
                 </div>
