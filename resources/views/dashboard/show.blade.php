@@ -9,7 +9,7 @@
         {{----------------------------------}}
         <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Slowest Queries</h3>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Slowest queries</h3>
                 <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
@@ -58,7 +58,7 @@
         {{----------------------------------}}
         <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Average Query Duration</h3>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Average query duration</h3>
                 <h5 class="text-sm font-sm leading-6 text-gray-400">In milliseconds</h5>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
@@ -100,7 +100,7 @@
                                 {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->the_uri, 50)}}
                             </th>
                             <td class="px-6 py-4 text-center">
-                                {{round($query->the_duration / 1000)}}
+                                {{ceil($query->the_duration / 1000)}}
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => 1 ]) }}"><i
@@ -118,7 +118,7 @@
         {{----------------------------------}}
         <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
             <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Slowest pages Hierarchy</h3>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Slowest pages hierarchy</h3>
                 <h5 class="text-sm font-sm leading-6 text-gray-400">Showing the last 2 weeks</h5>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
@@ -140,11 +140,11 @@
     </style>
 
 @endsection
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/hierarchy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="//cdn.amcharts.com/lib/5/index.js"></script>
+<script src="//cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="//cdn.amcharts.com/lib/5/radar.js"></script>
+<script src="//cdn.amcharts.com/lib/5/hierarchy.js"></script>
+<script src="//cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
 <script>
     am5.ready(function () {
@@ -217,11 +217,11 @@
         setInterval(() => {
             handDataItem.animate({
                 key: "value",
-                to: {{round($avgDuration)}} + Math.round(Math.random() * 750),
-                duration: 800,
+                to: {{round($avgDuration)}} + Math.round(Math.random() * 500),
+                duration: 600,
                 easing: am5.ease.out(am5.ease.cubic)
             });
-        }, 2000);
+        }, 3500);
     });
 
 
@@ -231,27 +231,27 @@
     am5.ready(function () {
         // Create root element
 // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-        var root = am5.Root.new("treemapdiv");
+        var root2 = am5.Root.new("treemapdiv");
 
 // Set themes
 // https://www.amcharts.com/docs/v5/concepts/themes/
-        root.setThemes([
-            am5themes_Animated.new(root)
+        root2.setThemes([
+            am5themes_Animated.new(root2)
         ]);
 
 // Create wrapper container
-        var container = root.container.children.push(
-            am5.Container.new(root, {
+        var container = root2.container.children.push(
+            am5.Container.new(root2, {
                 width: am5.percent(100),
                 height: am5.percent(100),
-                layout: root.verticalLayout
+                layout: root2.verticalLayout
             })
         );
 
 // Create series
 // https://www.amcharts.com/docs/v5/charts/hierarchy/#Adding
         var series = container.children.push(
-            am5hierarchy.Treemap.new(root, {
+            am5hierarchy.Treemap.new(root2, {
                 singleBranchOnly: false,
                 downDepth: 1,
                 upDepth: -1,
@@ -260,12 +260,12 @@
                 categoryField: "name",
                 childDataField: "children",
                 nodePaddingOuter: 0,
-                nodePaddingInner: 0
+                nodePaddingInner: 0,
             })
         );
 
         series.rectangles.template.setAll({
-            strokeWidth: 2
+            strokeWidth: 2,
         });
 
 // Generate and set data
@@ -275,40 +275,77 @@
         var maxValue = 100;
 
         var data = {
-            name: "Root",
+            name: "Root2",
             children: [
                 {
-                    name: "First",
+                    name: "node5",
                     children: [
                         {
-                            name: "/faq",
-                            value: 100
+                            name: "/",
+                            value: 1200
                         },
-                        {
-                            name: "/account",
-                            value: 60
-                        },
-                        {
-                            name: "/login",
-                            value: 30
-                        }
+                        // {
+                        //     name: "/home/search",
+                        //     value: 148
+                        // }
                     ]
                 },
                 {
-                    name: "Second",
+                    name: "node4",
                     children: [
                         {
-                            name: "/checkout/step1",
-                            value: 135
+                            name: "/slow-queries/queries/1",
+                            value: 700
                         },
+                        // {
+                        //     name: "/products/id?=1389",
+                        //     value: 148
+                        // },
+                        // {
+                        //     name: "/products/id?=609",
+                        //     value: 89
+                        // },
+                        // {
+                        //     name: "/products/id?=207",
+                        //     value: 64
+                        // },
+                        // {
+                        //     name: "/product/id?=45",
+                        //     value: 16
+                        // }
+                    ]
+                },
+                {
+                    name: "node3",
+                    children: [
                         {
-                            name: "/checkout/thankyou",
-                            value: 98
+                            name: "/login",
+                            value: 600
                         },
+                        // {
+                        //     name: "/checkout/thankyou",
+                        //     value: 98
+                        // },
+                        // {
+                        //     name: "/checkout",
+                        //     value: 56
+                        // }
+                    ]
+                },{
+                    name: "node2",
+                    children: [
                         {
-                            name: "/checkout",
-                            value: 56
-                        }
+                            name: "/logout",
+                            value: 300
+                        },
+                        // {
+                        //     name: "/account",
+                        //     value: 60
+                        // },
+                        // {
+                        //     name: "/login",
+                        //     value: 30
+                        // }
                     ]
                 },
                 // {
@@ -333,43 +370,22 @@
                 //     ]
                 // },
                 {
-                    name: "Fourth",
+                    name: "node1",
                     children: [
                         {
-                            name: "/products/index",
-                            value: 415
-                        },
-                        {
-                            name: "/products/id?=1389",
-                            value: 148
+                            name: "/account",
+                            value: 250
                         },
                         // {
-                        //     name: "/products/id?=609",
-                        //     value: 89
+                        //     name: "/account",
+                        //     value: 60
                         // },
                         // {
-                        //     name: "/products/id?=207",
-                        //     value: 64
-                        // },
-                        // {
-                        //     name: "/product/id?=45",
-                        //     value: 16
+                        //     name: "/login",
+                        //     value: 30
                         // }
                     ]
                 },
-                {
-                    name: "Fifth",
-                    children: [
-                        {
-                            name: "/home",
-                            value: 687
-                        },
-                        // {
-                        //     name: "/home/search",
-                        //     value: 148
-                        // }
-                    ]
-                }
             ]
         };
 
