@@ -50,13 +50,15 @@ class DashboardDataService
      */
     public function getSlowestQueries(): \Illuminate\Database\Eloquent\Collection|array
     {
+        // TODO: change query to only fetch the slowest query per query_without_bindings, but without using group by
+
         $slowestQueries = SlowQuery::query()
             ->where('created_at', '>=', $this->from)
             ->where('created_at', '<=', $this->to)
-            ->groupBy('query_without_bindings', 'uri')
+//            ->groupBy('query_without_bindings', 'uri')
             ->orderByDesc('duration')
             ->limit($this->numberOfItems)
-            ->selectRaw('query_without_bindings, uri, avg(duration) as duration, min(id) as id')
+//            ->selectRaw('query_without_bindings, uri, avg(duration) as duration, min(id) as id')
             ->get();
 
         return $slowestQueries;
