@@ -392,6 +392,12 @@
         series.data.setAll([data]);
         series.set("selectedDataItem", series.dataItems[0]);
 
+        series.labels.template.setAll({
+            // text: "{category}: [bold]{sum}[/]",
+            text: "{category}[/]",
+            fontSize: 13
+        });
+
 // Make stuff animate on load
         series.appear(1000, 100);
 
