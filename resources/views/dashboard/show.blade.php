@@ -154,13 +154,13 @@
             am5radar.RadarChart.new(root, {
                 startAngle: -180,
                 endAngle: 0,
-                radius: am5.percent(95),
-                innerRadius: am5.percent(98),
+                radius: am5.percent(90),
+                innerRadius: am5.percent(10),
             })
         );
 
         var axisRenderer = am5radar.AxisRendererCircular.new(root, {
-            innerRadius: -10,
+            innerRadius: am5.percent(10),
             strokeOpacity: 1,
             strokewidth: 15,
             strokeGradient: am5.LinearGradient.new(root, {
@@ -281,7 +281,7 @@
                     name: "node5",
                     children: [
                         {
-                            name: "/",
+                            name: "/ (Home)",
                             value: 1200
                         },
                         // {
