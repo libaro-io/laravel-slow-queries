@@ -107,3 +107,20 @@ e.g. http://localhost:8000/slow-queries/queries/8
 [-] make registerRoutes, registerViews conditional
 
 
+[-] op detail pagina : 2 manieren van sorteren mogelijk : zowel chronologisch als op traagste 
+[-] eenheden aanpassen (laten varieren , human readable ) 
+[-] retest knop   (met transacties) 
+[-] paden excluden
+[-] paden excluden
+
+
+[-] naar V1 toewerken : tussenpagina voorzien / logica van index efkes disablen
+
+[-] link naar Libaro
+
+
+
+
+
+
+
