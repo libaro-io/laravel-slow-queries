@@ -6,6 +6,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
+// TODO : refactore : create base class for the common methods
 class SlowPagesDataService
 {
 
@@ -45,24 +46,11 @@ class SlowPagesDataService
         $this->to = $to;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function getSlowestQueries(): \Illuminate\Database\Eloquent\Collection|array
+    public function setNumberOfItems(int $numberOfItems)
     {
-        // TODO: change query to only fetch the slowest query per query_without_bindings, but without using group by
-
-        $slowestQueries = SlowQuery::query()
-            ->where('created_at', '>=', $this->from)
-            ->where('created_at', '<=', $this->to)
-//            ->groupBy('query_without_bindings', 'uri')
-            ->orderByDesc('duration')
-            ->limit($this->numberOfItems)
-//            ->selectRaw('query_without_bindings, uri, avg(duration) as duration, min(id) as id')
-            ->get();
-
-        return $slowestQueries;
+        $this->numberOfItems = $numberOfItems;
     }
+
 
     /**
      * @return \Illuminate\Support\Collection
@@ -72,7 +60,7 @@ class SlowPagesDataService
         // TODO : filter on date range
         $sql = /** @lang sql */
             <<<SQL
-            select the_uri, avg(the_duration) as the_duration, avg(the_count) as the_count
+            select the_uri, avg(the_duration) as the_duration, avg(the_count) as the_count, max(request_guid) as the_guid
             from
             (
                 select request_guid, sum(duration) as the_duration, count(*) as the_count, min(uri) as the_uri
@@ -90,17 +78,5 @@ SQL;
         $collection = collect($records);
 
         return $collection;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAvgDuration(){
-        $avgDuration = SlowQuery::query()
-            ->where('created_at', '>=', $this->from)
-            ->where('created_at', '<=', $this->to)
-            ->avg('duration');
-
-        return $avgDuration;
     }
 }
