@@ -21,7 +21,7 @@
                 <div class="flex flex-1 flex-col overflow-y-auto">
                     <nav class="flex-1 space-y-1 px-2 py-4">
                         <a href="{{ route('slow-queries.dashboard.show') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                            <i class="fa-solid fa-house fa-fw"></i>&nbsp;&nbsp;
+                            <i class="fa-solid fa-chart-line fa-fw"></i>&nbsp;&nbsp;
                             Dashboard
                         </a>
 {{--                        <a href="{{ route('slow-queries.slowqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">--}}
