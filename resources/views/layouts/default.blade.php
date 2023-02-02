@@ -30,11 +30,11 @@
 {{--                            </svg>--}}
 {{--                            Slow Queries--}}
 {{--                        </a>--}}
-                        <a href="{{ route('slow-queries.allqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                        <a href="{{ route('slow-queries.slowpages.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                             <i class="fa-solid fa-file fa-fw"></i>&nbsp;&nbsp;
                             Slow Pages
                         </a>
-                        <a href="{{ route('slow-queries.allqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                        <a href="{{ route('slow-queries.slowpages.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                             <i class="fa-solid fa-circle-plus fa-fw"></i>&nbsp;&nbsp;
 
                             N+1 Queries
