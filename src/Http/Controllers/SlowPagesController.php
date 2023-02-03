@@ -19,7 +19,7 @@ class SlowPagesController extends Controller
     {
         $slowPagesService = new SlowPagesDataService();
         $slowPagesService->setNumberOfItems(999);
-        $slowPages = $slowPagesService->getSlowestPages();
+        $slowPages = $slowPagesService->get();
 
         return view('slow-queries::slow-pages.index', compact('slowPages'));
     }
