@@ -16,7 +16,7 @@
             <!-- Sidebar component, swap this element with another sidebar if you like -->
             <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
                 <div class="flex h-16 flex-shrink-0 items-center bg-gray-900 text-white px-4">
-                    Libaro ~ Slow Queries
+                    Laravel Slow Queries
                 </div>
                 <div class="flex flex-1 flex-col overflow-y-auto">
                     <nav class="flex-1 space-y-1 px-2 py-4">
