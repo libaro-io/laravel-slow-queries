@@ -52,6 +52,4 @@ class BaseDataService
     {
         $this->numberOfItems = $numberOfItems;
     }
-
-
 }
