@@ -27,7 +27,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Query ID</p>
-                        <p class="text-gray-500">{{ $query->id }}</p>
+                        <p class="text-gray-500">{{ $slowQuery->id }}</p>
                     </div>
                 </div>
             </li>
@@ -36,7 +36,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Duration</p>
-                        <p class="text-gray-500">{{ $query->duration }} ms</p>
+                        <p class="text-gray-500">{{ $slowQuery->duration }} ms</p>
                     </div>
                 </div>
             </li>
@@ -45,7 +45,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Source File</p>
-                        <p class="text-gray-500">{{ $query->source_file }}</p>
+                        <p class="text-gray-500">{{ $slowQuery->source_file }}</p>
                     </div>
                 </div>
             </li>
@@ -54,7 +54,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Line</p>
-                        <p class="text-gray-500">{{ $query->line }}</p>
+                        <p class="text-gray-500">{{ $slowQuery->line }}</p>
                     </div>
                 </div>
             </li>
@@ -64,14 +64,14 @@
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
         <h2 class="text-md font-medium text-gray-900">Query</h2>
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">
-            <dd class="mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $query->prettyQuery !!}</dd>
+            <dd class="mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQuery->prettyQuery !!}</dd>
         </div>
     </div>
-    @if($query->hints)
+    @if($slowQuery->hints)
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
         <h2 class="text-md font-medium text-gray-900">Hints</h2>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-3">
-            @foreach($query->hints as $hint)
+            @foreach($slowQuery->hints as $hint)
             <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
                 <div class="flex-shrink-0 text-xl">
                     <i class="fa-solid fa-lightbulb text-yellow-400"></i>
@@ -89,12 +89,12 @@
         </div>
     </div>
     @endif
-    @if($query->suggestedMissingIndexes)
+    @if($slowQuery->suggestedMissingIndexes)
         <div class="mt-10 px-4 sm:px-6 lg:px-8">
             <h2 class="text-md font-medium text-gray-900">Indexes</h2>
             <div class="overflow-hidden bg-white border border-gray-300 sm:rounded-md mt-3">
                 <ul role="list" class="divide-y divide-gray-300">
-                    @foreach($query->suggestedMissingIndexes as $index)
+                    @foreach($slowQuery->suggestedMissingIndexes as $index)
                         <li>
                             <a href="#" class="block hover:bg-gray-50">
                                 <div class="flex items-center px-4 py-4 sm:px-6">

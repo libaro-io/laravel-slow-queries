@@ -10,7 +10,7 @@ class SlowQueriesController extends Controller
 {
     public function index(): Factory|View
     {
-        $queries = SlowQuery::query()
+        $slowQueries = SlowQuery::query()
             ->groupBy('query_hashed', 'uri')
             ->select('query_hashed', 'uri')
             ->selectRaw('min(source_file) as source_file')
@@ -25,15 +25,15 @@ class SlowQueriesController extends Controller
 
             ->get();
 
-//        dd($queries);
+//        dd($slowQueries);
 
 //        echo("ok");
 
-        return view('slow-queries::slow-queries.index', compact('queries'));
+        return view('slow-queries::slow-queries.index', compact('slowQueries'));
     }
 
     public function show(SlowQuery $slowQuery): Factory|View
     {
-        return view('slow-queries::slow-queries.show', ['query' => $slowQuery]);
+        return view('slow-queries::slow-queries.show', ['slowQuery' => $slowQuery]);
     }
 }

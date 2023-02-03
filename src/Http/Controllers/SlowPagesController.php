@@ -13,11 +13,9 @@ class SlowPagesController extends Controller
     {
         $slowPagesService = new SlowPagesDataService();
         $slowPagesService->setNumberOfItems(999);
-        $pages = $slowPagesService->getSlowestPages();
+        $slowPages = $slowPagesService->getSlowestPages();
 
-//        dd($pages);
-
-        return view('slow-queries::slow-pages.index', compact('pages'));
+        return view('slow-queries::slow-pages.index', compact('slowPages'));
     }
 
     public function show($slowPage)
@@ -26,9 +24,6 @@ class SlowPagesController extends Controller
             ->where('request_guid', 'like', $slowPage)
             ->firstOrFail();
 
-//        dd($slowQuery);
-
         return redirect( route('slow-queries.slow-queries.show', ['slowQuery' => $query->id ]));
-//        return view('slow-queries::all-queries.show', ['query' => $slowQuery]);
     }
 }
