@@ -35,7 +35,7 @@
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($page->the_uri, 60) }}</td>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{round($page->the_count) }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                                        <a href="{{ route('slow-queries.slowpages.show', ['slowPage' => urlencode($page->the_guid)]) }}"><i
+                                        <a href="{{ route('slow-queries.slow-pages.show', ['slowPage' => urlencode($page->the_guid)]) }}"><i
                                                     class="fa-solid fa-eye text-indigo-600"></i></a>
 
                                     </td>

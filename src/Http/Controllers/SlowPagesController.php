@@ -28,7 +28,7 @@ class SlowPagesController extends Controller
 
 //        dd($slowQuery);
 
-        return redirect( route('slow-queries.slowqueries.show', ['slowQuery' => $query->id ]));
+        return redirect( route('slow-queries.slow-queries.show', ['slowQuery' => $query->id ]));
 //        return view('slow-queries::all-queries.show', ['query' => $slowQuery]);
     }
 }

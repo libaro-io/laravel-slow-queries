@@ -19,9 +19,9 @@
                         <th scope="col" class="px-6 py-3">
                             QUERY
                         </th>
-{{--                        <th scope="col" class="px-6 py-3">--}}
-{{--                            URL--}}
-{{--                        </th>--}}
+                        {{--                        <th scope="col" class="px-6 py-3">--}}
+                        {{--                            URL--}}
+                        {{--                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-center">
                             Duration (s)
                         </th>
@@ -31,19 +31,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($slowestQueries as $query)
+                    @foreach($slowestQueries as $slowQuery)
                         <tr class="bg-white border-b">
                             <td class="px-2 py-4" fstyle="width: 70%;">
-                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->query_without_bindings, 50, false)}}
+                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQuery->query_without_bindings, 50, false)}}
                             </td>
-{{--                            <td class="px-2 py-4" fstyle="width: 15%;">--}}
-{{--                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->uri, 15)}}--}}
-{{--                            </td>--}}
+                            {{--                            <td class="px-2 py-4" fstyle="width: 15%;">--}}
+                            {{--                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->uri, 15)}}--}}
+                            {{--                            </td>--}}
                             <td class="px-2 py-4 text-center">
-                                {{ceil($query->duration / 1000)}}
+                                {{ceil($slowQuery->duration / 1000)}}
                             </td>
                             <td class="px-2 py-4 text-center">
-                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->id ]) }}"><i
+                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQuery->id ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
@@ -81,9 +81,9 @@
                         <th scope="col" class="px-6 py-3">
                             URI
                         </th>
-{{--                        <th scope="col" class="px-6 py-3">--}}
-{{--                            URL--}}
-{{--                        </th>--}}
+                        {{--                        <th scope="col" class="px-6 py-3">--}}
+                        {{--                            URL--}}
+                        {{--                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-center">
                             Duration (s)
                         </th>
@@ -93,17 +93,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($slowestPages as $query)
+                    @foreach($slowestPages as $slowPage)
                         <tr class="bg-white border-b">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->the_uri, 50)}}
+                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPage->the_uri, 50)}}
                             </th>
                             <td class="px-6 py-4 text-center">
-                                {{ceil($query->the_duration / 1000)}}
+                                {{ceil($slowPage->the_duration / 1000)}}
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => 1 ]) }}"><i
+                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => 1 ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
@@ -331,7 +331,7 @@
                         //     value: 56
                         // }
                     ]
-                },{
+                }, {
                     name: "node2",
                     children: [
                         {

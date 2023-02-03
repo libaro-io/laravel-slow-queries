@@ -45,7 +45,7 @@
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->min_line }} {{ $query->max_line !== $query->min_line ? ' -> ' . $query->max_line : '' }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->query_without_bindings, 50)}}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                                        <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->id ]) }}"><i
+                                        <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $query->id ]) }}"><i
                                                     class="fa-solid fa-eye text-indigo-600"></i></a>
 
                                     </td>
