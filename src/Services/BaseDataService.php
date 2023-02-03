@@ -5,6 +5,9 @@ namespace Libaro\LaravelSlowQueries\Services;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
+// TODO : grouped by data methods implementeren met behulp van https://spatie.be/docs/laravel-data/v2/introduction
+// zodat we de structuur van die grouped by data collections toch nog kunnen afdwingen / vastleggen zonder er models voor te moeten maken
+
 class BaseDataService
 {
 
