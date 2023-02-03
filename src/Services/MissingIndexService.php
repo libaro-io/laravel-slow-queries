@@ -13,7 +13,7 @@ class MissingIndexService
 {
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getGlobalMissingIndexes(): array
     {
@@ -53,7 +53,11 @@ SQL;
         foreach ($this->getGlobalMissingIndexes() as $globalMissingIndex) {
             // TODO : also check table name
 
+            /* TODO fix whene refactoring */
+            /** @phpstan-ignore-next-line */
             if (str_contains($slowQuery->query_with_bindings, $globalMissingIndex->COLUMN_NAME)) {
+                /* TODO fix whene refactoring */
+                /** @phpstan-ignore-next-line */
                 $missingIndexes->push($globalMissingIndex->COLUMN_NAME);
             }
         }

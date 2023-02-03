@@ -34,6 +34,8 @@ class QuerySource
 
         $frame = null;
         foreach ($stack as $index => $trace) {
+            /* TODO fix whene refactoring */
+            /** @phpstan-ignore-next-line */
             $frame = $this->parseTrace($index, $trace);
 
 //            Log::info(json_encode($frame));
@@ -48,7 +50,7 @@ class QuerySource
 
     /**
      * @param int $index
-     * @param array $trace
+     * @param array<string> $trace
      * @return SourceFrame|null
      */
     protected function parseTrace(int $index, array $trace): ?SourceFrame
@@ -61,6 +63,9 @@ class QuerySource
 
         $frame = new SourceFrame();
         $frame->source_file = $this->getSourceFile($trace);
+
+        /* TODO fix whene refactoring */
+        /** @phpstan-ignore-next-line */
         $frame->line = $this->getLine($trace);
         $frame->action = $this->getAction($trace);
 
@@ -68,7 +73,7 @@ class QuerySource
     }
 
     /**
-     * @param array $trace
+     * @param array<string> $trace
      * @return string
      */
     private function getSourceFile(array $trace): string
@@ -77,7 +82,7 @@ class QuerySource
     }
 
     /**
-     * @param array $trace
+     * @param array<int> $trace
      * @return int
      */
     private function getLine(array $trace): int
@@ -86,7 +91,7 @@ class QuerySource
     }
 
     /**
-     * @param array $trace
+     * @param array<string> $trace
      * @return string
      */
     private function getAction(array $trace): string

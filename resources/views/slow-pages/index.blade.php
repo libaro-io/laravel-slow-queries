@@ -29,13 +29,13 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
-                            @foreach($pages as $page)
+                            @foreach($slowPages as $slowPage)
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ceil($page->the_duration / 1000) }}</td>
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($page->the_uri, 60) }}</td>
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{round($page->the_count) }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ceil($slowPage->the_duration / 1000) }}</td>
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPage->the_uri, 60) }}</td>
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{round($slowPage->the_count) }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                                        <a href="{{ route('slow-queries.slow-pages.show', ['slowPage' => urlencode($page->the_guid)]) }}"><i
+                                        <a href="{{ route('slow-queries.slow-pages.show', ['slowPage' => urlencode($slowPage->the_guid)]) }}"><i
                                                     class="fa-solid fa-eye text-indigo-600"></i></a>
 
                                     </td>

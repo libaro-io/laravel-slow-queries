@@ -2,33 +2,39 @@
 
 namespace Libaro\LaravelSlowQueries\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\Services\SlowPagesDataService;
 
 class SlowPagesController extends Controller
 {
+    /**
+     * @return Factory|View
+     */
     public function index(): Factory|View
     {
         $slowPagesService = new SlowPagesDataService();
         $slowPagesService->setNumberOfItems(999);
-        $pages = $slowPagesService->getSlowestPages();
+        $slowPages = $slowPagesService->getSlowestPages();
 
-//        dd($pages);
-
-        return view('slow-queries::slow-pages.index', compact('pages'));
+        return view('slow-queries::slow-pages.index', compact('slowPages'));
     }
 
-    public function show($slowPage)
+    /**
+     * @param $slowPage
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function show(string $slowPage): Redirector|RedirectResponse|Application
     {
+        /** @var SlowQuery $query */
         $query = SlowQuery::query()
             ->where('request_guid', 'like', $slowPage)
             ->firstOrFail();
 
-//        dd($slowQuery);
-
         return redirect( route('slow-queries.slow-queries.show', ['slowQuery' => $query->id ]));
-//        return view('slow-queries::all-queries.show', ['query' => $slowQuery]);
     }
 }

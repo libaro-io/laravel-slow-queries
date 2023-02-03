@@ -68,7 +68,7 @@ class QueryService
     }
 
     /**
-     * @param array $parsed
+     * @param array<string> $parsed
      * @return Collection<int, TableAlias>
      */
     private function getAliases(array $parsed): Collection
@@ -80,10 +80,8 @@ class QueryService
         $parts = $parsed[self::FROM];
         $results = collect([]);
 
-
-//        dd($parts);
-
-
+        /* TODO fix whene refactoring */
+        /** @phpstan-ignore-next-line */
         foreach ($parts as $part) {
             if (
                 $part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::TABLE
@@ -106,7 +104,7 @@ class QueryService
     }
 
     /**
-     * @param array $parsed
+     * @param array<string> $parsed
      * @return Collection<int, Field>
      */
     private function getWhereFields(array $parsed): Collection
@@ -118,6 +116,8 @@ class QueryService
         $items = $parsed[self::WHERE];
         $results = collect([]);
 
+        /* TODO fix whene refactoring */
+        /** @phpstan-ignore-next-line */
         foreach ($items as $item) {
             if ($item[self::EXPR_TYPE] && $item[self::EXPR_TYPE] === self::COLREF) {
                 $field = new Field();
@@ -160,7 +160,7 @@ class QueryService
     }
 
     /**
-     * @param array $parsed
+     * @param array<string> $parsed
      * @return Collection<int, OrderByField>
      */
     private function getOrderByFields(array $parsed)
@@ -173,6 +173,8 @@ class QueryService
         $parts = $parsed[self::ORDER];
         $results = collect([]);
 
+        /* TODO fix whene refactoring */
+        /** @phpstan-ignore-next-line */
         foreach ($parts as $part) {
             if ($part[self::EXPR_TYPE] && $part[self::EXPR_TYPE] === self::COLREF) {
                 $field = new OrderByField();
@@ -205,7 +207,7 @@ class QueryService
 
     /**
      * @param ParsedQuery $parsedQuery
-     * @return array
+     * @return array<string, string>
      */
     private function getMappedAliases(ParsedQuery $parsedQuery)
     {
@@ -222,7 +224,7 @@ class QueryService
 
     /**
      * @param ParsedQuery $parsedQuery
-     * @param array $mappedAliases
+     * @param array<string> $mappedAliases
      * @return ParsedQuery
      */
     private function replaceAliasesByTableNames(ParsedQuery $parsedQuery, array $mappedAliases)

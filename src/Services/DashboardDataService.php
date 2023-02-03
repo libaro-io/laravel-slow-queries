@@ -2,10 +2,17 @@
 
 namespace Libaro\LaravelSlowQueries\Services;
 
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
+/**
+ *
+ */
 class DashboardDataService
 {
 
@@ -17,8 +24,9 @@ class DashboardDataService
      * @var Carbon
      */
     protected Carbon $to;
+
     /**
-     * @var int|\Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     * @var integer
      */
     protected int $numberOfItems;
 
@@ -27,31 +35,37 @@ class DashboardDataService
      */
     public function __construct()
     {
-        $defaultDateRangeDays = config('slow-queries.default_date_range');
+        $defaultDateRangeDays = intval(config('slow-queries.default_date_range'));
         $this->from = now()->subDays($defaultDateRangeDays);
         $this->to = now();
 
-        $this->numberOfItems = config('slow-queries.items_per_widget');
+        $this->numberOfItems = intval(config('slow-queries.items_per_widget'));
     }
 
     /**
      * @param Carbon $from
      * @param Carbon $to
-     * @return void
+     * @return DashboardDataService
      */
-    public function setDateRange(Carbon $from, Carbon $to)
+    public function setDateRange(Carbon $from, Carbon $to): self
     {
         $this->from = $from;
         $this->to = $to;
+
+        return $this;
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return Collection<int, SlowQuery>
      */
-    public function getSlowestQueries(): \Illuminate\Database\Eloquent\Collection|array
+    public function getSlowestQueries(): Collection
     {
         // TODO: change query to only fetch the slowest query per query_without_bindings, but without using group by
 
+        /**
+         * @var Collection<int, SlowQuery> $slowestQueries
+         */
         $slowestQueries = SlowQuery::query()
             ->where('created_at', '>=', $this->from)
             ->where('created_at', '<=', $this->to)
@@ -64,10 +78,11 @@ class DashboardDataService
         return $slowestQueries;
     }
 
+
     /**
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection<int, mixed>
      */
-    public function getSlowestPages()
+    public function getSlowestPages(): \Illuminate\Support\Collection
     {
         // TODO : filter on date range
         $sql = /** @lang sql */
@@ -85,6 +100,7 @@ class DashboardDataService
             order by the_duration desc
             limit ?
 SQL;
+
 
         $records = DB::select($sql, [$this->numberOfItems]);
         $collection = collect($records);
