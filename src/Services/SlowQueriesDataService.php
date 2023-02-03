@@ -7,12 +7,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
-// TODO : refactore : create base class for the common methods
 
-/**
- *
- */
-class SlowPagesDataService extends BaseDataService
+class SlowQueriesDataService extends BaseDataService
 {
     
     /**
@@ -21,25 +17,23 @@ class SlowPagesDataService extends BaseDataService
     public function get(): Collection
     {
         // TODO : filter on date range
-        $sql = /** @lang sql */
-            <<<SQL
-            select the_uri, avg(the_duration) as the_duration, avg(the_count) as the_count, max(request_guid) as the_guid
-            from
-            (
-                select request_guid, sum(duration) as the_duration, count(*) as the_count, min(uri) as the_uri
-                from slow_queries
-                group by request_guid
-                order by 3 desc
-            ) derived
-            
-            group by the_uri
-            order by the_duration desc
-            limit ?
-SQL;
+        $slowQueries = SlowQuery::query()
+            ->groupBy('query_hashed', 'uri')
+            ->select('query_hashed', 'uri')
+            ->selectRaw('min(source_file) as source_file')
+            ->selectRaw('min(line) as min_line')
+            ->selectRaw('max(line) as max_line')
+            ->selectRaw('min(query_without_bindings) as query_without_bindings')
+            ->selectRaw('min(duration) as min_duration')
+            ->selectRaw('max(duration) as max_duration')
+            ->selectRaw('avg(duration) as avg_duration')
+            ->selectRaw('max(id) as id')
+            ->orderByDesc('avg_duration')
 
-        $records = DB::select($sql, [$this->numberOfItems]);
-        $collection = collect($records);
+            ->get();
 
-        return $collection;
+//        dd($slowQueries);
+
+        return $slowQueries;
     }
 }
