@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
         $dashboardDataService = new DashboardDataService();
 
-
+        /** @phpstan-ignore-next-line */
         return view('slow-queries::dashboard.show')
             ->with([
                 'queries' => $queries,
