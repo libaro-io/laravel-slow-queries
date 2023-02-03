@@ -45,6 +45,15 @@ class BaseDataService
     }
 
     /**
+     * @param int $days
+     * @return void
+     */
+    public function setDateRangeInDays(int $days): void
+    {
+
+    }
+
+    /**
      * @param int $numberOfItems
      * @return void
      */
