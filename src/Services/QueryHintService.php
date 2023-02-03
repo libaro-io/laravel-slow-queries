@@ -14,7 +14,7 @@ class QueryHintService
      * @package xplain (https://github.com/rap2hpoutre/mysql-xplain-xplain)
      *
      * @param string $query
-     * @return array
+     * @return array<string>
      */
     public function performQueryAnalysis(string $query): array
     {
