@@ -3,67 +3,18 @@
 namespace Libaro\LaravelSlowQueries\Services;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
-// TODO : refactore : create base class for the common methods
 
-/**
- *
- */
-class SlowPagesDataService
+class SlowPagesDataService extends BaseDataService
 {
-
+    
     /**
-     * @var Carbon
+     * @return Collection<int, mixed>
      */
-    protected Carbon $from;
-    /**
-     * @var Carbon
-     */
-    protected Carbon $to;
-    /**
-     * @var integer
-     */
-    protected int $numberOfItems;
-
-    /**
-     *
-     */
-    public function __construct()
-    {
-        $defaultDateRangeDays = intval(config('slow-queries.default_date_range'));
-        $this->from = now()->subDays($defaultDateRangeDays);
-        $this->to = now();
-
-        $this->numberOfItems = intval(config('slow-queries.items_per_widget'));
-    }
-
-    /**
-     * @param Carbon $from
-     * @param Carbon $to
-     * @return void
-     */
-    public function setDateRange(Carbon $from, Carbon $to)
-    {
-        $this->from = $from;
-        $this->to = $to;
-    }
-
-    /**
-     * @param int $numberOfItems
-     * @return void
-     */
-    public function setNumberOfItems(int $numberOfItems)
-    {
-        $this->numberOfItems = $numberOfItems;
-    }
-
-
-    /**
-     * @return \Illuminate\Support\Collection<int, mixed>
-     */
-    public function getSlowestPages(): \Illuminate\Support\Collection
+    public function get(): Collection
     {
         // TODO : filter on date range
         $sql = /** @lang sql */
