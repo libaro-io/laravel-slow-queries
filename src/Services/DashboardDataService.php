@@ -80,7 +80,7 @@ class DashboardDataService
 
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection<int, mixed>
      */
     public function getSlowestPages(): \Illuminate\Support\Collection
     {
@@ -100,6 +100,7 @@ class DashboardDataService
             order by the_duration desc
             limit ?
 SQL;
+
 
         $records = DB::select($sql, [$this->numberOfItems]);
         $collection = collect($records);

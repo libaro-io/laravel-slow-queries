@@ -30,6 +30,7 @@ class SlowPagesController extends Controller
      */
     public function show(string $slowPage): Redirector|RedirectResponse|Application
     {
+        /** @var SlowQuery $query */
         $query = SlowQuery::query()
             ->where('request_guid', 'like', $slowPage)
             ->firstOrFail();

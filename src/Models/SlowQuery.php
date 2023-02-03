@@ -39,7 +39,7 @@ class SlowQuery extends Model
     protected $guarded = [];
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getHintsAttribute(): array
     {

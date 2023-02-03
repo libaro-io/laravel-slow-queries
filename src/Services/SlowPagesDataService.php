@@ -61,9 +61,9 @@ class SlowPagesDataService
 
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection<int, mixed>
      */
-    public function getSlowestPages()
+    public function getSlowestPages(): \Illuminate\Support\Collection
     {
         // TODO : filter on date range
         $sql = /** @lang sql */
