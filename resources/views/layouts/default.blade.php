@@ -28,23 +28,14 @@
                             <i class="fa-solid fa-file fa-fw"></i>&nbsp;&nbsp;
                             Slow Pages
                         </a>
-                        <a href="{{ route('slow-queries.slow-pages.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                            <i class="fa-solid fa-circle-plus fa-fw"></i>&nbsp;&nbsp;
-
-                            N+1 Queries
-                        </a>
+{{--                        <a href="{{ route('slow-queries.slow-pages.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">--}}
+{{--                            <i class="fa-solid fa-circle-plus fa-fw"></i>&nbsp;&nbsp;--}}
+{{--                            N+1 Queries--}}
+{{--                        </a>--}}
 
                         <a href="{{ route('slow-queries.slow-queries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                             <i class="fa-regular fa-clock fa-fw"></i>&nbsp;&nbsp;
-
-
                             Slow Queries
-                        </a>
-                        <a href="{{ route('slow-queries.allqueries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                            <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;
-
-
-                            All Queries
                         </a>
                     </nav>
                 </div>
