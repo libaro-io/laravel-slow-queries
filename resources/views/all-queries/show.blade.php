@@ -130,7 +130,7 @@
                 </ul>
             </div>
         </div>
-        <input type="text" id="query" value="{{$query->query_with_bindings}}">
+{{--        <input type="text" id="query" value="{{$query->query_with_bindings}}">--}}
     @endif
 
     <script>

@@ -5,6 +5,7 @@ namespace Libaro\LaravelSlowQueries\Http\Controllers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Libaro\LaravelSlowQueries\Services\DashboardDataService;
 
 class DashboardController extends Controller
 {
@@ -12,7 +13,19 @@ class DashboardController extends Controller
     {
         /** @phpstan-ignore-next-line */
         $queries = SlowQuery::paginate();
-        
-        return view('slow-queries::dashboard.show', compact('queries'));
+
+        $itemsPerWidget = config('slow-queries.items_per_widget');
+
+        $dashboardDataService = new DashboardDataService();
+
+
+        return view('slow-queries::dashboard.show')
+            ->with([
+                'queries' => $queries,
+                'slowestQueries' => $dashboardDataService->getSlowestQueries(),
+                'slowestPages' => $dashboardDataService->getSlowestPages(),
+                'avgDuration' => $dashboardDataService->getAvgDuration(),
+                'numberOfItems' => $itemsPerWidget,
+            ]);
     }
 }

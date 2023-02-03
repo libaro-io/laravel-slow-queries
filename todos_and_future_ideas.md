@@ -2,20 +2,20 @@ __ideas for the future__
 
 [-] more consistency in names (variables, package prefixes for tables, etc)
 
-[-] also log guid/id for same request to slowQuery table
+[+] also log guid/id for same request to slowQuery table
 
 [-] filtering + sorting in admin pages
 
 [-] add dashboard widgets
-        top x (eg 10, configurable) slowest pages
-        top x (eg 10, configurable) slowest queries
-        top x (eg 10, configurable) pages with too many queries (> x, configurable) (the n+1 problem)
+[+]     top x (eg 10, configurable) slowest pages
+[+]     top x (eg 10, configurable) slowest queries
+[-]     top x (eg 10, configurable) pages with too many queries (> x, configurable) (the n+1 problem)
 
 [-] admin pages for
-        slowest pages
-        slowest queries
-        pages with too many queries
-        pages with duplicate queries
+[-]     slowest pages
+[+]     slowest queries
+[-]     pages with too many queries
+[-]     pages with duplicate queries
 
                 
 
@@ -48,7 +48,7 @@ __ideas for the future__
 
 [-] command to automatically clean data older than x days (x days = configurable)
 
-[-] use a sql prettifier package for better output on the detail page
+[+] use a sql prettifier package for better output on the detail page
 
 [-] check for possible missing indexes, based on fields used for  
         WHERE
@@ -94,4 +94,33 @@ and `model_has_permissions`.`model_type` = 'App\Domains\Auth\Models\User'
 
 [-] bugfix : also parse and + or in where, etc 
 e.g. http://localhost:8000/slow-queries/queries/8
+
+
+[-] realtime data for gauge
+[-] real data for treemap
+
+[-] refactor
+[-] base class for data service
+
+[-] phpstan again
+
+[-] make registerRoutes, registerViews conditional
+
+
+[-] op detail pagina : 2 manieren van sorteren mogelijk : zowel chronologisch als op traagste 
+[-] eenheden aanpassen (laten varieren , human readable ) 
+[-] retest knop   (met transacties) 
+[-] paden excluden
+[-] paden excluden
+
+
+[-] naar V1 toewerken : tussenpagina voorzien / logica van index efkes disablen
+
+[-] link naar Libaro
+
+
+
+
+
+
 

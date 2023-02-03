@@ -31,9 +31,19 @@ Route::middleware(config('slow-queries.middleware'))
         /****************************************************************
          * Slow Queries / grouped by hash
          ****************************************************************/
-        Route::get('/slowqueries', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@index')
-            ->name('slowqueries.index');
+        Route::get('/slow-queries', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@index')
+            ->name('slow-queries.index');
 
-        Route::get('/slowqueries/{slowQuery}', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@show')
-            ->name('slowqueries.show');
+        Route::get('/slow-queries/{slowQuery}', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController@show')
+            ->name('slow-queries.show');
+
+
+        /****************************************************************
+         * Slow pages
+         ****************************************************************/
+        Route::get('/slow-pages', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowPagesController@index')
+            ->name('slow-pages.index');
+
+        Route::get('/slow-pages/{slowPage}', 'Libaro\LaravelSlowQueries\Http\Controllers\SlowPagesController@show')
+            ->name('slow-pages.show');
     });

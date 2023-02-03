@@ -21,6 +21,7 @@ class LaravelSlowQueries
      * @var Request
      */
     private Request $request;
+    private string $request_guid;
 
     /**
      * @var Collection<int, SlowQuery>
@@ -86,6 +87,8 @@ class LaravelSlowQueries
         if ($request instanceof Request) {
             $this->request = $request;
         }
+
+        $this->request_guid = Str::uuid();
     }
 
     /**
@@ -114,6 +117,7 @@ class LaravelSlowQueries
         $slowQuery->query_with_bindings = $this->getQueryWithBindings($queryExecuted);
         $slowQuery->query_without_bindings = $this->getQueryWithoutBindings($queryExecuted);
         $slowQuery->duration = $this->getDuration($queryExecuted);
+        $slowQuery->request_guid = $this->request_guid;
 
         return $slowQuery;
     }

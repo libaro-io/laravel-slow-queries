@@ -11,12 +11,12 @@
                             <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">
-                                    uri
+                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                    duration (s)
                                 </th>
                                 <th scope="col"
-                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                    duration (ms)
+                                    class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">
+                                    uri
                                 </th>
                                 <th scope="col"
                                     class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
@@ -39,17 +39,37 @@
                             <tbody class="divide-y divide-gray-200 bg-white">
                             @foreach($queries as $query)
                                 <tr>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ceil($query->avg_duration / 1000) }}</td>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ substr($query->uri, 0, 20)   }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ round($query->avg_duration) }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->source_file, 30, true) }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->min_line }} {{ $query->max_line !== $query->min_line ? ' -> ' . $query->max_line : '' }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->query_without_bindings, 50)}}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                                        <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->query_hashed ]) }}"><i
-                                                    class="fa-solid fa-eye"></i></a>
+                                        <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $query->id ]) }}"><i
+                                                    class="fa-solid fa-eye text-indigo-600"></i></a>
+
                                     </td>
 
                                 </tr>
+{{--                                </thead>--}}
+{{--                                <tbody class="divide-y divide-gray-200 bg-white">--}}
+{{--                                @foreach($queries as $query)--}}
+{{--                                    <tr>--}}
+{{--                                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $query->id }}</td>--}}
+{{--                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->uri }}</td>--}}
+{{--                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->action }}</td>--}}
+{{--                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->duration }}</td>--}}
+{{--                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $query->source_file }}</td>--}}
+{{--                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{{ $query->line }}</td>--}}
+{{--                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">--}}
+{{--                                            <a href="{{ route('slow-queries.slowqueries.show', ['slowQuery' => $query->id ]) }}"><i class="fa-solid fa-eye"></i></a>--}}
+{{--                                        </td>--}}
+
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
+{{--                                </tbody>--}}
+{{--                            </table>--}}
+{{--                        </div>--}}
                             @endforeach
                             </tbody>
                         </table>

@@ -20,6 +20,7 @@ class SlowQueriesController extends Controller
             ->selectRaw('min(duration) as min_duration')
             ->selectRaw('max(duration) as max_duration')
             ->selectRaw('avg(duration) as avg_duration')
+            ->selectRaw('max(id) as id')
             ->orderByDesc('avg_duration')
 
             ->get();

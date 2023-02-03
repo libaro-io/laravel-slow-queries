@@ -73,6 +73,10 @@ class QueryService
      */
     private function getAliases(array $parsed): Collection
     {
+        if(!isset($parsed[self::FROM])){
+            return collect();
+        }
+
         $parts = $parsed[self::FROM];
         $results = collect([]);
 
@@ -107,7 +111,9 @@ class QueryService
      */
     private function getWhereFields(array $parsed): Collection
     {
-//        dd($parsed);
+        if(!isset($parsed[self::WHERE])){
+            return collect();
+        }
 
         $items = $parsed[self::WHERE];
         $results = collect([]);
