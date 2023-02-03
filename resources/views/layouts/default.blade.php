@@ -38,6 +38,12 @@
                             Slow Queries
                         </a>
                     </nav>
+
+                    <div class="flex mb-10 center ml-10 mr-10 pl-10 pr-10">
+                        <a href="http://www.libaro.be" target="_blank">
+                            <img class="" src="https://libaro.be/storage/images/libaro_logo_full_blue_without_tagline.svg" alt="Libaro Logo">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
