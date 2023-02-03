@@ -17,9 +17,7 @@ class DashboardController extends Controller
     {
         /** @phpstan-ignore-next-line */
         $queries = SlowQuery::paginate();
-
-        $itemsPerWidget = config('slow-queries.items_per_widget');
-
+        
         $dashboardDataService = new DashboardDataService();
 
         /** @phpstan-ignore-next-line */
@@ -29,7 +27,6 @@ class DashboardController extends Controller
                 'slowestQueries' => $dashboardDataService->getSlowestQueries(),
                 'slowestPages' => $dashboardDataService->getSlowestPages(),
                 'avgDuration' => $dashboardDataService->getAvgDuration(),
-                'numberOfItems' => $itemsPerWidget,
             ]);
     }
 }
