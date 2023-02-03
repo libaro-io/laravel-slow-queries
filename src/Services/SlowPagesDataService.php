@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
 // TODO : refactore : create base class for the common methods
+
+/**
+ *
+ */
 class SlowPagesDataService
 {
 
@@ -19,7 +23,7 @@ class SlowPagesDataService
      */
     protected Carbon $to;
     /**
-     * @var int|\Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     * @var integer
      */
     protected int $numberOfItems;
 
@@ -28,11 +32,11 @@ class SlowPagesDataService
      */
     public function __construct()
     {
-        $defaultDateRangeDays = config('slow-queries.default_date_range');
+        $defaultDateRangeDays = intval(config('slow-queries.default_date_range'));
         $this->from = now()->subDays($defaultDateRangeDays);
         $this->to = now();
 
-        $this->numberOfItems = config('slow-queries.items_per_widget');
+        $this->numberOfItems = intval(config('slow-queries.items_per_widget'));
     }
 
     /**
@@ -46,6 +50,10 @@ class SlowPagesDataService
         $this->to = $to;
     }
 
+    /**
+     * @param int $numberOfItems
+     * @return void
+     */
     public function setNumberOfItems(int $numberOfItems)
     {
         $this->numberOfItems = $numberOfItems;
