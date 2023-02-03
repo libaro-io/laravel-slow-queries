@@ -2,13 +2,19 @@
 
 namespace Libaro\LaravelSlowQueries\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\Services\SlowPagesDataService;
 
 class SlowPagesController extends Controller
 {
+    /**
+     * @return Factory|View
+     */
     public function index(): Factory|View
     {
         $slowPagesService = new SlowPagesDataService();
@@ -18,7 +24,11 @@ class SlowPagesController extends Controller
         return view('slow-queries::slow-pages.index', compact('slowPages'));
     }
 
-    public function show($slowPage)
+    /**
+     * @param $slowPage
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function show(string $slowPage): Redirector|RedirectResponse|Application
     {
         $query = SlowQuery::query()
             ->where('request_guid', 'like', $slowPage)
