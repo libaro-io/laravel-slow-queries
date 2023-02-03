@@ -19,14 +19,10 @@
                         <th scope="col" class="px-6 py-3">
                             QUERY
                         </th>
-                        {{--                        <th scope="col" class="px-6 py-3">--}}
-                        {{--                            URL--}}
-                        {{--                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-center">
                             Duration (s)
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
-                            {{--                            View--}}
                         </th>
                     </tr>
                     </thead>
@@ -36,9 +32,6 @@
                             <td class="px-2 py-4" fstyle="width: 70%;">
                                 {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQuery->query_without_bindings, 50, false)}}
                             </td>
-                            {{--                            <td class="px-2 py-4" fstyle="width: 15%;">--}}
-                            {{--                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($query->uri, 15)}}--}}
-                            {{--                            </td>--}}
                             <td class="px-2 py-4 text-center">
                                 {{ceil($slowQuery->duration / 1000)}}
                             </td>
@@ -103,7 +96,7 @@
                                 {{ceil($slowPage->the_duration / 1000)}}
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => 1 ]) }}"><i
+                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => -999 ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
