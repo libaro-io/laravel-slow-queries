@@ -86,8 +86,20 @@
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">
                                             <div class="flex text-sm">
-                                                <p class="truncate font-medium text-indigo-600">{{$slowQuery->source_file}}:{{$slowQuery->line}}</p>
+                                                <p class="truncate font-medium text-indigo-600">{{$slowQuery->source_file}}
+                                                    :{{$slowQuery->line}}</p>
                                                 <p class="ml-1 flex-shrink-0 font-normal text-gray-500">{{$slowQuery->action}}</p>
+                                            </div>
+                                            <div class="mt-2 flex">
+                                                <div class="flex items-center text-sm text-gray-500">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
+                                                    </svg>
+
+                                                    <p>
+                                                        &nbsp;{{ round($slowQuery->duration)}} ms
+                                                    </p>
+                                                </div>
                                             </div>
                                             <div class="mt-2 flex">
                                                 <div class="flex items-center text-sm text-gray-500">
@@ -100,8 +112,9 @@
                                                               clip-rule="evenodd"/>
                                                     </svg>
                                                     <p>
-                                                        Closing on
-                                                        <time datetime="2020-01-07">January 7, 2020</time>
+                                                        {{ $slowQuery->created_at->diffForHumans()}}
+                                                        •
+                                                        {{ $slowQuery->created_at->format('l M jS, H:i:s')}}
                                                     </p>
                                                 </div>
                                             </div>
