@@ -7,6 +7,7 @@ namespace Libaro\LaravelSlowQueries\Data;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Libaro\LaravelSlowQueries\Services\QueryHintService;
 use SqlFormatter;
 
 class SlowQueryData extends Model
@@ -63,5 +64,13 @@ class SlowQueryData extends Model
     public function getPrettyQueryAttribute(): string
     {
         return SqlFormatter::format($this->queryWithoutBindings);
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getHintsAttribute(): array
+    {
+        return (new QueryHintService())->performQueryAnalysis($this->queryWithBindings);
     }
 }
