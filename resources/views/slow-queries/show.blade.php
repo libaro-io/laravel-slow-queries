@@ -5,11 +5,14 @@
         .collapsible .collapsible-content {
             display: none;
         }
+
         .collapsible.active .collapsible-content {
             display: block;
         }
+
         .collapsible.active a {
-            padding-bottom: 1.25rem;        }
+            padding-bottom: 1.25rem;
+        }
     </style>
 @endsection
 
@@ -93,9 +96,9 @@
             <div class="overflow-hidden bg-white shadow sm:rounded-md">
                 <ul role="list" class="divide-y divide-gray-200">
                     @foreach($slowQueryData->details as $slowQuery)
-                        <li>
-                            <a href="#" onclick="return false;" class=" collapsible block hover:bg-gray-50 fpb-3">
-                                <div class="flex items-center px-4 py-4 sm:px-6">
+                        <li class="collapsible">
+                            <a href="#" onclick="return false;" class="  block hover:bg-gray-50 fpb-3">
+                                <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">
                                             <div class="flex text-sm">
@@ -105,9 +108,7 @@
                                             </div>
                                             <div class="mt-2 flex">
                                                 <div class="flex items-center text-sm text-gray-500">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
-                                                    </svg>
+                                                    <i class="fa-regular fa-clock fa-fw"></i>
 
                                                     <p>
                                                         &nbsp;{{ round($slowQuery->duration)}} ms
@@ -116,16 +117,9 @@
                                             </div>
                                             <div class="mt-2 flex">
                                                 <div class="flex items-center text-sm text-gray-500">
-                                                    <!-- Heroicon name: mini/calendar -->
-                                                    <svg class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
-                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                         fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd"
-                                                              d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"
-                                                              clip-rule="evenodd"/>
-                                                    </svg>
+                                                    <i class="fa-regular fa-calendar fa-fw"></i>
                                                     <p>
-                                                        {{ $slowQuery->created_at->diffForHumans()}}
+                                                        &nbsp;{{ $slowQuery->created_at->diffForHumans()}}
                                                         •
                                                         {{ $slowQuery->created_at->format('l M jS, H:i:s')}}
                                                     </p>
@@ -220,7 +214,7 @@
                 var i;
 
                 for (i = 0; i < coll.length; i++) {
-                    coll[i].addEventListener("click", function() {
+                    coll[i].addEventListener("click", function () {
                         this.classList.toggle("active");
                         // var content = this.nextElementSibling;
                         // if (content.style.display === "block") {
