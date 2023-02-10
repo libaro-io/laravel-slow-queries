@@ -57,29 +57,6 @@ class DashboardDataService
 
 
     /**
-     * @return Collection<int, SlowQuery>
-     */
-    public function getSlowestQueries(): Collection
-    {
-        // TODO: change query to only fetch the slowest query per query_without_bindings, but without using group by
-
-        /**
-         * @var Collection<int, SlowQuery> $slowestQueries
-         */
-        $slowestQueries = SlowQuery::query()
-            ->where('created_at', '>=', $this->from)
-            ->where('created_at', '<=', $this->to)
-//            ->groupBy('query_without_bindings', 'uri')
-            ->orderByDesc('duration')
-            ->limit($this->numberOfItems)
-//            ->selectRaw('query_without_bindings, uri, avg(duration) as duration, min(id) as id')
-            ->get();
-
-        return $slowestQueries;
-    }
-
-
-    /**
      * @return \Illuminate\Support\Collection<int, mixed>
      */
     public function getSlowestPages(): \Illuminate\Support\Collection

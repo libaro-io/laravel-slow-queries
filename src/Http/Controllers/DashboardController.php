@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\Services\DashboardDataService;
+use Libaro\LaravelSlowQueries\Services\SlowQueriesDataService;
 
 class DashboardController extends Controller
 {
@@ -20,11 +21,14 @@ class DashboardController extends Controller
         
         $dashboardDataService = new DashboardDataService();
 
+        $slowQueriesService = new SlowQueriesDataService();
+        $slowestQueries = $slowQueriesService->getSlowestQueries();
+
         /** @phpstan-ignore-next-line */
         return view('slow-queries::dashboard.show')
             ->with([
                 'queries' => $queries,
-                'slowestQueries' => $dashboardDataService->getSlowestQueries(),
+                'slowestQueries' => $slowestQueries,
                 'slowestPages' => $dashboardDataService->getSlowestPages(),
                 'avgDuration' => $dashboardDataService->getAvgDuration(),
             ]);
