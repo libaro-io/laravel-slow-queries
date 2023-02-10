@@ -17,6 +17,7 @@ class SlowQueriesDataService extends BaseDataService
 {
     /**
      * @return Collection<int, SlowQueryData>
+     *     fetches the slowest n queries, grouped by query_without_bindings
      */
     public function getSlowestQueries(): Collection
     {
@@ -34,6 +35,7 @@ class SlowQueriesDataService extends BaseDataService
 
     /**
      * @return Collection<int, SlowQueryData>
+     *     fetches the slowest n queries, grouped by query_without_bindings
      */
     public function get(): Collection
     {
@@ -49,6 +51,42 @@ class SlowQueriesDataService extends BaseDataService
         return $slowQueries;
     }
 
+
+    /**
+     * @param string $queryHashed
+     * @return SlowQueryData|null
+     */
+    public function getWithDetails(string $queryHashed)
+    {
+        /**
+         * @var Collection<int, SlowQuery> $slowQueries
+         */
+        $slowQueries = SlowQuery::query()
+            ->where('query_hashed', '=', $queryHashed)
+            ->get();
+
+        if(!$slowQueries->count()){
+            return null;
+        }
+
+        $first = $slowQueries->first();
+
+        $slowQueryData = new SlowQueryData();
+        $slowQueryData->queryHashed = $first->query_hashed ?? '';
+        $slowQueryData->uri = $first->uri ?? '';
+        $slowQueryData->sourceFile = $first->source_file ?? '';
+        $slowQueryData->minLine = intval($slowQueries->min('line'));
+        $slowQueryData->maxLine = intval($slowQueries->max('line'));
+        $slowQueryData->queryWithoutBindings = $first->query_without_bindings ?? '';
+        $slowQueryData->queryWithBindings = '';
+        $slowQueryData->minDuration = intval($slowQueries->min('duration'));
+        $slowQueryData->maxDuration = intval($slowQueries->max('duration'));
+        $slowQueryData->avgDuration = intval($slowQueries->avg('duration'));
+
+        $slowQueryData->details = $slowQueries;
+        return $slowQueryData;
+    }
+
     /**
      * @return Builder
      */
@@ -58,7 +96,6 @@ class SlowQueriesDataService extends BaseDataService
             ->groupBy('query_hashed', 'uri')
             ->where('created_at', '>=', $this->from)
             ->where('created_at', '<=', $this->to)
-
             ->selectRaw('query_hashed as queryHashed')
             ->selectRaw('uri')
             ->selectRaw('min(source_file) as sourceFile')
