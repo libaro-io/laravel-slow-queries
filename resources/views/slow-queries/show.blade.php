@@ -38,7 +38,7 @@
     </div>
     <!-- Pinned projects -->
     <div class="mt-6 px-4 sm:px-6 lg:px-8">
-        <h2 class="text-md font-medium text-gray-900">Quick Facts</h2>
+{{--        <h2 class="text-md font-medium text-gray-900">Quick Facts</h2>--}}
         <ul role="list" class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-2">
 
             <li class="relative col-span-1 flex rounded-md shadow-sm">
@@ -57,17 +57,27 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Line</p>
-                        <p class="text-gray-500">{{ $slowQueryData->minLine }} {{$slowQueryData->maxLine != $slowQueryData->minLine ? ' - ' . $slowQueryData->maxLine : ''}}</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->minLine) }} {{$slowQueryData->maxLine != $slowQueryData->minLine ? ' - ' . \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->maxLine) : ''}}</p>
                     </div>
                 </div>
             </li>
+{{--            <li class="relative col-span-1 flex rounded-md shadow-sm">--}}
+{{--                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">--}}
+{{--                    <i class="fa-solid fa-hashtag"></i></div>--}}
+{{--                <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">--}}
+{{--                    <div class="flex-1 truncate px-4 py-2 text-sm">--}}
+{{--                        <p class="font-medium text-gray-900">Query Hash</p>--}}
+{{--                        <p class="text-gray-500">{{ $slowQueryData->queryHashed }}</p>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </li>--}}
             <li class="relative col-span-1 flex rounded-md shadow-sm">
                 <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
-                    <i class="fa-solid fa-hashtag"></i></div>
+                    <i class="fa-solid fa-stopwatch"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
-                        <p class="font-medium text-gray-900">Query Hash</p>
-                        <p class="text-gray-500">{{ $slowQueryData->queryHashed }}</p>
+                        <p class="font-medium text-gray-900">Avg. Duration</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->avgDuration) }} ms</p>
                     </div>
                 </div>
             </li>
@@ -76,8 +86,8 @@
                     <i class="fa-solid fa-stopwatch"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
-                        <p class="font-medium text-gray-900">Avg. Duration</p>
-                        <p class="text-gray-500">{{ $slowQueryData->avgDuration }} ms</p>
+                        <p class="font-medium text-gray-900">Max Duration</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->maxDuration) }} ms</p>
                     </div>
                 </div>
             </li>
@@ -102,16 +112,16 @@
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">
                                             <div class="flex text-sm">
-                                                <p class="truncate font-medium text-indigo-600">{{$slowQuery->source_file}}
-                                                    :{{$slowQuery->line}}</p>
-                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-500">{{$slowQuery->action}}</p>
+                                                <p class="truncate font-bold text-indigo-600">{{$slowQuery->source_file}}
+                                                    :{{\Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQuery->line)}}</p>
+                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-400">{{$slowQuery->action}}</p>
                                             </div>
                                             <div class="mt-2 flex">
-                                                <div class="flex items-center text-sm text-gray-500">
+                                                <div class="flex items-center font-medium text-sm text-red-400">
                                                     <i class="fa-regular fa-clock fa-fw"></i>
 
                                                     <p>
-                                                        &nbsp;{{ round($slowQuery->duration)}} ms
+                                                        &nbsp;{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQuery->duration)}} ms
                                                     </p>
                                                 </div>
                                             </div>
