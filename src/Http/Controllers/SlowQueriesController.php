@@ -13,7 +13,9 @@ class SlowQueriesController extends Controller
     {
         $slowQueriesDataService = new SlowQueriesDataService();
         $slowQueriesDataService->setNumberOfItems(999);
-        $slowQueriesDataService->setDateRange();
+        $slowQueriesDataService->setDateRange(now()->subMonth(), now());
+
+        $slowQueries = $slowQueriesDataService->get();
 
 
 
