@@ -4,10 +4,12 @@ namespace Libaro\LaravelSlowQueries\Data;
 
 /* data object to define the data for queries at the first level: grouped by same query */
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use SqlFormatter;
 
-class SlowQueryData
+class SlowQueryData extends Model
 {
     /**
      * @var string
@@ -54,4 +56,12 @@ class SlowQueryData
      * @var Collection<int, SlowQuery>
      */
     public Collection $details;
+
+    /**
+     * @return String
+     */
+    public function getPrettyQueryAttribute(): string
+    {
+        return SqlFormatter::format($this->queryWithoutBindings);
+    }
 }
