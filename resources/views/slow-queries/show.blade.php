@@ -1,5 +1,18 @@
 @extends('slow-queries::layouts.default')
 
+@section('custom_css')
+    <style>
+        .collapsible .collapsible-content {
+            display: none;
+        }
+        .collapsible.active .collapsible-content {
+            display: block;
+        }
+        .collapsible.active a {
+            padding-bottom: 1.25rem;        }
+    </style>
+@endsection
+
 @section('content')
 
     <div class="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
@@ -120,6 +133,10 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div class="collapsible-content mx-5 fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 bg-white fmt-3">
+                                    <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQuery->prettyQuery !!}</dd>
                                 </div>
                             </a>
                         </li>
@@ -193,4 +210,7 @@
         {{--            </div>--}}
         {{--        </div>--}}
         {{--    @endif--}}
+
+
         @endsection
+        @section('custom_js')            <script>                var coll = document.getElementsByClassName("collapsible");                var i;                for (i = 0; i < coll.length; i++) {                    coll[i].addEventListener("click", function() {                        this.classList.toggle("active");                        // var content = this.nextElementSibling;                        // if (content.style.display === "block") {                        //     content.style.display = "none";                        // } else {                        //     content.style.display = "block";                        // }                    });                }            </script>        @endsection
