@@ -94,7 +94,7 @@
                 <ul role="list" class="divide-y divide-gray-200">
                     @foreach($slowQueryData->details as $slowQuery)
                         <li>
-                            <a href="#" class="block hover:bg-gray-50">
+                            <a href="#" onclick="return false;" class=" collapsible block hover:bg-gray-50 fpb-3">
                                 <div class="flex items-center px-4 py-4 sm:px-6">
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">
@@ -213,4 +213,22 @@
 
 
         @endsection
-        @section('custom_js')            <script>                var coll = document.getElementsByClassName("collapsible");                var i;                for (i = 0; i < coll.length; i++) {                    coll[i].addEventListener("click", function() {                        this.classList.toggle("active");                        // var content = this.nextElementSibling;                        // if (content.style.display === "block") {                        //     content.style.display = "none";                        // } else {                        //     content.style.display = "block";                        // }                    });                }            </script>        @endsection
+
+        @section('custom_js')
+            <script>
+                var coll = document.getElementsByClassName("collapsible");
+                var i;
+
+                for (i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        // var content = this.nextElementSibling;
+                        // if (content.style.display === "block") {
+                        //     content.style.display = "none";
+                        // } else {
+                        //     content.style.display = "block";
+                        // }
+                    });
+                }
+            </script>
+        @endsection
