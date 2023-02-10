@@ -30,4 +30,17 @@ class FormatHelper
 
         return $string;
     }
+
+    /**
+     * @param float $number
+     * @param int $afterComma
+     * @return string
+     */
+    public static function formatNumber(float $number, int $afterComma = 0): string
+    {
+        $value = round($number, $afterComma);
+        $value = (float)$value;
+        return number_format($value, $afterComma, ",", ".");
+    }
 }
+
