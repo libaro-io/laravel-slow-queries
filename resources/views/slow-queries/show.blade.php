@@ -9,13 +9,15 @@
         <div class="mt-4 flex sm:mt-0 sm:ml-4">
             <a href="{{ url()->previous() }}" type="button"
                class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor"
                      class="w-4 h-4 mr-3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"/>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"/>
                 </svg>
                 Back
             </a>
-{{--            <button type="button" class="sm:order-0 order-1 ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-0">Back</button>--}}
+            {{--            <button type="button" class="sm:order-0 order-1 ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-0">Back</button>--}}
         </div>
     </div>
     <!-- Pinned projects -->
@@ -24,7 +26,8 @@
         <ul role="list" class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-2">
 
             <li class="relative col-span-1 flex rounded-md shadow-sm">
-                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md"><i class="fa-solid fa-file"></i></div>
+                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
+                    <i class="fa-solid fa-file"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Source File</p>
@@ -33,15 +36,18 @@
                 </div>
             </li>
             <li class="relative col-span-1 flex rounded-md shadow-sm">
-                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md"><i class="fa-solid fa-grip-lines"></i></div>
+                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
+                    <i class="fa-solid fa-grip-lines"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Line</p>
                         <p class="text-gray-500">{{ $slowQueryData->minLine }} {{$slowQueryData->maxLine != $slowQueryData->minLine ? ' - ' . $slowQueryData->maxLine : ''}}</p>
                     </div>
                 </div>
-            </li>            <li class="relative col-span-1 flex rounded-md shadow-sm">
-                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md"><i class="fa-solid fa-hashtag"></i></div>
+            </li>
+            <li class="relative col-span-1 flex rounded-md shadow-sm">
+                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
+                    <i class="fa-solid fa-hashtag"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Query Hash</p>
@@ -50,85 +56,128 @@
                 </div>
             </li>
             <li class="relative col-span-1 flex rounded-md shadow-sm">
-                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md"><i class="fa-solid fa-stopwatch"></i></div>
+                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
+                    <i class="fa-solid fa-stopwatch"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
-                        <p class="font-medium text-gray-900">Duration</p>
+                        <p class="font-medium text-gray-900">Avg. Duration</p>
                         <p class="text-gray-500">{{ $slowQueryData->avgDuration }} ms</p>
                     </div>
                 </div>
             </li>
-            <!-- More items... -->
         </ul>
     </div>
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
         <h2 class="text-md font-medium text-gray-900">Query</h2>
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">
-            <dd class="mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQueryData->prettyQuery !!}</dd>
+        <div class="fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">
+            <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQueryData->prettyQuery !!}</dd>
         </div>
     </div>
-{{--    @if($slowQueryData->hints)--}}
-{{--    <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
-{{--        <h2 class="text-md font-medium text-gray-900">Hints</h2>--}}
-{{--        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-3">--}}
-{{--            @foreach($slowQueryData->hints as $hint)--}}
-{{--            <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">--}}
-{{--                <div class="flex-shrink-0 text-xl">--}}
-{{--                    <i class="fa-solid fa-lightbulb text-yellow-400"></i>--}}
-{{--                    <i class="fa-solid fa-exclamation text-indigo-900"></i>--}}
-{{--                </div>--}}
-{{--                <div class="min-w-0 flex-1">--}}
-{{--                    <a href="#" class="focus:outline-none">--}}
-{{--                        <span class="absolute inset-0" aria-hidden="true"></span>--}}
-{{--                        <p class="text-sm font-medium text-gray-900">{!! $hint !!}</p>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            @endforeach--}}
-{{--            <!-- More people... -->--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    @endif--}}
-{{--    @if($slowQueryData->suggestedMissingIndexes)--}}
-{{--        <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
-{{--            <h2 class="text-md font-medium text-gray-900">Indexes</h2>--}}
-{{--            <div class="overflow-hidden bg-white border border-gray-300 sm:rounded-md mt-3">--}}
-{{--                <ul role="list" class="divide-y divide-gray-300">--}}
-{{--                    @foreach($slowQuery->suggestedMissingIndexes as $index)--}}
-{{--                        <li>--}}
-{{--                            <a href="#" class="block hover:bg-gray-50">--}}
-{{--                                <div class="flex items-center px-4 py-4 sm:px-6">--}}
-{{--                                    <div class="flex min-w-0 flex-1 items-center">--}}
-{{--                                        <div class="flex-shrink-0 text-red-600">--}}
-{{--                                            <i class="fa-solid fa-circle-question"></i>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">--}}
-{{--                                            <div>--}}
-{{--                                                <p class="text-sm font-medium text-red-600">Missing Index!</p>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="hidden md:block">--}}
-{{--                                                <div>--}}
-{{--                                                    <p class="text-sm font-medium text-gray-900">{!! $index !!}</p>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div>--}}
-{{--                                        <p class="text-sm inline font-medium text-gray-900">ADD</p>--}}
-{{--                                        <!-- Heroicon name: mini/chevron-right -->--}}
-{{--                                        <svg class="h-5 w-5 text-gray-400 inline" xmlns="http://www.w3.org/2000/svg"--}}
-{{--                                             viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">--}}
-{{--                                            <path fill-rule="evenodd"--}}
-{{--                                                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"--}}
-{{--                                                  clip-rule="evenodd"/>--}}
-{{--                                        </svg>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    @endforeach--}}
-{{--                </ul>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    @endif--}}
-@endsection
+
+    @if($slowQueryData->details)
+        <div class="mt-10 px-4 sm:px-6 lg:px-8">
+            <h2 class="text-md font-medium text-gray-900">Occurences</h2>
+            <div class="overflow-hidden bg-white shadow sm:rounded-md">
+                <ul role="list" class="divide-y divide-gray-200">
+                    @foreach($slowQueryData->details as $slowQuery)
+                        <li>
+                            <a href="#" class="block hover:bg-gray-50">
+                                <div class="flex items-center px-4 py-4 sm:px-6">
+                                    <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+                                        <div class="truncate">
+                                            <div class="flex text-sm">
+                                                <p class="truncate font-medium text-indigo-600">{{$slowQuery->source_file}}:{{$slowQuery->line}}</p>
+                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-500">{{$slowQuery->action}}</p>
+                                            </div>
+                                            <div class="mt-2 flex">
+                                                <div class="flex items-center text-sm text-gray-500">
+                                                    <!-- Heroicon name: mini/calendar -->
+                                                    <svg class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                         fill="currentColor" aria-hidden="true">
+                                                        <path fill-rule="evenodd"
+                                                              d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"
+                                                              clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <p>
+                                                        Closing on
+                                                        <time datetime="2020-01-07">January 7, 2020</time>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+                @endif
+            </div>
+        </div>
+
+        {{--    @if($slowQueryData->hints)--}}
+        {{--    <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
+        {{--        <h2 class="text-md font-medium text-gray-900">Hints</h2>--}}
+        {{--        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-3">--}}
+        {{--            @foreach($slowQueryData->hints as $hint)--}}
+        {{--            <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">--}}
+        {{--                <div class="flex-shrink-0 text-xl">--}}
+        {{--                    <i class="fa-solid fa-lightbulb text-yellow-400"></i>--}}
+        {{--                    <i class="fa-solid fa-exclamation text-indigo-900"></i>--}}
+        {{--                </div>--}}
+        {{--                <div class="min-w-0 flex-1">--}}
+        {{--                    <a href="#" class="focus:outline-none">--}}
+        {{--                        <span class="absolute inset-0" aria-hidden="true"></span>--}}
+        {{--                        <p class="text-sm font-medium text-gray-900">{!! $hint !!}</p>--}}
+        {{--                    </a>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--            @endforeach--}}
+        {{--            <!-- More people... -->--}}
+        {{--        </div>--}}
+        {{--    </div>--}}
+        {{--    @endif--}}
+        {{--    @if($slowQueryData->suggestedMissingIndexes)--}}
+        {{--        <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
+        {{--            <h2 class="text-md font-medium text-gray-900">Indexes</h2>--}}
+        {{--            <div class="overflow-hidden bg-white border border-gray-300 sm:rounded-md mt-3">--}}
+        {{--                <ul role="list" class="divide-y divide-gray-300">--}}
+        {{--                    @foreach($slowQuery->suggestedMissingIndexes as $index)--}}
+        {{--                        <li>--}}
+        {{--                            <a href="#" class="block hover:bg-gray-50">--}}
+        {{--                                <div class="flex items-center px-4 py-4 sm:px-6">--}}
+        {{--                                    <div class="flex min-w-0 flex-1 items-center">--}}
+        {{--                                        <div class="flex-shrink-0 text-red-600">--}}
+        {{--                                            <i class="fa-solid fa-circle-question"></i>--}}
+        {{--                                        </div>--}}
+        {{--                                        <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">--}}
+        {{--                                            <div>--}}
+        {{--                                                <p class="text-sm font-medium text-red-600">Missing Index!</p>--}}
+        {{--                                            </div>--}}
+        {{--                                            <div class="hidden md:block">--}}
+        {{--                                                <div>--}}
+        {{--                                                    <p class="text-sm font-medium text-gray-900">{!! $index !!}</p>--}}
+        {{--                                                </div>--}}
+        {{--                                            </div>--}}
+        {{--                                        </div>--}}
+        {{--                                    </div>--}}
+        {{--                                    <div>--}}
+        {{--                                        <p class="text-sm inline font-medium text-gray-900">ADD</p>--}}
+        {{--                                        <!-- Heroicon name: mini/chevron-right -->--}}
+        {{--                                        <svg class="h-5 w-5 text-gray-400 inline" xmlns="http://www.w3.org/2000/svg"--}}
+        {{--                                             viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">--}}
+        {{--                                            <path fill-rule="evenodd"--}}
+        {{--                                                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"--}}
+        {{--                                                  clip-rule="evenodd"/>--}}
+        {{--                                        </svg>--}}
+        {{--                                    </div>--}}
+        {{--                                </div>--}}
+        {{--                            </a>--}}
+        {{--                        </li>--}}
+        {{--                    @endforeach--}}
+        {{--                </ul>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
+        {{--    @endif--}}
+        @endsection
