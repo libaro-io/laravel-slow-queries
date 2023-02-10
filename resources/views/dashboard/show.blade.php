@@ -27,16 +27,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($slowestQueries as $slowQuery)
+                    @foreach($slowestQueries as $slowQueryData)
                         <tr class="bg-white border-b">
                             <td class="px-2 py-4" fstyle="width: 70%;">
-                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQuery->query_without_bindings, 50, false)}}
+                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQueryData->queryWithoutBindings, 50, false)}}
                             </td>
                             <td class="px-2 py-4 text-center">
-                                {{ceil($slowQuery->duration / 1000)}}
+                                {{ceil($slowQueryData->avgDuration / 1000)}}
                             </td>
                             <td class="px-2 py-4 text-center">
-                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQuery->id ]) }}"><i
+                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQueryData->queryHashed ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
