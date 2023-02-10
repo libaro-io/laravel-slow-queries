@@ -4,6 +4,7 @@ namespace Libaro\LaravelSlowQueries\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
+use Libaro\LaravelSlowQueries\Data\SlowQueryData;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\Services\SlowQueriesDataService;
 
@@ -14,16 +15,16 @@ class SlowQueriesController extends Controller
         $slowQueriesDataService = new SlowQueriesDataService();
         $slowQueriesDataService->setNumberOfItems(999);
         $slowQueriesDataService->setDateRange(now()->subMonth(), now());
-
         $slowQueries = $slowQueriesDataService->get();
-
-
 
         return view('slow-queries::slow-queries.index', compact('slowQueries'));
     }
 
-    public function show(SlowQuery $slowQuery): Factory|View
+    public function show(string $queryHashed): Factory|View
     {
-        return view('slow-queries::slow-queries.show', ['slowQuery' => $slowQuery]);
+        $slowQueriesDataService = new SlowQueriesDataService();
+        $slowQueryData = $slowQueriesDataService->getWithDetails($queryHashed);
+
+        return view('slow-queries::slow-queries.show', ['slowQueryData' => $slowQueryData]);
     }
 }
