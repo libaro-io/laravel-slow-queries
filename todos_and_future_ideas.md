@@ -154,3 +154,10 @@ very slow
 slow
 - 3000 ms
 
+
+
+
+bugfix:
+the same queries could be executed on different pages
+this could be problematic when view the grouped results (slowQueryAggregation)
+possible solution: add uri to the hash of the query_hashed
