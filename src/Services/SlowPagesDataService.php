@@ -33,7 +33,7 @@ class SlowPagesDataService extends BaseDataService
             limit ?
 SQL;
 
-        $records = DB::select($sql, [$this->numberOfItems]);
+        $records = DB::select($sql, [$this->numberOfItemsPerWidget]);
         $collection = collect($records);
 
         return $collection;

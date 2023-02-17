@@ -22,7 +22,11 @@ class BaseDataService
     /**
      * @var integer
      */
-    protected int $numberOfItems;
+    protected int $numberOfItemsPerWidget;
+    /**
+     * @var integer
+     */
+    protected int $numberOfItemsPerPage;
 
     /**
      *
@@ -33,7 +37,8 @@ class BaseDataService
         $this->from = now()->subDays($defaultDateRangeDays);
         $this->to = now();
 
-        $this->numberOfItems = intval(config('slow-queries.items_per_widget'));
+        $this->numberOfItemsPerWidget = intval(config('slow-queries.items_per_widget'));
+        $this->numberOfItemsPerPage = intval(config('slow-queries.items_per_page'));
     }
 
     /**
@@ -57,11 +62,20 @@ class BaseDataService
     }
 
     /**
-     * @param int $numberOfItems
+     * @param int $numberOfItemsPerWidget
      * @return void
      */
-    public function setNumberOfItems(int $numberOfItems): void
+    public function setNumberOfItemsPerWidget(int $numberOfItemsPerWidget): void
     {
-        $this->numberOfItems = $numberOfItems;
+        $this->numberOfItemsPerWidget = $numberOfItemsPerWidget;
+    }
+
+    /**
+     * @param int $numberOfItemsPerPage
+     * @return void
+     */
+    public function setNumberOfItemsPerPage(int $numberOfItemsPerPage): void
+    {
+        $this->numberOfItemsPerPage = $numberOfItemsPerPage;
     }
 }

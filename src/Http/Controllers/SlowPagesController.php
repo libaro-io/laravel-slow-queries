@@ -18,7 +18,7 @@ class SlowPagesController extends Controller
     public function index(): Factory|View
     {
         $slowPagesService = new SlowPagesDataService();
-        $slowPagesService->setNumberOfItems(999);
+        $slowPagesService->setNumberOfItemsPerWidget(999);
         $slowPages = $slowPagesService->get();
 
         return view('slow-queries::slow-pages.index', compact('slowPages'));
