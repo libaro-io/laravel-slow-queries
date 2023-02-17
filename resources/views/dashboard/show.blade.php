@@ -16,24 +16,33 @@
                 <table class="table-auto w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-2 py-3">
                             QUERY
                         </th>
-                        <th scope="col" class="px-6 py-3 text-center">
-                            Duration (s)
+                        <th scope="col" class="px-2 py-3 text-center">
+                            Time (s)
                         </th>
-                        <th scope="col" class="px-6 py-3 text-center">
+                        <th scope="col" class="px-2 py-3 text-center">
+                            Count
+                        </th>
+                        <th scope="col" class="px-2 py-3 text-center">
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($slowestQueries as $slowQueryData)
                         <tr class="bg-white border-b">
-                            <td class="px-2 py-4" fstyle="width: 70%;">
-                                {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQueryData->queryWithoutBindings, 50, false)}}
+                            <td class="px-2 py-4 d-block" fstyle="background-color: blue">
+                                <div class="text-ellipsis overflow-hidden whitespace-nowrap" fstyle="background-color: red;">
+                                    {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQueryData->queryWithoutBindings, 70, false)}}
+
+                                </div>
                             </td>
                             <td class="px-2 py-4 text-center">
                                 {{ceil($slowQueryData->avgDuration / 1000)}}
+                            </td>
+                            <td class="px-2 py-4 text-center">
+                                {{$slowQueryData->count}}
                             </td>
                             <td class="px-2 py-4 text-center">
                                 <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQueryData->queryHashed ]) }}"><i
@@ -215,7 +224,7 @@
         setInterval(() => {
             handDataItem.animate({
                 key: "value",
-                to: {{round($avgDuration)}} + Math.round(Math.random() * 500),
+                to: {{round($avgDuration)}} + Math.round(Math.random() * {{round($avgDuration)}} / 10),
                 duration: 600,
                 easing: am5.ease.out(am5.ease.cubic)
             });
