@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Libaro\LaravelSlowQueries\Data\SlowQueryData;
+use Libaro\LaravelSlowQueries\Data\SlowQueryAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
 
@@ -16,13 +16,13 @@ use Libaro\LaravelSlowQueries\Models\SlowQuery;
 class SlowQueriesDataService extends BaseDataService
 {
     /**
-     * @return Collection<int, SlowQueryData>
+     * @return Collection<int, SlowQueryAggregation>
      *     fetches the slowest n queries, grouped by query_without_bindings
      */
     public function getSlowestQueries(): Collection
     {
         /**
-         * @var Collection<int, SlowQueryData> $slowestQueries
+         * @var Collection<int, SlowQueryAggregation> $slowestQueries
          */
         $slowestQueries = $this
             ->getBaseQuery()
@@ -35,12 +35,12 @@ class SlowQueriesDataService extends BaseDataService
 
 
     /**
-     * @return Collection<int, SlowQueryData>
+     * @return Collection<int, SlowQueryAggregation>
      */
     public function get()
     {
         /**
-         * @var Collection<int, SlowQueryData> $slowQueries
+         * @var Collection<int, SlowQueryAggregation> $slowQueries
          */
         $slowQueries = $this
             ->getBaseQuery()
@@ -54,9 +54,9 @@ class SlowQueriesDataService extends BaseDataService
 
     /**
      * @param string $queryHashed
-     * @return SlowQueryData|null
+     * @return SlowQueryAggregation|null
      */
-    public function getWithDetails(string $queryHashed)
+    public function getSlowQueryAggregation(string $queryHashed)
     {
         /**
          * @var Collection<int, SlowQuery> $slowQueries
@@ -73,21 +73,21 @@ class SlowQueriesDataService extends BaseDataService
 
         $first = $slowQueries->first();
 
-        $slowQueryData = new SlowQueryData();
-        $slowQueryData->queryHashed = $first->query_hashed ?? '';
-        $slowQueryData->uri = $first->uri ?? '';
-        $slowQueryData->sourceFile = $first->source_file ?? '';
-        $slowQueryData->minLine = intval($slowQueries->min('line'));
-        $slowQueryData->maxLine = intval($slowQueries->max('line'));
-        $slowQueryData->queryWithoutBindings = $first->query_without_bindings ?? '';
-        $slowQueryData->queryWithBindings = '';
-        $slowQueryData->minDuration = intval($slowQueries->min('duration'));
-        $slowQueryData->maxDuration = intval($slowQueries->max('duration'));
-        $slowQueryData->avgDuration = intval($slowQueries->avg('duration'));
-        $slowQueryData->queryCount = $slowQueries->count();
+        $slowQueryAggregation = new SlowQueryAggregation();
+        $slowQueryAggregation->queryHashed = $first->query_hashed ?? '';
+        $slowQueryAggregation->uri = $first->uri ?? '';
+        $slowQueryAggregation->sourceFile = $first->source_file ?? '';
+        $slowQueryAggregation->minLine = intval($slowQueries->min('line'));
+        $slowQueryAggregation->maxLine = intval($slowQueries->max('line'));
+        $slowQueryAggregation->queryWithoutBindings = $first->query_without_bindings ?? '';
+        $slowQueryAggregation->queryWithBindings = '';
+        $slowQueryAggregation->minDuration = intval($slowQueries->min('duration'));
+        $slowQueryAggregation->maxDuration = intval($slowQueries->max('duration'));
+        $slowQueryAggregation->avgDuration = intval($slowQueries->avg('duration'));
+        $slowQueryAggregation->queryCount = $slowQueries->count();
 
-        $slowQueryData->details = $slowQueries;
-        return $slowQueryData;
+        $slowQueryAggregation->details = $slowQueries;
+        return $slowQueryAggregation;
     }
 
     /**

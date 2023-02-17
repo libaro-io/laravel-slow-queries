@@ -46,7 +46,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Source File</p>
-                        <p class="text-gray-500">{{ $slowQueryData->sourceFile }}</p>
+                        <p class="text-gray-500">{{ $slowQueryAggregation->sourceFile }}</p>
                     </div>
                 </div>
             </li>
@@ -56,7 +56,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Line</p>
-                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->minLine) }} {{$slowQueryData->maxLine != $slowQueryData->minLine ? ' - ' . \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->maxLine) : ''}}</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryAggregation->minLine) }} {{$slowQueryAggregation->maxLine != $slowQueryAggregation->minLine ? ' - ' . \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryAggregation->maxLine) : ''}}</p>
                     </div>
                 </div>
             </li>
@@ -66,7 +66,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Count</p>
-                        <p class="text-gray-500">{{ $slowQueryData->queryCount }}</p>
+                        <p class="text-gray-500">{{ $slowQueryAggregation->queryCount }}</p>
                     </div>
                 </div>
             </li>
@@ -77,7 +77,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Avg. Duration</p>
-                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->avgDuration) }}
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryAggregation->avgDuration) }}
                             ms</p>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Max Duration</p>
-                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->maxDuration) }}
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryAggregation->maxDuration) }}
                             ms</p>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Min Duration</p>
-                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->minDuration) }}
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryAggregation->minDuration) }}
                             ms</p>
                     </div>
                 </div>
@@ -109,11 +109,11 @@
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
         <h2 class="text-md font-medium text-gray-900">Query</h2>
         <div class="fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">
-            <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQueryData->prettyQuery !!}</dd>
+            <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQueryAggregation->prettyQuery !!}</dd>
         </div>
     </div>
 
-    @if($slowQueryData->details)
+    @if($slowQueryAggregation->details)
         <div class="mt-10 px-4 sm:px-6 lg:px-8 w-100">
             <div class="flex justify-between">
 
@@ -138,16 +138,16 @@
                     </span>
                 </div>
             </div>
-            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowQueryData->details->sortByDesc('created_at')])
-            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowQueryData->details->sortByDesc('duration')])
+            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowQueryAggregation->details->sortByDesc('created_at')])
+            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowQueryAggregation->details->sortByDesc('duration')])
         </div>
     @endif
 
-    {{--    @if($slowQueryData->hints)--}}
+    {{--    @if($slowQueryAggregation->hints)--}}
     {{--    <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
     {{--        <h2 class="text-md font-medium text-gray-900">Hints</h2>--}}
     {{--        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-3">--}}
-    {{--            @foreach($slowQueryData->hints as $hint)--}}
+    {{--            @foreach($slowQueryAggregation->hints as $hint)--}}
     {{--            <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">--}}
     {{--                <div class="flex-shrink-0 text-xl">--}}
     {{--                    <i class="fa-solid fa-lightbulb text-yellow-400"></i>--}}
@@ -165,7 +165,7 @@
     {{--        </div>--}}
     {{--    </div>--}}
     {{--    @endif--}}
-    {{--    @if($slowQueryData->suggestedMissingIndexes)--}}
+    {{--    @if($slowQueryAggregation->suggestedMissingIndexes)--}}
     {{--        <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
     {{--            <h2 class="text-md font-medium text-gray-900">Indexes</h2>--}}
     {{--            <div class="overflow-hidden bg-white border border-gray-300 sm:rounded-md mt-3">--}}

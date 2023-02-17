@@ -30,22 +30,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($slowestQueries as $slowQueryData)
+                    @foreach($slowestQueries as $slowQueryAggregation)
                         <tr class="bg-white border-b">
                             <td class="px-2 py-4 d-block">
                                 <div class="text-ellipsis overflow-hidden whitespace-nowrap">
-                                    {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQueryData->queryWithoutBindings, 70, false)}}
+                                    {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQueryAggregation->queryWithoutBindings, 70, false)}}
 
                                 </div>
                             </td>
                             <td class="px-2 py-4 text-center">
-                                {{ceil($slowQueryData->avgDuration / 1000)}}
+                                {{ceil($slowQueryAggregation->avgDuration / 1000)}}
                             </td>
                             <td class="px-2 py-4 text-center">
-                                {{$slowQueryData->queryCount}}
+                                {{$slowQueryAggregation->queryCount}}
                             </td>
                             <td class="px-2 py-4 text-center">
-                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQueryData->queryHashed ]) }}"><i
+                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQueryAggregation->queryHashed ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>

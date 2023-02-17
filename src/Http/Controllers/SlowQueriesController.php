@@ -4,7 +4,7 @@ namespace Libaro\LaravelSlowQueries\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
-use Libaro\LaravelSlowQueries\Data\SlowQueryData;
+use Libaro\LaravelSlowQueries\Data\SlowQueryAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\Services\SlowQueriesDataService;
 
@@ -23,8 +23,8 @@ class SlowQueriesController extends Controller
     public function show(string $queryHashed): Factory|View
     {
         $slowQueriesDataService = new SlowQueriesDataService();
-        $slowQueryData = $slowQueriesDataService->getWithDetails($queryHashed);
+        $slowQueryAggregation = $slowQueriesDataService->getSlowQueryAggregation($queryHashed);
 
-        return view('slow-queries::slow-queries.show', ['slowQueryData' => $slowQueryData]);
+        return view('slow-queries::slow-queries.show', ['slowQueryAggregation' => $slowQueryAggregation]);
     }
 }

@@ -10,7 +10,7 @@ use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\Services\QueryHintService;
 use SqlFormatter;
 
-class SlowQueryData extends Model
+class SlowQueryAggregation extends Model
 {
     /**
      * @var string
@@ -56,6 +56,8 @@ class SlowQueryData extends Model
      * @var int
      */
     public int $queryCount;
+
+    public string $sonjasTextje;
 
     /**
      * @var Collection<int, SlowQuery>
