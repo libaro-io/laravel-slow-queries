@@ -63,7 +63,6 @@ class QueryService
 
 
         $parsedQuery = $this->cleanup($parsedQuery);
-//        dd($parsedQuery);
         return $parsedQuery;
     }
 
