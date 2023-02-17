@@ -1,3 +1,4 @@
+<?php /** @var  \Illuminate\Support\Collection<int, Libaro\LaravelSlowQueries\Models\SlowQuery> $details */ ?>
 <div class="overflow-hidden bg-white shadow sm:rounded-md {{$classes ?? ''}}">
     <ul role="list" class="divide-y divide-gray-200">
         @foreach($details as $slowQuery)
@@ -18,6 +19,13 @@
                                         <p>
                                             &nbsp;{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQuery->duration)}}
                                             ms
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <p>
+                                            &nbsp;uri: {{ $slowQuery->uri }}
                                         </p>
                                     </div>
                                 </div>
