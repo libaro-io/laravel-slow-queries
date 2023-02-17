@@ -122,101 +122,117 @@
                 <div>
                     <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>
                     <span class="isolate inline-flex rounded-md shadow-sm">
-                        <button type="button"
-                                class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Latest first</button>
-                        <button type="button"
-                                class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Slowest first</button>
+                        <button
+                                onclick="showList('byLatest')"
+                                type="button"
+                                class="byLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
+                                    class="fa-regular fa-calendar-days fa-fw">
+                            </i>&nbsp;&nbsp;Latest first
+                        </button>
+                        <button
+                                onclick="showList('byDuration')"
+                                type="button"
+                                class="byDurationButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                            <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Slowest first
+                        </button>
                     </span>
                 </div>
             </div>
-            @include('slow-queries::slow-queries._detail_list',['classes' => 'byLatest block', 'details' => $slowQueryData->details->sortByDesc('created_at')])
-            @include('slow-queries::slow-queries._detail_list',['classes' => 'byDuration hidden', 'details' => $slowQueryData->details->sortByDesc('duration')])
+            @include('slow-queries::slow-queries._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowQueryData->details->sortByDesc('created_at')])
+            @include('slow-queries::slow-queries._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowQueryData->details->sortByDesc('duration')])
         </div>
     @endif
 
-        {{--    @if($slowQueryData->hints)--}}
-        {{--    <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
-        {{--        <h2 class="text-md font-medium text-gray-900">Hints</h2>--}}
-        {{--        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-3">--}}
-        {{--            @foreach($slowQueryData->hints as $hint)--}}
-        {{--            <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">--}}
-        {{--                <div class="flex-shrink-0 text-xl">--}}
-        {{--                    <i class="fa-solid fa-lightbulb text-yellow-400"></i>--}}
-        {{--                    <i class="fa-solid fa-exclamation text-indigo-900"></i>--}}
-        {{--                </div>--}}
-        {{--                <div class="min-w-0 flex-1">--}}
-        {{--                    <a href="#" class="focus:outline-none">--}}
-        {{--                        <span class="absolute inset-0" aria-hidden="true"></span>--}}
-        {{--                        <p class="text-sm font-medium text-gray-900">{!! $hint !!}</p>--}}
-        {{--                    </a>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--            @endforeach--}}
-        {{--            <!-- More people... -->--}}
-        {{--        </div>--}}
-        {{--    </div>--}}
-        {{--    @endif--}}
-        {{--    @if($slowQueryData->suggestedMissingIndexes)--}}
-        {{--        <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
-        {{--            <h2 class="text-md font-medium text-gray-900">Indexes</h2>--}}
-        {{--            <div class="overflow-hidden bg-white border border-gray-300 sm:rounded-md mt-3">--}}
-        {{--                <ul role="list" class="divide-y divide-gray-300">--}}
-        {{--                    @foreach($slowQuery->suggestedMissingIndexes as $index)--}}
-        {{--                        <li>--}}
-        {{--                            <a href="#" class="block hover:bg-gray-50">--}}
-        {{--                                <div class="flex items-center px-4 py-4 sm:px-6">--}}
-        {{--                                    <div class="flex min-w-0 flex-1 items-center">--}}
-        {{--                                        <div class="flex-shrink-0 text-red-600">--}}
-        {{--                                            <i class="fa-solid fa-circle-question"></i>--}}
-        {{--                                        </div>--}}
-        {{--                                        <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">--}}
-        {{--                                            <div>--}}
-        {{--                                                <p class="text-sm font-medium text-red-600">Missing Index!</p>--}}
-        {{--                                            </div>--}}
-        {{--                                            <div class="hidden md:block">--}}
-        {{--                                                <div>--}}
-        {{--                                                    <p class="text-sm font-medium text-gray-900">{!! $index !!}</p>--}}
-        {{--                                                </div>--}}
-        {{--                                            </div>--}}
-        {{--                                        </div>--}}
-        {{--                                    </div>--}}
-        {{--                                    <div>--}}
-        {{--                                        <p class="text-sm inline font-medium text-gray-900">ADD</p>--}}
-        {{--                                        <!-- Heroicon name: mini/chevron-right -->--}}
-        {{--                                        <svg class="h-5 w-5 text-gray-400 inline" xmlns="http://www.w3.org/2000/svg"--}}
-        {{--                                             viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">--}}
-        {{--                                            <path fill-rule="evenodd"--}}
-        {{--                                                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"--}}
-        {{--                                                  clip-rule="evenodd"/>--}}
-        {{--                                        </svg>--}}
-        {{--                                    </div>--}}
-        {{--                                </div>--}}
-        {{--                            </a>--}}
-        {{--                        </li>--}}
-        {{--                    @endforeach--}}
-        {{--                </ul>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
-        {{--    @endif--}}
+    {{--    @if($slowQueryData->hints)--}}
+    {{--    <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
+    {{--        <h2 class="text-md font-medium text-gray-900">Hints</h2>--}}
+    {{--        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-3">--}}
+    {{--            @foreach($slowQueryData->hints as $hint)--}}
+    {{--            <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">--}}
+    {{--                <div class="flex-shrink-0 text-xl">--}}
+    {{--                    <i class="fa-solid fa-lightbulb text-yellow-400"></i>--}}
+    {{--                    <i class="fa-solid fa-exclamation text-indigo-900"></i>--}}
+    {{--                </div>--}}
+    {{--                <div class="min-w-0 flex-1">--}}
+    {{--                    <a href="#" class="focus:outline-none">--}}
+    {{--                        <span class="absolute inset-0" aria-hidden="true"></span>--}}
+    {{--                        <p class="text-sm font-medium text-gray-900">{!! $hint !!}</p>--}}
+    {{--                    </a>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--            @endforeach--}}
+    {{--            <!-- More people... -->--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    @endif--}}
+    {{--    @if($slowQueryData->suggestedMissingIndexes)--}}
+    {{--        <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
+    {{--            <h2 class="text-md font-medium text-gray-900">Indexes</h2>--}}
+    {{--            <div class="overflow-hidden bg-white border border-gray-300 sm:rounded-md mt-3">--}}
+    {{--                <ul role="list" class="divide-y divide-gray-300">--}}
+    {{--                    @foreach($slowQuery->suggestedMissingIndexes as $index)--}}
+    {{--                        <li>--}}
+    {{--                            <a href="#" class="block hover:bg-gray-50">--}}
+    {{--                                <div class="flex items-center px-4 py-4 sm:px-6">--}}
+    {{--                                    <div class="flex min-w-0 flex-1 items-center">--}}
+    {{--                                        <div class="flex-shrink-0 text-red-600">--}}
+    {{--                                            <i class="fa-solid fa-circle-question"></i>--}}
+    {{--                                        </div>--}}
+    {{--                                        <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">--}}
+    {{--                                            <div>--}}
+    {{--                                                <p class="text-sm font-medium text-red-600">Missing Index!</p>--}}
+    {{--                                            </div>--}}
+    {{--                                            <div class="hidden md:block">--}}
+    {{--                                                <div>--}}
+    {{--                                                    <p class="text-sm font-medium text-gray-900">{!! $index !!}</p>--}}
+    {{--                                                </div>--}}
+    {{--                                            </div>--}}
+    {{--                                        </div>--}}
+    {{--                                    </div>--}}
+    {{--                                    <div>--}}
+    {{--                                        <p class="text-sm inline font-medium text-gray-900">ADD</p>--}}
+    {{--                                        <!-- Heroicon name: mini/chevron-right -->--}}
+    {{--                                        <svg class="h-5 w-5 text-gray-400 inline" xmlns="http://www.w3.org/2000/svg"--}}
+    {{--                                             viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">--}}
+    {{--                                            <path fill-rule="evenodd"--}}
+    {{--                                                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"--}}
+    {{--                                                  clip-rule="evenodd"/>--}}
+    {{--                                        </svg>--}}
+    {{--                                    </div>--}}
+    {{--                                </div>--}}
+    {{--                            </a>--}}
+    {{--                        </li>--}}
+    {{--                    @endforeach--}}
+    {{--                </ul>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    @endif--}}
+
+@endsection
+
+@section('custom_js')
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+            });
+        }
+
+        function showList(list){
+            // hide all lists
+            u(document.getElementsByClassName('detailsList')).addClass('hidden').removeClass('block');
+
+            // show request list again
+            u(document.getElementsByClassName(list)).removeClass('hidden').addClass('block');
+
+            // toggle button
+            u(document.getElementsByClassName('detailsListButton')).removeClass('text-gray-800').addClass('text-gray-400');
+            u(document.getElementsByClassName(list + 'Button')).removeClass('text-gray-300').addClass('text-gray-800');
 
 
-        @endsection
-
-        @section('custom_js')
-            <script>
-                var coll = document.getElementsByClassName("collapsible");
-                var i;
-
-                for (i = 0; i < coll.length; i++) {
-                    coll[i].addEventListener("click", function () {
-                        this.classList.toggle("active");
-                        // var content = this.nextElementSibling;
-                        // if (content.style.display === "block") {
-                        //     content.style.display = "none";
-                        // } else {
-                        //     content.style.display = "block";
-                        // }
-                    });
-                }
-            </script>
-        @endsection
+        }
+    </script>
+@endsection
