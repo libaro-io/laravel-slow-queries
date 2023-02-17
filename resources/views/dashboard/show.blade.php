@@ -32,8 +32,8 @@
                     <tbody>
                     @foreach($slowestQueries as $slowQueryData)
                         <tr class="bg-white border-b">
-                            <td class="px-2 py-4 d-block" fstyle="background-color: blue">
-                                <div class="text-ellipsis overflow-hidden whitespace-nowrap" fstyle="background-color: red;">
+                            <td class="px-2 py-4 d-block">
+                                <div class="text-ellipsis overflow-hidden whitespace-nowrap">
                                     {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQueryData->queryWithoutBindings, 70, false)}}
 
                                 </div>
