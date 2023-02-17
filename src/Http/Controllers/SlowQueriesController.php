@@ -15,7 +15,7 @@ class SlowQueriesController extends Controller
         $slowQueriesDataService = new SlowQueriesDataService();
         $slowQueriesDataService->setNumberOfItemsPerWidget(999);
 //        $slowQueriesDataService->setDateRange(now()->subMonth(), now());
-        $slowQueries = $slowQueriesDataService->get();
+        $slowQueries = $slowQueriesDataService->getAggregations();
 
         return view('slow-queries::slow-queries.index', compact('slowQueries'));
     }

@@ -30,7 +30,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($slowestQueries as $slowQueryAggregation)
+                    @foreach($slowestQueriesAggregations as $slowQueryAggregation)
                         <tr class="bg-white border-b">
                             <td class="px-2 py-4 d-block">
                                 <div class="text-ellipsis overflow-hidden whitespace-nowrap">

@@ -24,8 +24,8 @@ class DashboardController extends Controller
         /** @phpstan-ignore-next-line */
         return view('slow-queries::dashboard.show')
             ->with([
-                'queries' => $queries,
-                'slowestQueries' => (new SlowQueriesDataService())->getSlowestQueries(),
+//                'queries' => $queries,
+                'slowestQueriesAggregations' => (new SlowQueriesDataService())->getSlowestQueriesAggregations(),
                 'slowestPages' => $dashboardDataService->getSlowestPages(),
                 'avgDuration' => $dashboardDataService->getAvgDuration(),
             ]);
