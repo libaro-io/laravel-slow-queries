@@ -27,7 +27,7 @@ class SlowQueriesDataService extends BaseDataService
         $slowestQueries = $this
             ->getBaseQuery()
             ->orderByDesc('avgDuration')
-            ->limit($this->numberOfItems)
+            ->limit($this->numberOfItemsPerWidget)
             ->get();
 
         return $slowestQueries;
