@@ -42,7 +42,7 @@
                                 {{ceil($slowQueryData->avgDuration / 1000)}}
                             </td>
                             <td class="px-2 py-4 text-center">
-                                {{$slowQueryData->count}}
+                                {{$slowQueryData->queryCount}}
                             </td>
                             <td class="px-2 py-4 text-center">
                                 <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQueryData->queryHashed ]) }}"><i
