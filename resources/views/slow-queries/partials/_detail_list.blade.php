@@ -25,7 +25,7 @@
                                 <div class="mt-2 flex">
                                     <div class="flex items-center text-sm text-gray-500">
                                         <p>
-                                            &nbsp;uri: {{ $slowQuery->uri }}
+                                            &nbsp;{{ $slowQuery->uri }}
                                         </p>
                                     </div>
                                 </div>
