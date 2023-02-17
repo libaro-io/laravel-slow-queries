@@ -138,8 +138,8 @@
                     </span>
                 </div>
             </div>
-            @include('slow-queries::slow-queries._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowQueryData->details->sortByDesc('created_at')])
-            @include('slow-queries::slow-queries._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowQueryData->details->sortByDesc('duration')])
+            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowQueryData->details->sortByDesc('created_at')])
+            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowQueryData->details->sortByDesc('duration')])
         </div>
     @endif
 
@@ -221,7 +221,7 @@
             });
         }
 
-        function showList(list){
+        function showList(list) {
             // hide all lists
             u(document.getElementsByClassName('detailsList')).addClass('hidden').removeClass('block');
 
