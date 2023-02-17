@@ -177,10 +177,15 @@
             visible: false,
         })
 
+        let maxValue = 5000;
+        if({{round($avgDuration)}} > 5000){
+            maxValue = Math.round({{round($avgDuration)}} / 1000) * 1000 * 2;
+        }
+
         var axis = gauge.xAxes.push(
             am5xy.ValueAxis.new(root, {
                 min: 0,
-                max: 5000,
+                max: maxValue,
                 renderer: axisRenderer,
             })
         );
