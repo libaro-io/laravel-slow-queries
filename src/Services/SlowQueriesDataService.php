@@ -104,7 +104,9 @@ class SlowQueriesDataService extends BaseDataService
             ->selectRaw('min(query_without_bindings) as queryWithoutBindings')
             ->selectRaw('min(duration) as minDuration')
             ->selectRaw('max(duration) as maxDuration')
-            ->selectRaw('avg(duration) as avgDuration');
+            ->selectRaw('avg(duration) as avgDuration')
+            ->selectRaw('count(*) as count')
+        ;
 
         /** @phpstan-ignore-next-line */
         return $builder;
