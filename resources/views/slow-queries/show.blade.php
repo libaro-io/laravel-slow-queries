@@ -38,7 +38,6 @@
     </div>
     <!-- Pinned projects -->
     <div class="mt-6 px-4 sm:px-6 lg:px-8">
-{{--        <h2 class="text-md font-medium text-gray-900">Quick Facts</h2>--}}
         <ul role="list" class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
 
             <li class="relative col-span-1 flex rounded-md shadow-sm">
@@ -53,7 +52,7 @@
             </li>
             <li class="relative col-span-1 flex rounded-md shadow-sm">
                 <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
-                    <i class="fa-solid fa-grip-lines"></i></div>
+                    <i class="fa-regular fa-file-lines"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Line</p>
@@ -63,7 +62,7 @@
             </li>
             <li class="relative col-span-1 flex rounded-md shadow-sm">
                 <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
-                    <i class="fa-solid fa-grip-lines"></i></div>
+                    <i class="fa-solid fa-hashtag"></i></div>
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Count</p>
@@ -78,7 +77,8 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Avg. Duration</p>
-                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->avgDuration) }} ms</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->avgDuration) }}
+                            ms</p>
                     </div>
                 </div>
             </li>
@@ -88,7 +88,8 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Max Duration</p>
-                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->maxDuration) }} ms</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->maxDuration) }}
+                            ms</p>
                     </div>
                 </div>
             </li>
@@ -98,7 +99,8 @@
                 <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Min Duration</p>
-                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->minDuration) }} ms</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->minDuration) }}
+                            ms</p>
                     </div>
                 </div>
             </li>
@@ -112,54 +114,24 @@
     </div>
 
     @if($slowQueryData->details)
-        <div class="mt-10 px-4 sm:px-6 lg:px-8">
-            <h2 class="text-md font-medium text-gray-900">Occurences</h2>
-            <div class="overflow-hidden bg-white shadow sm:rounded-md">
-                <ul role="list" class="divide-y divide-gray-200">
-                    @foreach($slowQueryData->details as $slowQuery)
-                        <li class="collapsible">
-                            <a href="#" onclick="return false;" class="  block hover:bg-gray-50 fpb-3">
-                                <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">
-                                    <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                                        <div class="truncate">
-                                            <div class="flex text-sm">
-                                                <p class="truncate font-bold text-indigo-600">{{$slowQuery->source_file}}
-                                                    :{{\Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQuery->line)}}</p>
-                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-400">{{$slowQuery->action}}</p>
-                                            </div>
-                                            <div class="mt-2 flex">
-                                                <div class="flex items-center font-medium text-sm text-red-400">
-                                                    <i class="fa-regular fa-clock fa-fw"></i>
+        <div class="mt-10 px-4 sm:px-6 lg:px-8 w-100">
+            <div class="flex justify-between">
 
-                                                    <p>
-                                                        &nbsp;{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQuery->duration)}} ms
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="mt-2 flex">
-                                                <div class="flex items-center text-sm text-gray-500">
-                                                    <i class="fa-regular fa-calendar fa-fw"></i>
-                                                    <p>
-                                                        &nbsp;{{ $slowQuery->created_at->diffForHumans()}}
-                                                        •
-                                                        {{ $slowQuery->created_at->format('l M jS, H:i:s')}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                <h2 class="text-md font-medium text-gray-900">Occurences</h2>
 
-                                </div>
-                                <div class="collapsible-content mx-5 fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 bg-white fmt-3">
-                                    <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQuery->prettyQuery !!}</dd>
-                                </div>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-                @endif
+                <div>
+                    <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>
+                    <span class="isolate inline-flex rounded-md shadow-sm">
+                        <button type="button"
+                                class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Latest first</button>
+                        <button type="button"
+                                class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Slowest first</button>
+                    </span>
+                </div>
             </div>
+            @include('laravel-slow-queries::slow-queries._detail_list')
         </div>
+    @endif
 
         {{--    @if($slowQueryData->hints)--}}
         {{--    <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
