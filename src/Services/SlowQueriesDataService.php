@@ -96,11 +96,11 @@ class SlowQueriesDataService extends BaseDataService
     private function getBaseQuery(): Builder
     {
         $builder = SlowQuery::query()
-            ->groupBy('query_hashed', 'uri')
+            ->groupBy('query_hashed')
             ->where('created_at', '>=', $this->from)
             ->where('created_at', '<=', $this->to)
             ->selectRaw('query_hashed as queryHashed')
-            ->selectRaw('uri')
+            ->selectRaw('min(uri) as uri')
             ->selectRaw('min(source_file) as sourceFile')
             ->selectRaw('min(line) as minLine')
             ->selectRaw('max(line) as maxLine')
