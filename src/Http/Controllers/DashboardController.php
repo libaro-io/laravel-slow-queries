@@ -16,9 +16,6 @@ class DashboardController extends Controller
      */
     public function show(): View|Factory|Application
     {
-        /** @phpstan-ignore-next-line */
-        $queries = SlowQuery::paginate();
-        
         $dashboardDataService = new DashboardDataService();
 
         /** @phpstan-ignore-next-line */

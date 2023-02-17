@@ -13,8 +13,6 @@ class SlowQueriesController extends Controller
     public function index(): Factory|View
     {
         $slowQueriesDataService = new SlowQueriesDataService();
-        $slowQueriesDataService->setNumberOfItemsPerWidget(999);
-//        $slowQueriesDataService->setDateRange(now()->subMonth(), now());
         $slowQueries = $slowQueriesDataService->getAggregations();
 
         return view('slow-queries::slow-queries.index', compact('slowQueries'));
