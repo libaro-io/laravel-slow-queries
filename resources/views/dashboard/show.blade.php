@@ -187,7 +187,7 @@
         })
 
         let maxValue = 5000;
-        if({{round($avgDuration)}} > 5000){
+        if ({{round($avgDuration)}} > 5000) {
             maxValue = Math.round({{round($avgDuration)}} / 1000 * 1.3) * 1000;
         }
 
