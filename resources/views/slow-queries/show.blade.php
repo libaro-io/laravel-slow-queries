@@ -39,7 +39,7 @@
     <!-- Pinned projects -->
     <div class="mt-6 px-4 sm:px-6 lg:px-8">
 {{--        <h2 class="text-md font-medium text-gray-900">Quick Facts</h2>--}}
-        <ul role="list" class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-2">
+        <ul role="list" class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
 
             <li class="relative col-span-1 flex rounded-md shadow-sm">
                 <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
@@ -61,16 +61,17 @@
                     </div>
                 </div>
             </li>
-{{--            <li class="relative col-span-1 flex rounded-md shadow-sm">--}}
-{{--                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">--}}
-{{--                    <i class="fa-solid fa-hashtag"></i></div>--}}
-{{--                <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">--}}
-{{--                    <div class="flex-1 truncate px-4 py-2 text-sm">--}}
-{{--                        <p class="font-medium text-gray-900">Query Hash</p>--}}
-{{--                        <p class="text-gray-500">{{ $slowQueryData->queryHashed }}</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </li>--}}
+            <li class="relative col-span-1 flex rounded-md shadow-sm">
+                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
+                    <i class="fa-solid fa-grip-lines"></i></div>
+                <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
+                    <div class="flex-1 truncate px-4 py-2 text-sm">
+                        <p class="font-medium text-gray-900">Count</p>
+                        <p class="text-gray-500">{{ $slowQueryData->queryCount }}</p>
+                    </div>
+                </div>
+            </li>
+
             <li class="relative col-span-1 flex rounded-md shadow-sm">
                 <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
                     <i class="fa-solid fa-stopwatch"></i></div>
@@ -88,6 +89,16 @@
                     <div class="flex-1 truncate px-4 py-2 text-sm">
                         <p class="font-medium text-gray-900">Max Duration</p>
                         <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->maxDuration) }} ms</p>
+                    </div>
+                </div>
+            </li>
+            <li class="relative col-span-1 flex rounded-md shadow-sm">
+                <div class="flex-shrink-0 flex items-center justify-center w-16 bg-indigo-900 text-white text-xl font-medium rounded-l-md">
+                    <i class="fa-solid fa-stopwatch"></i></div>
+                <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
+                    <div class="flex-1 truncate px-4 py-2 text-sm">
+                        <p class="font-medium text-gray-900">Min Duration</p>
+                        <p class="text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryData->minDuration) }} ms</p>
                     </div>
                 </div>
             </li>

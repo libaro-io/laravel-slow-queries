@@ -82,6 +82,7 @@ class SlowQueriesDataService extends BaseDataService
         $slowQueryData->minDuration = intval($slowQueries->min('duration'));
         $slowQueryData->maxDuration = intval($slowQueries->max('duration'));
         $slowQueryData->avgDuration = intval($slowQueries->avg('duration'));
+        $slowQueryData->queryCount = $slowQueries->count();
 
         $slowQueryData->details = $slowQueries;
         return $slowQueryData;
@@ -105,7 +106,7 @@ class SlowQueriesDataService extends BaseDataService
             ->selectRaw('min(duration) as minDuration')
             ->selectRaw('max(duration) as maxDuration')
             ->selectRaw('avg(duration) as avgDuration')
-            ->selectRaw('count(*) as count')
+            ->selectRaw('count(*) as queryCount')
         ;
 
         /** @phpstan-ignore-next-line */

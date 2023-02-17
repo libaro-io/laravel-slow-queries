@@ -55,7 +55,7 @@ class SlowQueryData extends Model
     /**
      * @var int
      */
-    public int $count;
+    public int $queryCount;
 
     /**
      * @var Collection<int, SlowQuery>
