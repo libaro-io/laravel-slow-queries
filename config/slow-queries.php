@@ -9,5 +9,8 @@ return [
     'url-prefix' => env('LARAVEL_SLOW_QUERIES_URL_PREFIX', '/laravel-slow-queries'),
 
     'items_per_widget' => env('LARAVEL_SLOW_QUERIES_ITEMS_PER_WIDGET', 5),                      // number of items to show in a dashboard widget
+    'items_per_page' => env('LARAVEL_SLOW_QUERIES_ITEMS_PER_PAGE', 20),                          // number of items to show per page
+
+
     'default_date_range' => env('LARAVEL_SLOW_QUERIES_DEFAULT_DATE_RANGE', 14),                 // default date range, IN DAYS
 ];
