@@ -1,6 +1,6 @@
-<div class="overflow-hidden bg-white shadow sm:rounded-md">
+<div class="overflow-hidden bg-white shadow sm:rounded-md {{$classes ?? ''}}">
     <ul role="list" class="divide-y divide-gray-200">
-        @foreach($slowQueryData->details->sortByDesc('created_at') as $slowQuery)
+        @foreach($details as $slowQuery)
             <li class="collapsible">
                 <a href="#" onclick="return false;" class="  block hover:bg-gray-50 fpb-3">
                     <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">

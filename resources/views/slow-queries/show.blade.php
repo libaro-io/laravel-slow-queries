@@ -129,7 +129,8 @@
                     </span>
                 </div>
             </div>
-            @include('laravel-slow-queries::slow-queries._detail_list')
+            @include('slow-queries::slow-queries._detail_list',['classes' => 'byLatest block', 'details' => $slowQueryData->details->sortByDesc('created_at')])
+            @include('slow-queries::slow-queries._detail_list',['classes' => 'byDuration hidden', 'details' => $slowQueryData->details->sortByDesc('duration')])
         </div>
     @endif
 
