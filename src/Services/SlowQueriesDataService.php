@@ -63,6 +63,8 @@ class SlowQueriesDataService extends BaseDataService
          */
         $slowQueries = SlowQuery::query()
             ->where('query_hashed', '=', $queryHashed)
+            ->where('created_at', '>=', $this->from)
+            ->where('created_at', '<=', $this->to)
             ->get();
 
         if(!$slowQueries->count()){
