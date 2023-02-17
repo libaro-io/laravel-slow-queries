@@ -33,11 +33,11 @@ class SlowQueriesDataService extends BaseDataService
         return $slowestQueries;
     }
 
+
     /**
      * @return Collection<int, SlowQueryData>
-     *     fetches the slowest n queries, grouped by query_without_bindings
      */
-    public function get(): Collection
+    public function get()
     {
         /**
          * @var Collection<int, SlowQueryData> $slowQueries
@@ -45,8 +45,8 @@ class SlowQueriesDataService extends BaseDataService
         $slowQueries = $this
             ->getBaseQuery()
             ->orderByDesc('avgDuration')
-//            ->paginate(10)
-            ->get();
+            ->paginate($this->numberOfItemsPerPage);
+//            ->get();
 
         return $slowQueries;
     }
