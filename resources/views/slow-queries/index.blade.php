@@ -64,22 +64,22 @@
         </div>
     </div>
 
-    {{--    <nav class="flex items-center justify-between bg-white px-4 py-3 sm:px-6" aria-label="Pagination">--}}
-    {{--        <div class="hidden sm:block">--}}
-    {{--            <p class="text-sm text-gray-700">--}}
-    {{--                Showing--}}
-    {{--                <span class="font-medium">{{ $queries->firstItem() }}</span>--}}
-    {{--                to--}}
-    {{--                <span class="font-medium">{{ $queries->lastItem() }}</span>--}}
-    {{--                of--}}
-    {{--                <span class="font-medium">{{ $queries->total() }}</span>--}}
-    {{--                results--}}
-    {{--            </p>--}}
-    {{--        </div>--}}
-    {{--        <div class="flex flex-1 justify-between sm:justify-end">--}}
-    {{--            <a href="{{ $queries->previousPageUrl() }}" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>--}}
-    {{--            <a href="{{ $queries->nextPageUrl() }}" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>--}}
-    {{--        </div>--}}
-    {{--    </nav>--}}
+        <nav class="flex items-center justify-between bg-white px-4 py-3 sm:px-6" aria-label="Pagination">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700">
+                    Showing
+                    <span class="font-medium">{{ $slowQueries->firstItem() }}</span>
+                    to
+                    <span class="font-medium">{{ $slowQueries->lastItem() }}</span>
+                    of
+                    <span class="font-medium">{{ $slowQueries->total() }}</span>
+                    results
+                </p>
+            </div>
+            <div class="flex flex-1 justify-between sm:justify-end">
+                <a href="{{ $slowQueries->previousPageUrl() }}" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+                <a href="{{ $slowQueries->nextPageUrl() }}" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+            </div>
+        </nav>
 
 @endsection
