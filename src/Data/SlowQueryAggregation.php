@@ -56,9 +56,7 @@ class SlowQueryAggregation extends Model
      * @var int
      */
     public int $queryCount;
-
-    public string $sonjasTextje;
-
+    
     /**
      * @var Collection<int, SlowQuery>
      */
