@@ -22,8 +22,8 @@ class CreateSlowPagesView extends Migration
             CREATE VIEW view_slow_pages AS
                 select 
                   request_guid, 
-                  sum(duration) as the_duration, 
-                  count(*) as the_count, 
+                  sum(duration) as the_page_duration, 
+                  count(*) as the_query_count, 
                   min(uri) as the_uri 
                 from 
                   slow_queries 
