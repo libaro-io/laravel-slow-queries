@@ -5,8 +5,10 @@ namespace Libaro\LaravelSlowQueries\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
+use Libaro\LaravelSlowQueries\Models\SlowPage;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\Services\DashboardDataService;
+use Libaro\LaravelSlowQueries\Services\SlowPagesDataService;
 use Libaro\LaravelSlowQueries\Services\SlowQueriesDataService;
 
 class DashboardController extends Controller
@@ -23,7 +25,7 @@ class DashboardController extends Controller
             ->with([
 //                'queries' => $queries,
                 'slowestQueriesAggregations' => (new SlowQueriesDataService())->getSlowestQueriesAggregations(),
-                'slowestPages' => $dashboardDataService->getSlowestPages(),
+                'slowestPages' => (new SlowPagesDataService())->getSlowestPagesAggregation(),
                 'avgDuration' => $dashboardDataService->getAvgDuration(),
             ]);
     }
