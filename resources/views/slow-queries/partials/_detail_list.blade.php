@@ -3,7 +3,7 @@
     <ul role="list" class="divide-y divide-gray-200">
         @foreach($details as $slowQuery)
             <li class="collapsible">
-                <a href="#" onclick="return false;" class="  block hover:bg-gray-50 fpb-3">
+                <a href="#" onclick="return false;" class="  block hover:bg-gray-50 fpb-3 cursor-pointer">
                     <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">
                         <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                             <div class="truncate">
@@ -25,7 +25,7 @@
                                 <div class="mt-2 flex">
                                     <div class="flex items-center text-sm text-gray-500">
                                         <p>
-                                            &nbsp;{{ $slowQuery->uri }}
+                                            <span>{{config('app.url') ?? '/'}}{{ $slowQuery->uri }}</span>
                                         </p>
                                     </div>
                                 </div>
