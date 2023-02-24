@@ -34,6 +34,6 @@ Route::middleware(strval(config('slow-queries.middleware')))
         Route::get('/slow-pages', SlowPagesController::class.'@index')
             ->name('slow-pages.index');
 
-        Route::get('/slow-pages/{slowPage}', SlowPagesController::class.'@show')
+        Route::get('/slow-pages/{uriBase64Encoded}', SlowPagesController::class.'@show')
             ->name('slow-pages.show');
     });

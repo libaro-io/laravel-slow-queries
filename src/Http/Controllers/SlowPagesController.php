@@ -2,6 +2,7 @@
 
 namespace Libaro\LaravelSlowQueries\Http\Controllers;
 
+use Illuminate\Auth\Access\Response;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,6 +13,9 @@ use Libaro\LaravelSlowQueries\Services\SlowPagesDataService;
 
 class SlowPagesController extends Controller
 {
+    /**
+     * @return Factory|View
+     */
     public function index(): Factory|View
     {
         $slowPagesService = new SlowPagesDataService();
@@ -20,13 +24,17 @@ class SlowPagesController extends Controller
         return view('slow-queries::slow-pages.index', compact('slowPagesAggregations'));
     }
 
-    public function show(string $slowPage): Redirector|RedirectResponse|Application
+    /**
+     * @param string $uriBase64Encoded
+     * @return bool|Response|Application|Factory|View|null
+     */
+    public function show(string $uriBase64Encoded)
     {
-        /** @var SlowQuery $query */
-        $query = SlowQuery::query()
-            ->where('request_guid', 'like', $slowPage)
-            ->firstOrFail();
+        $uri = base64_decode($uriBase64Encoded);
 
-        return redirect(route('slow-queries.slow-queries.show', ['slowQuery' => $query->id]));
+        $slowPagesDataService = new SlowPagesDataService();
+        $slowPageAggregation = $slowPagesDataService->getSlowPageAggregation($uri);
+
+        return view('slow-queries::slow-pages.show', ['slowPageAggregation' => $slowPageAggregation]);
     }
 }
