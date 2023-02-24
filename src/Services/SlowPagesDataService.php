@@ -25,7 +25,26 @@ class SlowPagesDataService extends BaseDataService
             ->limit($this->numberOfItemsPerWidget)
             ->get();
 
+//        dd($slowestPagesAggregation);
+
         return $slowestPagesAggregation;
+    }
+
+
+    /**
+     * @return Collection<int, SlowPageAggregation>
+     */
+    public function getAggregations()
+    {
+        /**
+         * @var Collection<int, SlowPageAggregation> $slowPagesAggregation
+         */
+        $slowPagesAggregation = $this
+            ->getBaseQuery()
+            ->orderByDesc('avgDuration')
+            ->paginate($this->numberOfItemsPerPage);
+
+        return $slowPagesAggregation;
     }
 
     /**
@@ -34,9 +53,9 @@ class SlowPagesDataService extends BaseDataService
     private function getBaseQuery(): Builder
     {
         $builder = SlowPage::query()
-            ->selectRaw('the_uri')
+            ->selectRaw('the_uri as uri')
             ->selectRaw('avg(the_duration) as avgDuration')
-            ->selectRaw('avg(the_count) as the_count')
+            ->selectRaw('round(avg(the_count), 0) as queryCount')
             ->groupBy('the_uri');
 
         /** @phpstan-ignore-next-line */
