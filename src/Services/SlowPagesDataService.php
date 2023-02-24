@@ -34,7 +34,7 @@ class SlowPagesDataService extends BaseDataService
     public function getAggregations()
     {
         /**
-         * @var Collection<int, SlowPageAggregation> $slowPagesAggregation
+         * @var Collection<int, SlowPageAggregation> $slowPagesAggregations
          */
         $slowPagesAggregations = $this
             ->getBaseQuery()
@@ -44,17 +44,24 @@ class SlowPagesDataService extends BaseDataService
         return $slowPagesAggregations;
     }
 
+    /**
+     * @param string $uriHashed
+     * @return SlowPageAggregation
+     */
     public function getSlowPageAggregation(string $uriHashed)
     {
         $slowPageAggregation = new SlowPageAggregation();
         $slowPageAggregation->uri = 'test';
         $slowPageAggregation->avgDuration = 10;
-        $slowPageAggregation->queryCount = 17;
+        $slowPageAggregation->avgQueryCount = 17;
         $slowPageAggregation->count =  60;
 
         return $slowPageAggregation;
     }
 
+    /**
+     * @return Builder
+     */
     private function getBaseQuery(): Builder
     {
         $builder = SlowPage::query()
