@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
+
 class SlowPageAggregation extends Model
 {
     public string $uri;
 
     public int $avgDuration;
 
-    public int $queryCount;
+    public int $avgQueryCount;
 
-//    /**
-//     * @var Collection<int, SlowQuery>
-//     */
-//    public Collection $details;
+    public int $count;
 }
