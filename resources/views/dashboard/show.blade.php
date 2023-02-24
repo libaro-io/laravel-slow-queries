@@ -111,7 +111,7 @@
                                 {{$slowQueryAggregation->queryCount}}
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('slow-queries.slow-pages.show', ['slowPage' => urlencode($slowPage->uri) ]) }}"><i
+                                <a href="{{ route('slow-queries.slow-pages.show', ['uriBase64Encoded' => base64_encode($slowPage->uri) ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
