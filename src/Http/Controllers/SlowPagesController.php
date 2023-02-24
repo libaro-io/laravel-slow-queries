@@ -18,10 +18,21 @@ class SlowPagesController extends Controller
     public function index(): Factory|View
     {
         $slowPagesService = new SlowPagesDataService();
-        $slowPagesService->setNumberOfItemsPerWidget(999);
-        $slowPages = $slowPagesService->get();
+        $slowPagesAggregations = $slowPagesService->getAggregations();
 
-        return view('slow-queries::slow-pages.index', compact('slowPages'));
+        return view('slow-queries::slow-pages.index', compact('slowPagesAggregations'));
+    }
+
+    public function getSlowestPages(): Collection
+    {
+
+        $slowestQueriesAggregations = $this
+            ->getBaseQuery()
+            ->orderByDesc('avgDuration')
+            ->limit($this->numberOfItemsPerWidget)
+            ->get();
+
+        return $slowestQueriesAggregations;
     }
 
     /**
