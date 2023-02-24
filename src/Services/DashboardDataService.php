@@ -42,48 +42,48 @@ class DashboardDataService
         $this->numberOfItems = intval(config('slow-queries.items_per_widget'));
     }
 
-    /**
-     * @param Carbon $from
-     * @param Carbon $to
-     * @return DashboardDataService
-     */
-    public function setDateRange(Carbon $from, Carbon $to): self
-    {
-        $this->from = $from;
-        $this->to = $to;
-
-        return $this;
-    }
-
-
-    /**
-     * @return \Illuminate\Support\Collection<int, mixed>
-     */
-    public function getSlowestPages(): \Illuminate\Support\Collection
-    {
-        // TODO : filter on date range
-        $sql = /** @lang sql */
-            <<<SQL
-            select the_uri, avg(the_duration) as the_duration, avg(the_count) as the_count
-            from
-            (
-                select request_guid, sum(duration) as the_duration, count(*) as the_count, min(uri) as the_uri
-                from slow_queries
-                group by request_guid
-                order by 3 desc
-            ) derived
-            
-            group by the_uri
-            order by the_duration desc
-            limit ?
-SQL;
+//    /**
+//     * @param Carbon $from
+//     * @param Carbon $to
+//     * @return DashboardDataService
+//     */
+//    public function setDateRange(Carbon $from, Carbon $to): self
+//    {
+//        $this->from = $from;
+//        $this->to = $to;
+//
+//        return $this;
+//    }
 
 
-        $records = DB::select($sql, [$this->numberOfItems]);
-        $collection = collect($records);
-
-        return $collection;
-    }
+//    /**
+//     * @return \Illuminate\Support\Collection<int, mixed>
+//     */
+//    public function getSlowestPages(): \Illuminate\Support\Collection
+//    {
+//        // TODO : filter on date range
+//        $sql = /** @lang sql */
+//            <<<SQL
+//            select the_uri, avg(the_duration) as the_duration, avg(the_count) as the_count
+//            from
+//            (
+//                select request_guid, sum(duration) as the_duration, count(*) as the_count, min(uri) as the_uri
+//                from slow_queries
+//                group by request_guid
+//                order by 3 desc
+//            ) derived
+//
+//            group by the_uri
+//            order by the_duration desc
+//            limit ?
+//SQL;
+//
+//
+//        $records = DB::select($sql, [$this->numberOfItems]);
+//        $collection = collect($records);
+//
+//        return $collection;
+//    }
 
     /**
      * @return mixed
