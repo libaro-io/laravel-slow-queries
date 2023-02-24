@@ -87,7 +87,10 @@
                         {{--                            URL--}}
                         {{--                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-center">
-                            Duration (s)
+                            Time (s)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center">
+                            count
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
                             View
@@ -99,13 +102,16 @@
                         <tr class="bg-white border-b">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPage->the_uri, 50)}}
+                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPage->uri, 50)}}
                             </th>
                             <td class="px-6 py-4 text-center">
-                                {{ceil($slowPage->the_duration / 1000)}}
+                                {{ceil($slowPage->avgDuration / 1000)}}
+                            </td>
+                            <td class="px-2 py-4 text-center">
+                                {{$slowQueryAggregation->queryCount}}
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => -999 ]) }}"><i
+                                <a href="{{ route('slow-queries.slow-pages.show', ['slowPage' => urlencode($slowPage->uri) ]) }}"><i
                                             class="fa-solid fa-eye text-indigo-600"></i></a>
                             </td>
                         </tr>
