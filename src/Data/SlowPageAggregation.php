@@ -19,11 +19,11 @@ class SlowPageAggregation extends Model
     /**
      * @var int
      */
-    public int $duration;
+    public int $avgDuration;
     /**
      * @var int
      */
-    public int $count;
+    public int $queryCount;
 
     
 //    /**
