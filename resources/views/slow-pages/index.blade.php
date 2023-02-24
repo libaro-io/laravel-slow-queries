@@ -27,7 +27,7 @@
                                 </th>
 
                                 <th scope="col"
-                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                    class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wide text-gray-500">
                                     info
                                 </th>
                             </tr>
@@ -37,9 +37,9 @@
                                 <tr>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPagesAggregation->uri, 50)}}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ceil($slowPagesAggregation->avgDuration / 1000) }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:pl-6">{{ $slowPagesAggregation->queryCount}}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:pl-6">{{ $slowPagesAggregation->count}}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                                        <a href="{{ route('slow-queries.slow-pages.show', ['slowPage' => urlencode($slowPagesAggregation->uri) ]) }}"><i
+                                        <a href="{{ route('slow-queries.slow-pages.show', ['uriBase64Encoded' => base64_encode($slowPagesAggregation->uri) ]) }}"><i
                                                     class="fa-solid fa-eye text-indigo-600"></i></a>
                                     </td>
 
