@@ -116,7 +116,7 @@ e.g. http://localhost:8000/slow-queries/queries/8
 
 [-] naar V1 toewerken : tussenpagina voorzien / logica van index efkes disablen
 
-[-] link naar Libaro
+[x] link naar Libaro
 
 
 
@@ -161,3 +161,6 @@ bugfix:
 the same queries could be executed on different pages
 this could be problematic when view the grouped results (slowQueryAggregation)
 possible solution: add uri to the hash of the query_hashed
+
+
+query abbrevation on slow-queries index + detail : is now abbreviated with php => TODO: only abbreviate with css so the number of characters shown is ‘responsive‘ with the page width
