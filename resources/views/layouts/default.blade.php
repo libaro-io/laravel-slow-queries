@@ -27,6 +27,10 @@
                             <i class="fa-solid fa-chart-line fa-fw"></i>&nbsp;&nbsp;
                             Dashboard
                         </a>
+                        <a href="{{ route('slow-queries.slow-queries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fa-regular fa-clock fa-fw"></i>&nbsp;&nbsp;
+                            Slow Queries
+                        </a>
                         <a href="{{ route('slow-queries.slow-pages.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                             <i class="fa-solid fa-file fa-fw"></i>&nbsp;&nbsp;
                             Slow Pages
@@ -36,10 +40,6 @@
 {{--                            N+1 Queries--}}
 {{--                        </a>--}}
 
-                        <a href="{{ route('slow-queries.slow-queries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                            <i class="fa-regular fa-clock fa-fw"></i>&nbsp;&nbsp;
-                            Slow Queries
-                        </a>
                     </nav>
 
                     <div class="flex mb-10 center ml-10 mr-10 pl-10 pr-10">
