@@ -12,59 +12,33 @@ use SqlFormatter;
 
 class SlowQueryAggregation extends Model
 {
-    /**
-     * @var string
-     */
     public string $queryHashed;
-    /**
-     * @var string
-     */
+
     public string $uri;
-    /**
-     * @var string
-     */
+
     public string $sourceFile;
-    /**
-     * @var int
-     */
+
     public int $minLine;
-    /**
-     * @var int
-     */
+
     public int $maxLine;
-    /**
-     * @var string
-     */
+
     public string $queryWithoutBindings;
-    /**
-     * @var string
-     */
+
     public string $queryWithBindings;
-    /**
-     * @var int
-     */
+
     public int $minDuration;
-    /**
-     * @var int
-     */
+
     public int $maxDuration;
-    /**
-     * @var int
-     */
+
     public int $avgDuration;
-    /**
-     * @var int
-     */
+
     public int $queryCount;
-    
+
     /**
      * @var Collection<int, SlowQuery>
      */
     public Collection $details;
 
-    /**
-     * @return String
-     */
     public function getPrettyQueryAttribute(): string
     {
         return SqlFormatter::format($this->queryWithoutBindings);

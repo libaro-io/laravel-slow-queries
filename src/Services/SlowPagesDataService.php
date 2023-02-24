@@ -7,10 +7,8 @@ use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Data\SlowPageAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowPage;
 
-
 class SlowPagesDataService extends BaseDataService
 {
-
     /**
      * @return Collection<int, SlowPageAggregation>
      */
@@ -30,7 +28,6 @@ class SlowPagesDataService extends BaseDataService
         return $slowestPagesAggregation;
     }
 
-
     /**
      * @return Collection<int, SlowPageAggregation>
      */
@@ -47,9 +44,6 @@ class SlowPagesDataService extends BaseDataService
         return $slowPagesAggregation;
     }
 
-    /**
-     * @return Builder
-     */
     private function getBaseQuery(): Builder
     {
         $builder = SlowPage::query()

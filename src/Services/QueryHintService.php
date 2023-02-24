@@ -2,18 +2,12 @@
 
 namespace Libaro\LaravelSlowQueries\Services;
 
-
-
-
-
 class QueryHintService
 {
     /**
      * Perform simple regex analysis on the code
      *
-     * @package xplain (https://github.com/rap2hpoutre/mysql-xplain-xplain)
      *
-     * @param string $query
      * @return array<string>
      */
     public function performQueryAnalysis(string $query): array
@@ -38,9 +32,10 @@ class QueryHintService
             $hints[] = '<code>LIMIT</code> without <code>ORDER BY</code> causes non-deterministic results, depending on the query execution plan';
         }
         if (preg_match('/LIKE\\s[\'"](%.*?)[\'"]/i', $query, $matches)) {
-            $hints[] = 'An argument has a leading wildcard character: <code>' . $matches[1] . '</code>.
+            $hints[] = 'An argument has a leading wildcard character: <code>'.$matches[1].'</code>.
                 The predicate with this argument is not sargable and cannot use an index if one exists.';
         }
+
         return $hints;
     }
 }

@@ -3,24 +3,23 @@
 namespace Libaro\LaravelSlowQueries;
 
 use Illuminate\Support\ServiceProvider;
-use PHPSQLParser\PHPSQLParser;
 
 class LaravelSlowQueriesServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/slow-queries.php' => config_path('slow-queries.php'),
+            __DIR__.'/../config/slow-queries.php' => config_path('slow-queries.php'),
         ], 'slow-queries');
 
-        if (!class_exists('CreateSlowQueriesTable')) {
+        if (! class_exists('CreateSlowQueriesTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_slow_queries_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_slow_queries_table.php'),
+                __DIR__.'/../database/migrations/create_slow_queries_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_slow_queries_table.php'),
             ], 'migrations');
         }
-        if (!class_exists('CreateSlowPagesView')) {
+        if (! class_exists('CreateSlowPagesView')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_slow_pages_view.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_slow_pages_view.php'),
+                __DIR__.'/../database/migrations/create_slow_pages_view.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_slow_pages_view.php'),
             ], 'migrations');
         }
 
@@ -31,7 +30,7 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/slow-queries.php', 'slow-queries');
+        $this->mergeConfigFrom(__DIR__.'/../config/slow-queries.php', 'slow-queries');
     }
 
     public function registerRoutes(): void
@@ -44,9 +43,6 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'slow-queries');
     }
 
-    /**
-     * @return void
-     */
     private function startListeningWhenEnabled(): void
     {
         $laravelSlowQueries = new LaravelSlowQueries();

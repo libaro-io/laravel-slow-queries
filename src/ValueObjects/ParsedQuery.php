@@ -2,7 +2,6 @@
 
 namespace Libaro\LaravelSlowQueries\ValueObjects;
 
-
 use Illuminate\Support\Collection;
 
 class ParsedQuery
@@ -21,8 +20,4 @@ class ParsedQuery
      * @var Collection<int, OrderByField>
      */
     public $orderByFields;
-
-
-
-
 }

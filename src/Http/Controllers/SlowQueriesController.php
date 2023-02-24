@@ -2,10 +2,8 @@
 
 namespace Libaro\LaravelSlowQueries\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
-use Libaro\LaravelSlowQueries\Data\SlowQueryAggregation;
-use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Illuminate\Contracts\View\View;
 use Libaro\LaravelSlowQueries\Services\SlowQueriesDataService;
 
 class SlowQueriesController extends Controller

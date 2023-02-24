@@ -3,16 +3,10 @@
 namespace Libaro\LaravelSlowQueries\Services;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Data\SlowQueryAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
-
-/**
- *
- */
 class SlowQueriesDataService extends BaseDataService
 {
     /**
@@ -33,7 +27,6 @@ class SlowQueriesDataService extends BaseDataService
         return $slowestQueriesAggregations;
     }
 
-
     /**
      * @return Collection<int, SlowQueryAggregation>
      */
@@ -51,9 +44,7 @@ class SlowQueriesDataService extends BaseDataService
         return $slowQueriesAggregations;
     }
 
-
     /**
-     * @param string $queryHashed
      * @return SlowQueryAggregation|null
      */
     public function getSlowQueryAggregation(string $queryHashed)
@@ -67,7 +58,7 @@ class SlowQueriesDataService extends BaseDataService
             ->where('created_at', '<=', $this->to)
             ->get();
 
-        if(!$slowQueries->count()){
+        if (! $slowQueries->count()) {
             return null;
         }
 
@@ -87,12 +78,10 @@ class SlowQueriesDataService extends BaseDataService
         $slowQueryAggregation->queryCount = $slowQueries->count();
 
         $slowQueryAggregation->details = $slowQueries;
+
         return $slowQueryAggregation;
     }
 
-    /**
-     * @return Builder
-     */
     private function getBaseQuery(): Builder
     {
         $builder = SlowQuery::query()
@@ -108,8 +97,7 @@ class SlowQueriesDataService extends BaseDataService
             ->selectRaw('min(duration) as minDuration')
             ->selectRaw('max(duration) as maxDuration')
             ->selectRaw('avg(duration) as avgDuration')
-            ->selectRaw('count(*) as queryCount')
-        ;
+            ->selectRaw('count(*) as queryCount');
 
         /** @phpstan-ignore-next-line */
         return $builder;

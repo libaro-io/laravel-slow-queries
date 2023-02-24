@@ -7,28 +7,17 @@ namespace Libaro\LaravelSlowQueries\Data;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
-use Libaro\LaravelSlowQueries\Services\QueryHintService;
-use SqlFormatter;
 
 class SlowPageAggregation extends Model
 {
-    /**
-     * @var string
-     */
     public string $uri;
-    /**
-     * @var int
-     */
+
     public int $avgDuration;
-    /**
-     * @var int
-     */
+
     public int $queryCount;
 
-    
 //    /**
 //     * @var Collection<int, SlowQuery>
 //     */
 //    public Collection $details;
-
 }
