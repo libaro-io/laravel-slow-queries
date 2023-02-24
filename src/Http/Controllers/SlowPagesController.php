@@ -23,18 +23,6 @@ class SlowPagesController extends Controller
         return view('slow-queries::slow-pages.index', compact('slowPagesAggregations'));
     }
 
-    public function getSlowestPages(): Collection
-    {
-
-        $slowestQueriesAggregations = $this
-            ->getBaseQuery()
-            ->orderByDesc('avgDuration')
-            ->limit($this->numberOfItemsPerWidget)
-            ->get();
-
-        return $slowestQueriesAggregations;
-    }
-
     /**
      * @param $slowPage
      * @return Application|RedirectResponse|Redirector
