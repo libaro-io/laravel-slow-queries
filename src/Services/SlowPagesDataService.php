@@ -59,21 +59,27 @@ class SlowPagesDataService extends BaseDataService
             ->where('created_at', '<=', $this->to)
             ->get();
 
-        if (! $slowPages->count()) {
+        if (!$slowPages->count()) {
             return null;
         }
 
         /**
-         * @var SlowPageAggregation $slowPageAggregation
+         * @var SlowPageAggregation $data
          */
-        $slowPageAggregation = $this
+        $data = $this
             ->getBaseQuery()
             ->where('the_uri', '=', $uri)
             ->first();
 
-//        if($slowPageAggregation->count()){
-            $slowPageAggregation->details = $slowPages;
-//        }
+        $slowPageAggregation = new SlowPageAggregation();
+        $slowPageAggregation->uri = $data->uri;
+        $slowPageAggregation->count = $data->count;
+        $slowPageAggregation->avgQueryCount = $data->avgQueryCount;
+        $slowPageAggregation->avgDuration = $data->avgDuration;
+
+        $slowPageAggregation->details = $slowPages;
+
+//        dd($slowPageAggregation);
 
         return $slowPageAggregation;
     }
