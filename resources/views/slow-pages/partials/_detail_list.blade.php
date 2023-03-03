@@ -9,7 +9,8 @@
                             <div class="truncate">
                                 <div class="flex text-sm">
                                     <p class="truncate font-bold text-indigo-600">
-                                        {{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->the_query_count)}} queries
+                                        {{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->the_query_count)}}
+                                        {{$slowPage->the_query_count === 1 ? 'query' : 'queries'}}
                                     </p>
                                     <p class="ml-1 flex-shrink-0 font-normal text-gray-400">why</p>
                                 </div>
