@@ -83,6 +83,7 @@ class SlowQueriesDataService extends BaseDataService
 
     private function getBaseQuery(): Builder
     {
+        /** @var \Illuminate\Database\Eloquent\Builder $builder */
         $builder = SlowQuery::query()
             ->groupBy('query_hashed')
             ->where('created_at', '>=', $this->from)
@@ -98,7 +99,6 @@ class SlowQueriesDataService extends BaseDataService
             ->selectRaw('avg(duration) as avgDuration')
             ->selectRaw('count(*) as queryCount');
 
-        /** @phpstan-ignore-next-line */
         return $builder;
     }
 }

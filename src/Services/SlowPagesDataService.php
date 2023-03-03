@@ -89,6 +89,7 @@ class SlowPagesDataService extends BaseDataService
      */
     private function getBaseQuery(): Builder
     {
+        /** @var \Illuminate\Database\Eloquent\Builder $builder */
         $builder = SlowPage::query()
             ->where('created_at', '>=', $this->from)
             ->where('created_at', '<=', $this->to)
@@ -98,7 +99,6 @@ class SlowPagesDataService extends BaseDataService
             ->selectRaw('count(*) as count')
             ->groupBy('the_uri');
 
-        /** @phpstan-ignore-next-line */
         return $builder;
     }
 }
