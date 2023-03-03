@@ -6,8 +6,7 @@ namespace Libaro\LaravelSlowQueries\Data;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Libaro\LaravelSlowQueries\Models\SlowQuery;
-
+use Libaro\LaravelSlowQueries\Models\SlowPage;
 
 class SlowPageAggregation extends Model
 {
@@ -18,4 +17,9 @@ class SlowPageAggregation extends Model
     public int $avgQueryCount;
 
     public int $count;
+
+    /**
+     * @var Collection<int, SlowPage>
+     */
+    public Collection $details;
 }
