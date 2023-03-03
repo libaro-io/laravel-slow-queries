@@ -98,11 +98,17 @@
                     <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>
                     <span class="isolate inline-flex rounded-md shadow-sm">
                                 <button
+                                        onclick="showList('byMostQueries')"
+                                        type="button"
+                                        class="byMostQueriesButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
+                                            class="fa-regular fa-calendar-days fa-fw">
+                                    </i>&nbsp;&nbsp;Most queries
+                                </button>
+                                <button
                                         onclick="showList('byLatest')"
                                         type="button"
-                                        class="byLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
-                                            class="fa-regular fa-calendar-days fa-fw">
-                                    </i>&nbsp;&nbsp;Latest first
+                                        class="byLatestButton detailsListButton relative -ml-px inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                    <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Latest first
                                 </button>
                                 <button
                                         onclick="showList('byDuration')"
@@ -110,18 +116,12 @@
                                         class="byDurationButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                     <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Slowest first
                                 </button>
-                                <button
-                                        onclick="showList('byQuery')"
-                                        type="button"
-                                        class="byQueryButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                                    <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Query count
-                                </button>
                             </span>
                 </div>
             </div>
-            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowPageAggregation->details->sortByDesc('created_at')])
+            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byMostQueries detailsList block', 'details' => $slowPageAggregation->details->sortByDesc('the_query_count')])
+            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byLatest detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('created_at')])
             @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_page_duration')])
-            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byQuery detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_query_count')])
         </div>
     @endif
 
