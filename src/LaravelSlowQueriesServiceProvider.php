@@ -23,6 +23,14 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
             ], 'migrations');
         }
 
+        if ($this->app->runningInConsole()) {
+            // Publish assets
+            $this->publishes([
+                __DIR__.'/../resources/assets' => public_path('laravel-slow-queries'),
+            ], 'assets');
+
+        }
+
         $this->startListeningWhenEnabled();
         $this->registerRoutes();
         $this->registerViews();
