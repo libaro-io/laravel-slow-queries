@@ -79,44 +79,44 @@
             </li>
         </ul>
     </div>
-    <div class="mt-10 px-4 sm:px-6 lg:px-8">
-        <h2 class="text-md font-medium text-gray-900">Query</h2>
-        <div class="fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">
-            <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">
-                {{--                {!! $slowQueryAggregation->prettyQuery !!}--}}
-            </dd>
+{{--    <div class="mt-10 px-4 sm:px-6 lg:px-8">--}}
+{{--        <h2 class="text-md font-medium text-gray-900">Query</h2>--}}
+{{--        <div class="fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">--}}
+{{--            <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">--}}
+{{--                --}}{{--                {!! $slowQueryAggregation->prettyQuery !!}--}}
+{{--            </dd>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+    @if($slowPageAggregation->details)
+        <div class="mt-10 px-4 sm:px-6 lg:px-8 w-100">
+            <div class="flex justify-between">
+
+                <h2 class="text-md font-medium text-gray-900">Occurences</h2>
+
+                <div>
+                    <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>
+                    <span class="isolate inline-flex rounded-md shadow-sm">
+                                <button
+                                        onclick="showList('byLatest')"
+                                        type="button"
+                                        class="byLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
+                                            class="fa-regular fa-calendar-days fa-fw">
+                                    </i>&nbsp;&nbsp;Latest first
+                                </button>
+                                <button
+                                        onclick="showList('byDuration')"
+                                        type="button"
+                                        class="byDurationButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                    <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Slowest first
+                                </button>
+                            </span>
+                </div>
+            </div>
+            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowPageAggregation->details->sortByDesc('created_at')])
+            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('avgDuration')])
         </div>
-    </div>
-
-    {{--    @if($slowQueryAggregation->details)--}}
-    {{--        <div class="mt-10 px-4 sm:px-6 lg:px-8 w-100">--}}
-    {{--            <div class="flex justify-between">--}}
-
-    {{--                <h2 class="text-md font-medium text-gray-900">Occurences</h2>--}}
-
-    {{--                <div>--}}
-    {{--                    <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>--}}
-    {{--                    <span class="isolate inline-flex rounded-md shadow-sm">--}}
-    {{--                        <button--}}
-    {{--                                onclick="showList('byLatest')"--}}
-    {{--                                type="button"--}}
-    {{--                                class="byLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i--}}
-    {{--                                    class="fa-regular fa-calendar-days fa-fw">--}}
-    {{--                            </i>&nbsp;&nbsp;Latest first--}}
-    {{--                        </button>--}}
-    {{--                        <button--}}
-    {{--                                onclick="showList('byDuration')"--}}
-    {{--                                type="button"--}}
-    {{--                                class="byDurationButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">--}}
-    {{--                            <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Slowest first--}}
-    {{--                        </button>--}}
-    {{--                    </span>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowQueryAggregation->details->sortByDesc('created_at')])--}}
-    {{--            @include('slow-queries::slow-queries.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowQueryAggregation->details->sortByDesc('duration')])--}}
-    {{--        </div>--}}
-    {{--    @endif--}}
+    @endif
 
 @endsection
 
