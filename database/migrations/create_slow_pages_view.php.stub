@@ -24,11 +24,12 @@ class CreateSlowPagesView extends Migration
                   request_guid, 
                   sum(duration) as the_page_duration, 
                   count(*) as the_query_count, 
-                  min(uri) as the_uri 
+                  min(uri) as the_uri ,
+                  min(created_at) as created_at
                 from 
                   slow_queries 
                 group by 
-                  request_guid 
+                  request_guid ;
             
 SQL;
 
