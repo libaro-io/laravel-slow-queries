@@ -39,7 +39,6 @@ class SlowQueriesDataService extends BaseDataService
             ->getBaseQuery()
             ->orderByDesc('avgDuration')
             ->paginate($this->numberOfItemsPerPage);
-//            ->get();
 
         return $slowQueriesAggregations;
     }
