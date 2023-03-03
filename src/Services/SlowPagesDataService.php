@@ -5,8 +5,8 @@ namespace Libaro\LaravelSlowQueries\Services;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Data\SlowPageAggregation;
-use Libaro\LaravelSlowQueries\Data\SlowQueryAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowPage;
+use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
 class SlowPagesDataService extends BaseDataService
 {
@@ -23,7 +23,6 @@ class SlowPagesDataService extends BaseDataService
             ->orderByDesc('avgDuration')
             ->limit($this->numberOfItemsPerWidget)
             ->get();
-
 
         return $slowestPagesAggregation;
     }
@@ -44,17 +43,37 @@ class SlowPagesDataService extends BaseDataService
         return $slowPagesAggregations;
     }
 
+
     /**
-     * @param string $uriHashed
-     * @return SlowPageAggregation
+     * @param string $uri
+     * @return ?SlowPageAggregation
      */
-    public function getSlowPageAggregation(string $uriHashed)
+    public function getSlowPageAggregation(string $uri): ?SlowPageAggregation
     {
-        $slowPageAggregation = new SlowPageAggregation();
-        $slowPageAggregation->uri = 'test';
-        $slowPageAggregation->avgDuration = 10;
-        $slowPageAggregation->avgQueryCount = 17;
-        $slowPageAggregation->count =  60;
+        /**
+         * @var Collection<int, SlowPage> $slowPages
+         */
+        $slowPages = SlowPage::query()
+            ->where('the_uri', '=', $uri)
+            ->where('created_at', '>=', $this->from)
+            ->where('created_at', '<=', $this->to)
+            ->get();
+
+        if (! $slowPages->count()) {
+            return null;
+        }
+
+        /**
+         * @var SlowPageAggregation $slowPageAggregation
+         */
+        $slowPageAggregation = $this
+            ->getBaseQuery()
+            ->where('the_uri', '=', $uri)
+            ->first();
+
+//        if($slowPageAggregation->count()){
+            $slowPageAggregation->details = $slowPages;
+//        }
 
         return $slowPageAggregation;
     }
@@ -65,6 +84,8 @@ class SlowPagesDataService extends BaseDataService
     private function getBaseQuery(): Builder
     {
         $builder = SlowPage::query()
+            ->where('created_at', '>=', $this->from)
+            ->where('created_at', '<=', $this->to)
             ->selectRaw('the_uri as uri')
             ->selectRaw('avg(the_page_duration) as avgDuration')
             ->selectRaw('round(avg(the_query_count), 0) as avgQueryCount')
