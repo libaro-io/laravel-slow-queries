@@ -110,11 +110,18 @@
                                         class="byDurationButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                     <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Slowest first
                                 </button>
+                                <button
+                                        onclick="showList('byQuery')"
+                                        type="button"
+                                        class="byQueryButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                    <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Query count
+                                </button>
                             </span>
                 </div>
             </div>
             @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowPageAggregation->details->sortByDesc('created_at')])
-            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('avgDuration')])
+            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_page_duration')])
+            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byQuery detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_query_count')])
         </div>
     @endif
 

@@ -8,8 +8,9 @@
                         <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                             <div class="truncate">
                                 <div class="flex text-sm">
-                                    <p class="truncate font-bold text-indigo-600">yes
-                                        no</p>
+                                    <p class="truncate font-bold text-indigo-600">
+                                        {{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->the_query_count)}} queries
+                                    </p>
                                     <p class="ml-1 flex-shrink-0 font-normal text-gray-400">why</p>
                                 </div>
                                 <div class="mt-2 flex">
@@ -17,14 +18,15 @@
                                         <i class="fa-regular fa-clock fa-fw"></i>
 
                                         <p>
-                                            {{$slowPage->the_duration}}
+                                            &nbsp;{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->the_page_duration)}}
+                                            ms
                                         </p>
                                     </div>
                                 </div>
                                 <div class="mt-2 flex">
                                     <div class="flex items-center text-sm text-gray-500">
                                         <p>
-                                            <span>now</span>
+                                            <span>{{config('app.url') ?? '/'}}{{ $slowPage->uri }}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -32,9 +34,11 @@
                                     <div class="flex items-center text-sm text-gray-500">
                                         <i class="fa-regular fa-calendar fa-fw"></i>
                                         <p>
-                                            &nbsp;when
+                                        <p>
+                                            &nbsp;{{ $slowPage->created_at->diffForHumans()}}
                                             •
-                                            where
+                                            {{ $slowPage->created_at->format('l M jS, H:i:s')}}
+                                        </p>
                                         </p>
                                     </div>
                                 </div>
