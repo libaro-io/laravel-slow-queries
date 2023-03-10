@@ -117,7 +117,7 @@
         <div class="mt-10 px-4 sm:px-6 lg:px-8 w-100">
             <div class="flex justify-between">
 
-                <h2 class="text-md font-medium text-gray-900">Occurences</h2>
+                <h2 class="text-md font-medium text-gray-900">Queries</h2>
 
                 <div>
                     <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>
