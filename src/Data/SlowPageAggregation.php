@@ -12,6 +12,10 @@ class SlowPageAggregation extends Model
 {
     public string $uri;
 
+    public int $minDuration;
+
+    public int $maxDuration;
+
     public int $avgDuration;
 
     public int $avgQueryCount;
