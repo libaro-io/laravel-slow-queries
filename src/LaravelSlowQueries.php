@@ -7,6 +7,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;

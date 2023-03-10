@@ -6,6 +6,8 @@ return [
     'debug' => env('LARAVEL_SLOW_QUERIES_DEBUG', false),                                        // disabled by default
     'log_queries_slower_than' => env('LARAVEL_SLOW_QUERIES_LOG_QUERIES_SLOWER_THAN', 500),      // log queries that are slower than x,  IN MILISECONDS
     'log_queries_more_than' => env('LARAVEL_SLOW_QUERIES_LOG_QUERIES_MORE_THAN', 50),           // log queries if there are more than x in the request
+    'log_pages_slower_than' => env('LARAVEL_SLOW_QUERIES_LOG_PAGES_SLOWER_THAN', 1000),         // log queries if all queries on the page are slower than x, in miliseconds
+
     'middleware' => env('LARAVEL_SLOW_QUERIES_MIDDLEWARE', 'web'),
     'url-prefix' => env('LARAVEL_SLOW_QUERIES_URL_PREFIX', '/laravel-slow-queries'),
 

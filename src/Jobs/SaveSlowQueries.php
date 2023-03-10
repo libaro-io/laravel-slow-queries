@@ -20,7 +20,7 @@ class SaveSlowQueries implements ShouldQueue
     public Collection $slowQueries;
 
     /**
-     * @param  Collection<int, SlowQuery>  $slowQueries
+     * @param Collection<int, SlowQuery> $slowQueries
      */
     public function __construct(Collection $slowQueries)
     {
@@ -29,24 +29,48 @@ class SaveSlowQueries implements ShouldQueue
 
     public function handle(): void
     {
+        $isPageSlow = $this->isPageSlow();
+
         foreach ($this->slowQueries as $slowQuery) {
-            if (($this->isQuerySlow($slowQuery) || ($this->hasManyQueries()))
-                && ! $this->isMetaQuery($slowQuery)) {
+            if (
+                (
+                    $isPageSlow
+                    || $this->isQuerySlow($slowQuery)
+                    || $this->hasManyQueries()
+                )
+                &&
+                !$this->isMetaQuery($slowQuery)
+            ) {
                 $slowQuery->save();
             }
         }
     }
 
-    public function getSlowerThan(): float
+    public function getQueriesSlowerThan(): float
     {
-        $slowerThan = config('slow-queries.log_queries_slower_than');
+        $queriesSlowerThan = config('slow-queries.log_queries_slower_than');
 
-        return is_numeric($slowerThan) ? (float) $slowerThan : 0;
+        return is_numeric($queriesSlowerThan) ? (float)$queriesSlowerThan : 0;
+    }
+
+    public function getPagesSlowerThan(): float
+    {
+        $pagesSlowerThan = config('slow-queries.log_pages_slower_than');
+
+        return is_numeric($pagesSlowerThan) ? (float)$pagesSlowerThan : 0;
     }
 
     private function isQuerySlow(SlowQuery $slowQuery): bool
     {
-        return $slowQuery->duration >= $this->getSlowerThan();
+        return $slowQuery->duration >= $this->getQueriesSlowerThan();
+    }
+
+    private function isPageSlow(): bool
+    {
+        $pageDuration = $this->slowQueries->sum('duration');
+        $pagesSlowerThan = $this->getPagesSlowerThan();
+
+        return ($pageDuration >= $pagesSlowerThan);
     }
 
     /**
