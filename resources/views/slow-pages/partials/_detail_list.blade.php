@@ -3,7 +3,7 @@
     <ul role="list" class="divide-y divide-gray-200">
         @foreach($details as $slowPage)
             <li class="collapsible">
-                <a href="#" onclick="return false;" class="  block hover:bg-gray-50 fpb-3 cursor-pointer">
+{{--                <a href="#" onclick="return false;" class="  block hover:bg-gray-50 fpb-3 cursor-pointer">--}}
                     <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">
                         <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                             <div class="truncate">
@@ -12,7 +12,7 @@
                                         {{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->the_query_count)}}
                                         {{$slowPage->the_query_count === 1 ? 'query' : 'queries'}}
                                     </p>
-                                    <p class="ml-1 flex-shrink-0 font-normal text-gray-400">why</p>
+                                    <p class="ml-1 flex-shrink-0 font-normal text-gray-400"></p>
                                 </div>
                                 <div class="mt-2 flex">
                                     <div class="flex items-center font-medium text-sm text-red-400">
@@ -35,11 +35,9 @@
                                     <div class="flex items-center text-sm text-gray-500">
                                         <i class="fa-regular fa-calendar fa-fw"></i>
                                         <p>
-                                        <p>
                                             &nbsp;{{ $slowPage->created_at->diffForHumans()}}
                                             •
                                             {{ $slowPage->created_at->format('l M jS, H:i:s')}}
-                                        </p>
                                         </p>
                                     </div>
                                 </div>
@@ -47,10 +45,13 @@
                         </div>
 
                     </div>
-                    <div class="collapsible-content mx-5 fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 bg-white fmt-3">
-{{--                        <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQuery->prettyQuery !!}</dd>--}}
-                    </div>
-                </a>
+{{--                    <div class="collapsible-content mx-5 fmx-auto max-w-7xl sm:px-0 lg:px-0 rounded-lg border border-gray-300 bg-white fmt-3 p-0">--}}
+{{--                        {{dd($details)}}--}}
+
+
+{{--                        @include('slow-queries::slow-pages.partials._query_list', ['queries' => collect()])--}}
+{{--                    </div>--}}
+{{--                </a>--}}
             </li>
         @endforeach
     </ul>
