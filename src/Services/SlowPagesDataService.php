@@ -5,6 +5,7 @@ namespace Libaro\LaravelSlowQueries\Services;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Data\SlowPageAggregation;
+use Libaro\LaravelSlowQueries\Data\SlowQueryAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowPage;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
@@ -64,6 +65,11 @@ class SlowPagesDataService extends BaseDataService
         }
 
         /**
+         * @var Collection<int, SlowQuery>
+         */
+        $slowQueries = (new SlowQueriesDataService())->getSlowQueriesByUri($uri);
+
+        /**
          * @var SlowPageAggregation $data
          */
         $data = $this
@@ -80,6 +86,7 @@ class SlowPagesDataService extends BaseDataService
         $slowPageAggregation->maxDuration = $data->maxDuration;
 
         $slowPageAggregation->details = $slowPages;
+        $slowPageAggregation->slowQueries = $slowQueries;
 
         return $slowPageAggregation;
     }
