@@ -158,6 +158,11 @@
     am5.ready(function () {
         var root = am5.Root.new("gaugediv");
 
+        root.setThemes([
+            am5themes_Animated.new(root)
+        ]);
+
+
         var gauge = root.container.children.push(
             am5radar.RadarChart.new(root, {
                 startAngle: -180,
@@ -168,20 +173,20 @@
         );
 
         var axisRenderer = am5radar.AxisRendererCircular.new(root, {
-            innerRadius: am5.percent(10),
+            innerRadius: -10,
             strokeOpacity: 1,
-            strokewidth: 15,
+            strokeWidth: 25,
             strokeGradient: am5.LinearGradient.new(root, {
                 rotation: 0,
                 stops: [
-                    {color: am5.color(0x19d228)},
-                    {color: am5.color(0xf4fb16)},
-                    {color: am5.color(0xf6d32b)},
-                    {color: am5.color(0xfb7116)},
+                    { color: am5.color(0x19d228) },
+                    { color: am5.color(0xf4fb16) },
+                    { color: am5.color(0xf6d32b) },
+                    { color: am5.color(0xfb7116) }
                 ]
             })
-
         });
+
 
         axisRenderer.ticks.template.setAll({
             visible: true,
