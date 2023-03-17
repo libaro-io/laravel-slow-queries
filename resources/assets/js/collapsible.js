@@ -6,10 +6,13 @@ for (i = 0; i < coll.length; i++) {
         this.classList.toggle("active");
     });
 }
-
 function showList(list) {
-    // hide all lists
-    u(document.getElementsByClassName('detailsList')).addClass('hidden').removeClass('block');
+    // hide lists
+    if(list === 'queriesByLatest' || list === 'queriesByDuration'){
+        u(document.getElementsByClassName('queriesList')).addClass('hidden').removeClass('block');
+    } else {
+        u(document.getElementsByClassName('detailsList')).addClass('hidden').removeClass('block');
+    }
 
     // show request list again
     u(document.getElementsByClassName(list)).removeClass('hidden').addClass('block');
