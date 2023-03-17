@@ -15,20 +15,20 @@
                             <tr>
                                 <th scope="col"
                                     class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                    uri
+                                    URI
                                 </th>
                                 <th scope="col"
-                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                    duration (s)
+                                    class="px-3 py-3 text-right text-xs font-medium uppercase tracking-wide text-gray-500">
+                                    Duration
                                 </th>
                                 <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">
-                                    count
+                                    class="py-3 pl-4 pr-3 text-right text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">
+                                    Count
                                 </th>
 
                                 <th scope="col"
                                     class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wide text-gray-500">
-                                    info
+                                    Info
                                 </th>
                             </tr>
                             </thead>
@@ -36,8 +36,8 @@
                             @foreach($slowPagesAggregations as $slowPagesAggregation)
                                 <tr>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPagesAggregation->uri, 50)}}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ceil($slowPagesAggregation->avgDuration / 1000) }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:pl-6">{{ $slowPagesAggregation->count}}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPagesAggregation->avgDuration) }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right sm:pl-6">{{ $slowPagesAggregation->count}}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
                                         <a href="{{ route('slow-queries.slow-pages.show', ['uriBase64Encoded' => base64_encode($slowPagesAggregation->uri) ]) }}"><i
                                                     class="fa-solid fa-eye text-indigo-600"></i></a>

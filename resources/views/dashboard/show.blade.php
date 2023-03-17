@@ -19,8 +19,8 @@
                         <th scope="col" class="px-2 py-3">
                             QUERY
                         </th>
-                        <th scope="col" class="px-2 py-3 text-center">
-                            Time (s)
+                        <th scope="col" class="px-2 py-3 text-center bg-primary">
+                            Duration
                         </th>
                         <th scope="col" class="px-2 py-3 text-center">
                             Count
@@ -32,14 +32,14 @@
                     <tbody>
                     @foreach($slowestQueriesAggregations as $slowQueryAggregation)
                         <tr class="bg-white border-b">
-                            <td class="px-2 py-4 d-block">
-                                <div class="text-ellipsis overflow-hidden whitespace-nowrap">
+                            <td class="px-2 py-4 d-block overflow-hidden whitespace-nowrap truncate" >
+                                <div class="text-ellipsis overflow-hidden whitespace-nowrap truncate" fstyle="background-color: red;">
                                     {{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQueryAggregation->queryWithoutBindings, 70, false)}}
 
                                 </div>
                             </td>
                             <td class="px-2 py-4 text-center">
-                                {{ceil($slowQueryAggregation->avgDuration / 1000)}}
+                                {{\Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQueryAggregation->avgDuration)}}
                             </td>
                             <td class="px-2 py-4 text-center">
                                 {{$slowQueryAggregation->queryCount}}
@@ -80,20 +80,20 @@
                 <table class="table-auto w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-2 py-3">
                             URI
                         </th>
                         {{--                        <th scope="col" class="px-6 py-3">--}}
                         {{--                            URL--}}
                         {{--                        </th>--}}
-                        <th scope="col" class="px-6 py-3 text-center">
-                            Time (s)
+                        <th scope="col" class="px-2 py-3 text-center">
+                            Duration
                         </th>
-                        <th scope="col" class="px-6 py-3 text-center">
-                            count
+                        <th scope="col" class="px-2 py-3 text-center">
+                            Count
                         </th>
-                        <th scope="col" class="px-6 py-3 text-center">
-                            View
+                        <th scope="col" class="px-2 py-3 text-center">
+
                         </th>
                     </tr>
                     </thead>
@@ -102,10 +102,10 @@
                         <tr class="bg-white border-b">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPage->uri, 50)}}
+                                {{\Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowPage->uri, 500)}}
                             </th>
                             <td class="px-6 py-4 text-center">
-                                {{ceil($slowPage->avgDuration / 1000)}}
+                                {{\Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->avgDuration)}}
                             </td>
                             <td class="px-2 py-4 text-center">
                                 {{$slowPage->count}}

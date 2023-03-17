@@ -16,11 +16,11 @@
                                     query
                                 </th>
                                 <th scope="col"
-                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                    duration (s)
+                                    class="px-3 py-3 text-right text-xs font-medium uppercase tracking-wide text-gray-500">
+                                    duration
                                 </th>
                                 <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">
+                                    class="py-3 pl-4 pr-3 text-right text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">
                                     count
                                 </th>
                                 <th scope="col"
@@ -32,7 +32,7 @@
                                     source_file
                                 </th>
                                 <th scope="col"
-                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                    class="px-3 py-3 text-right text-xs font-medium uppercase tracking-wide text-gray-500">
                                     line
                                 </th>
 {{--                                <th scope="col"--}}
@@ -49,11 +49,11 @@
                             @foreach($slowQueries as $slowQuery)
                                 <tr>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQuery->queryWithoutBindings, 50)}}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ceil($slowQuery->avgDuration / 1000) }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:pl-6">{{ $slowQuery->queryCount}}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQuery->avgDuration) }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right sm:pl-6">{{ $slowQuery->queryCount}}</td>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQuery->uri, 25)   }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQuery->sourceFile, 30, true) }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $slowQuery->minLine }} {{ $slowQuery->maxLine !== $slowQuery->minLine ? ' -> ' . $slowQuery->maxLine : '' }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{{ $slowQuery->minLine }} {{ $slowQuery->maxLine !== $slowQuery->minLine ? ' -> ' . $slowQuery->maxLine : '' }}</td>
 {{--                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ \Libaro\LaravelSlowQueries\FormatHelper::abbreviate($slowQuery->queryWithoutBindings, 50)}}</td>--}}
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
                                         <a href="{{ route('slow-queries.slow-queries.show', ['slowQuery' => $slowQuery->queryHashed ]) }}"><i
