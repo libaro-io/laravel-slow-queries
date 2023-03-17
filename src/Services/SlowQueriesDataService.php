@@ -57,7 +57,7 @@ class SlowQueriesDataService extends BaseDataService
             ->where('created_at', '<=', $this->to)
             ->get();
 
-        if (! $slowQueries->count()) {
+        if (!$slowQueries->count()) {
             return null;
         }
 
@@ -81,6 +81,9 @@ class SlowQueriesDataService extends BaseDataService
         return $slowQueryAggregation;
     }
 
+    /**
+     * @return Builder
+     */
     private function getBaseQuery(): Builder
     {
         /** @var \Illuminate\Database\Eloquent\Builder $builder */
