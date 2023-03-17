@@ -18,12 +18,14 @@ class DashboardController extends Controller
     public function show(): View|Factory|Response|bool|Application|null
     {
         $dashboardDataService = new DashboardDataService();
+        $slowestPages = (new SlowPagesDataService())->getSlowestPagesAggregation();
 
         return view('slow-queries::dashboard.show',
             [
                 'slowestQueriesAggregations' => (new SlowQueriesDataService())->getSlowestQueriesAggregations(),
-                'slowestPages' => (new SlowPagesDataService())->getSlowestPagesAggregation(),
+                'slowestPages' => $slowestPages,
                 'avgDuration' => $dashboardDataService->getAvgDuration(),
+                'slowestPagesHierarchy' => $dashboardDataService->getSlowestPagesHierarchy(($slowestPages)),
             ]);
     }
 }

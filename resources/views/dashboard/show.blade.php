@@ -292,119 +292,12 @@
         var maxNodes = 3;
         var maxValue = 100;
 
+        var hierarchyData = {!! $slowestPagesHierarchy->toJson() !!};
+        console.log(hierarchyData);
+
         var data = {
             name: "Root2",
-            children: [
-                {
-                    name: "node5",
-                    children: [
-                        {
-                            name: "/ (Home)",
-                            value: 1200
-                        },
-                        // {
-                        //     name: "/home/search",
-                        //     value: 148
-                        // }
-                    ]
-                },
-                {
-                    name: "node4",
-                    children: [
-                        {
-                            name: "/slow-queries/queries/1",
-                            value: 700
-                        },
-                        // {
-                        //     name: "/products/id?=1389",
-                        //     value: 148
-                        // },
-                        // {
-                        //     name: "/products/id?=609",
-                        //     value: 89
-                        // },
-                        // {
-                        //     name: "/products/id?=207",
-                        //     value: 64
-                        // },
-                        // {
-                        //     name: "/product/id?=45",
-                        //     value: 16
-                        // }
-                    ]
-                },
-                {
-                    name: "node3",
-                    children: [
-                        {
-                            name: "/login",
-                            value: 600
-                        },
-                        // {
-                        //     name: "/checkout/thankyou",
-                        //     value: 98
-                        // },
-                        // {
-                        //     name: "/checkout",
-                        //     value: 56
-                        // }
-                    ]
-                }, {
-                    name: "node2",
-                    children: [
-                        {
-                            name: "/logout",
-                            value: 300
-                        },
-                        // {
-                        //     name: "/account",
-                        //     value: 60
-                        // },
-                        // {
-                        //     name: "/login",
-                        //     value: 30
-                        // }
-                    ]
-                },
-                // {
-                //     name: "Third",
-                //     children: [
-                //         {
-                //             name: "/categories",
-                //             value: 335
-                //         },
-                //         {
-                //             name: "/categories/id?=3",
-                //             value: 148
-                //         },
-                //         {
-                //             name: "/categories/id?=5",
-                //             value: 126
-                //         },
-                //         {
-                //             name: "/categories/id?=2",
-                //             value: 26
-                //         }
-                //     ]
-                // },
-                {
-                    name: "node1",
-                    children: [
-                        {
-                            name: "/account",
-                            value: 250
-                        },
-                        // {
-                        //     name: "/account",
-                        //     value: 60
-                        // },
-                        // {
-                        //     name: "/login",
-                        //     value: 30
-                        // }
-                    ]
-                },
-            ]
+            children: {!! $slowestPagesHierarchy->toJson() !!}
         };
 
         series.data.setAll([data]);
