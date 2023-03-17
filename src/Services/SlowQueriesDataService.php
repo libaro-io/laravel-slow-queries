@@ -44,6 +44,24 @@ class SlowQueriesDataService extends BaseDataService
     }
 
     /**
+     * @param string $uri
+     * @return Collection<int, SlowQuery>
+     */
+    public function getSlowQueriesByUri(string $uri)
+    {
+        /**
+         * @var Collection<int, SlowQuery> $slowQueries
+         */
+        $slowQueries = SlowQuery::query()
+            ->where('uri', '=', $uri)
+            ->where('created_at', '>=', $this->from)
+            ->where('created_at', '<=', $this->to)
+            ->get();;
+
+        return $slowQueries;
+    }
+
+    /**
      * @return SlowQueryAggregation|null
      */
     public function getSlowQueryAggregation(string $queryHashed)
