@@ -6,7 +6,7 @@
             <li class="collapsible">
                 <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">
                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                        <div class="truncate">
+                        <div class="w-full">
                             <div class="flex text-sm">
                                 <p class="truncate font-bold text-indigo-600">{{$slowQuery->source_file}}
                                     :{{\Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowQuery->line)}}</p>
@@ -36,6 +36,13 @@
                                         &nbsp;{{ $slowQuery->created_at->diffForHumans()}}
                                         •
                                         {{ $slowQuery->created_at->format('l M jS, H:i:s')}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-2 flex">
+                                <div class="flex items-center text-sm text-gray-500 w-full">
+                                    <p class="truncate w-full italic cursor-pointer hover">
+                                        {{$slowQuery->query_with_bindings}}
                                     </p>
                                 </div>
                             </div>
