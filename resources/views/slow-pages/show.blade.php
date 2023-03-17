@@ -136,14 +136,14 @@
                                 <button
                                         onclick="showCategory('pageRequests')"
                                         type="button"
-                                        class="pageRequestsButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
+                                        class="pageRequestsButton categoriesButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
                                             class="fa-regular fa-calendar-days fa-fw">
                                     </i>&nbsp;&nbsp;Page Requests
                                 </button>
                                 <button
                                         onclick="showCategory('queries')"
                                         type="button"
-                                        class="queriesButton detailsListButton relative -ml-px inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                        class="queriesButton categoriesButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                     <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Queries
                                 </button>
                             </span>
@@ -152,22 +152,22 @@
                     <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>
                     <span class="isolate inline-flex rounded-md shadow-sm">
                                 <button
-                                        onclick="showList('byLatest')"
+                                        onclick="showList('pagesByLatest')"
                                         type="button"
-                                        class="byLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
+                                        class="pagesByLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
                                             class="fa-regular fa-calendar-days fa-fw">
                                     </i>&nbsp;&nbsp;Latest first
                                 </button>
                                 <button
-                                        onclick="showList('byDuration')"
+                                        onclick="showList('pagesByDuration')"
                                         type="button"
-                                        class="byDurationButton detailsListButton relative -ml-px inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                        class="pagesByDurationButton detailsListButton relative -ml-px inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                     <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Slowest first
                                 </button>
                                 <button
-                                        onclick="showList('byMostQueries')"
+                                        onclick="showList('pagesByMostQueries')"
                                         type="button"
-                                        class="byMostQueriesButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                        class="pagesByMostQueriesButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                     <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Most queries
                                 </button>
                             </span>
@@ -177,30 +177,33 @@
                     <span class="font-normal text-xs text-gray-400 mr-3"> Sort by</span>
                     <span class="isolate inline-flex rounded-md shadow-sm">
                                 <button
-                                        onclick="showList('byLatest')"
+                                        onclick="showList('queriesByLatest')"
                                         type="button"
-                                        class="byLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
+                                        class="queriesByLatestButton detailsListButton relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"><i
                                             class="fa-regular fa-calendar-days fa-fw">
                                     </i>&nbsp;&nbsp;Latest first
                                 </button>
                                 <button
-                                        onclick="showList('byDuration')"
+                                        onclick="showList('queriesByDuration')"
                                         type="button"
-                                        class="byDurationButton detailsListButton relative -ml-px inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                        class="queriesByDurationButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                     <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Slowest first
-                                </button>
-                                <button
-                                        onclick="showList('byMostQueries')"
-                                        type="button"
-                                        class="byMostQueriesButton detailsListButton relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                                    <i class="fa-solid fa-clock fa-fw"></i>&nbsp;&nbsp;Most queries
                                 </button>
                             </span>
                 </div>
             </div>
-            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byLatest detailsList block', 'details' => $slowPageAggregation->details->sortByDesc('created_at')])
-            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byDuration detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_page_duration')])
-            @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'byMostQueries detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_query_count')])
+            <div class="detailsLists block">
+                @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'pagesByLatest detailsList block', 'details' => $slowPageAggregation->details->sortByDesc('created_at')])
+                @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'pagesByDuration detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_page_duration')])
+                @include('slow-queries::slow-pages.partials._detail_list',['classes' => 'pagesByMostQueries detailsList hidden', 'details' => $slowPageAggregation->details->sortByDesc('the_query_count')])
+            </div>
+
+            <div class="queriesLists hidden">
+            @include('slow-queries::slow-pages.partials._query_list',['classes' => 'queriesByLatest queriesList block', 'slowQueries' => $slowPageAggregation->slowQueries->sortByDesc('created_at')])
+            @include('slow-queries::slow-pages.partials._query_list',['classes' => 'queriesByDuration queriesList hidden', 'slowQueries' => $slowPageAggregation->slowQueries->sortByDesc('duration')])
+            </div>
+
+
         </div>
     @endif
 
@@ -208,5 +211,5 @@
 
 @section('custom_js')
     <script src="{{ asset('laravel-slow-queries/js/collapsible.js') }}"></script>
-    <script src="{{ asset('laravel-slow-queries/js/pages.js') }}"></script>
+    <script src="{{ asset('laravel-slow-queries/js/pages.js?') }}{{\Illuminate\Support\Str::random(10)}}"></script>
 @endsection
