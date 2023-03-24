@@ -116,11 +116,51 @@ e.g. http://localhost:8000/slow-queries/queries/8
 
 [-] naar V1 toewerken : tussenpagina voorzien / logica van index efkes disablen
 
-[-] link naar Libaro
+[x] link naar Libaro
 
 
 
 
 
 
+add option to choose ordering of slow queries occurences list : by chronological or by slowest 
+<span class="isolate inline-flex rounded-md shadow-sm">
+  <button type="button" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Years</button>
+  <button type="button" class="relative -ml-px inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Months</button>
+  <button type="button" class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Days</button>
+</span>
 
++ use sticky headings (https://tailwindui.com/components/application-ui/lists/stacked-lists)
+=> so the list is grouped by:
+
+1 day ago
+-item1
+-item2
+-item3
+
+2 days ago
+- item4
+- -item5
+
+1 week ago
+- etc
+
+or when by slowest:
+
+very slow
+- 5000 ms
+- 6000 ms
+
+slow
+- 3000 ms
+
+
+
+
+bugfix:
+the same queries could be executed on different pages
+this could be problematic when view the grouped results (slowQueryAggregation)
+possible solution: add uri to the hash of the query_hashed
+
+
+query abbrevation on slow-queries index + detail : is now abbreviated with php => TODO: only abbreviate with css so the number of characters shown is ‘responsive‘ with the page width

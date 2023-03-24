@@ -2,89 +2,112 @@
 
 namespace Libaro\LaravelSlowQueries\Services;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Libaro\LaravelSlowQueries\Data\SlowPageAggregation;
+use Libaro\LaravelSlowQueries\Data\SlowQueryAggregation;
+use Libaro\LaravelSlowQueries\Models\SlowPage;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
-// TODO : refactore : create base class for the common methods
-
-/**
- *
- */
-class SlowPagesDataService
+class SlowPagesDataService extends BaseDataService
 {
-
     /**
-     * @var Carbon
+     * @return Collection<int, SlowPageAggregation>
      */
-    protected Carbon $from;
-    /**
-     * @var Carbon
-     */
-    protected Carbon $to;
-    /**
-     * @var integer
-     */
-    protected int $numberOfItems;
-
-    /**
-     *
-     */
-    public function __construct()
+    public function getSlowestPagesAggregation(): Collection
     {
-        $defaultDateRangeDays = intval(config('slow-queries.default_date_range'));
-        $this->from = now()->subDays($defaultDateRangeDays);
-        $this->to = now();
+        /**
+         * @var Collection<int, SlowPageAggregation> $slowestPagesAggregation
+         */
+        $slowestPagesAggregation = $this
+            ->getBaseQuery()
+            ->orderByDesc('avgDuration')
+            ->limit($this->numberOfItemsPerWidget)
+            ->get();
 
-        $this->numberOfItems = intval(config('slow-queries.items_per_widget'));
+        return $slowestPagesAggregation;
     }
 
     /**
-     * @param Carbon $from
-     * @param Carbon $to
-     * @return void
+     * @return Collection<int, SlowPageAggregation>
      */
-    public function setDateRange(Carbon $from, Carbon $to)
+    public function getAggregations()
     {
-        $this->from = $from;
-        $this->to = $to;
-    }
+        /**
+         * @var Collection<int, SlowPageAggregation> $slowPagesAggregations
+         */
+        $slowPagesAggregations = $this
+            ->getBaseQuery()
+            ->orderByDesc('avgDuration')
+            ->paginate($this->numberOfItemsPerPage);
 
-    /**
-     * @param int $numberOfItems
-     * @return void
-     */
-    public function setNumberOfItems(int $numberOfItems)
-    {
-        $this->numberOfItems = $numberOfItems;
+        return $slowPagesAggregations;
     }
 
 
     /**
-     * @return \Illuminate\Support\Collection<int, mixed>
+     * @param string $uri
+     * @return ?SlowPageAggregation
      */
-    public function getSlowestPages(): \Illuminate\Support\Collection
+    public function getSlowPageAggregation(string $uri): ?SlowPageAggregation
     {
-        // TODO : filter on date range
-        $sql = /** @lang sql */
-            <<<SQL
-            select the_uri, avg(the_duration) as the_duration, avg(the_count) as the_count, max(request_guid) as the_guid
-            from
-            (
-                select request_guid, sum(duration) as the_duration, count(*) as the_count, min(uri) as the_uri
-                from slow_queries
-                group by request_guid
-                order by 3 desc
-            ) derived
-            
-            group by the_uri
-            order by the_duration desc
-            limit ?
-SQL;
+        /**
+         * @var Collection<int, SlowPage> $slowPages
+         */
+        $slowPages = SlowPage::query()
+            ->where('the_uri', '=', $uri)
+            ->where('created_at', '>=', $this->from)
+            ->where('created_at', '<=', $this->to)
+            ->get();
 
-        $records = DB::select($sql, [$this->numberOfItems]);
-        $collection = collect($records);
+        if (!$slowPages->count()) {
+            return null;
+        }
 
-        return $collection;
+        /**
+         * @var Collection<int, SlowQuery>
+         */
+        $slowQueries = (new SlowQueriesDataService())->getSlowQueriesByUri($uri);
+
+        /**
+         * @var SlowPageAggregation $data
+         */
+        $data = $this
+            ->getBaseQuery()
+            ->where('the_uri', '=', $uri)
+            ->first();
+
+        $slowPageAggregation = new SlowPageAggregation();
+        $slowPageAggregation->uri = $data->uri;
+        $slowPageAggregation->count = $data->count;
+        $slowPageAggregation->avgQueryCount = $data->avgQueryCount;
+        $slowPageAggregation->avgDuration = $data->avgDuration;
+        $slowPageAggregation->minDuration = $data->minDuration;
+        $slowPageAggregation->maxDuration = $data->maxDuration;
+
+        $slowPageAggregation->details = $slowPages;
+        $slowPageAggregation->slowQueries = $slowQueries;
+
+        return $slowPageAggregation;
+    }
+
+    /**
+     * @return Builder
+     */
+    private function getBaseQuery(): Builder
+    {
+        /** @var \Illuminate\Database\Eloquent\Builder $builder */
+        $builder = SlowPage::query()
+            ->where('created_at', '>=', $this->from)
+            ->where('created_at', '<=', $this->to)
+            ->selectRaw('the_uri as uri')
+            ->selectRaw('avg(the_page_duration) as avgDuration')
+            ->selectRaw('min(the_page_duration) as minDuration')
+            ->selectRaw('max(the_page_duration) as maxDuration')
+            ->selectRaw('round(avg(the_query_count), 0) as avgQueryCount')
+            ->selectRaw('count(*) as count')
+            ->groupBy('the_uri');
+
+        return $builder;
     }
 }

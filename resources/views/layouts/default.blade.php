@@ -9,6 +9,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 {{--    <script src="https://kit.fontawesome.com/e9e218acb7.js" crossorigin="anonymous"></script>--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>
+
+    @yield('custom_css')
 </head>
 <body>
     <div>
@@ -24,6 +27,10 @@
                             <i class="fa-solid fa-chart-line fa-fw"></i>&nbsp;&nbsp;
                             Dashboard
                         </a>
+                        <a href="{{ route('slow-queries.slow-queries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fa-regular fa-clock fa-fw"></i>&nbsp;&nbsp;
+                            Slow Queries
+                        </a>
                         <a href="{{ route('slow-queries.slow-pages.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                             <i class="fa-solid fa-file fa-fw"></i>&nbsp;&nbsp;
                             Slow Pages
@@ -33,10 +40,6 @@
 {{--                            N+1 Queries--}}
 {{--                        </a>--}}
 
-                        <a href="{{ route('slow-queries.slow-queries.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                            <i class="fa-regular fa-clock fa-fw"></i>&nbsp;&nbsp;
-                            Slow Queries
-                        </a>
                     </nav>
 
                     <div class="flex mb-10 center ml-10 mr-10 pl-10 pr-10">
@@ -68,13 +71,15 @@
 
             <main class="flex-1">
                 <div class="py-6">
-                    <div class="mx-auto fmax-w-7xl px-4 sm:px-6 md:px-8">
+                    <div class="mx-auto fmax-w-7xl px-4 sm:px-6 md:px-8 mb-24">
                         @yield('content')
                     </div>
                 </div>
             </main>
         </div>
     </div>
+
+@yield('custom_js')
 
 </body>
 </html>

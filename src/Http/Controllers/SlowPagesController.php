@@ -2,39 +2,32 @@
 
 namespace Libaro\LaravelSlowQueries\Http\Controllers;
 
+use Illuminate\Auth\Access\Response;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
-use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Illuminate\Contracts\View\View;
 use Libaro\LaravelSlowQueries\Services\SlowPagesDataService;
 
 class SlowPagesController extends Controller
 {
-    /**
-     * @return Factory|View
-     */
     public function index(): Factory|View
     {
         $slowPagesService = new SlowPagesDataService();
-        $slowPagesService->setNumberOfItems(999);
-        $slowPages = $slowPagesService->getSlowestPages();
+        $slowPagesAggregations = $slowPagesService->getAggregations();
 
-        return view('slow-queries::slow-pages.index', compact('slowPages'));
+        return view('slow-queries::slow-pages.index', compact('slowPagesAggregations'));
     }
 
     /**
-     * @param $slowPage
-     * @return Application|RedirectResponse|Redirector
+     * @return bool|Response|Application|Factory|View|null
      */
-    public function show(string $slowPage): Redirector|RedirectResponse|Application
+    public function show(string $uriBase64Encoded)
     {
-        /** @var SlowQuery $query */
-        $query = SlowQuery::query()
-            ->where('request_guid', 'like', $slowPage)
-            ->firstOrFail();
+        $uri = base64_decode($uriBase64Encoded);
 
-        return redirect( route('slow-queries.slow-queries.show', ['slowQuery' => $query->id ]));
+        $slowPagesDataService = new SlowPagesDataService();
+        $slowPageAggregation = $slowPagesDataService->getSlowPageAggregation($uri);
+
+        return view('slow-queries::slow-pages.show', ['slowPageAggregation' => $slowPageAggregation]);
     }
 }

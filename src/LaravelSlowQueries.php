@@ -7,6 +7,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
@@ -14,13 +15,10 @@ use Libaro\LaravelSlowQueries\ValueObjects\SourceFrame;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-
 class LaravelSlowQueries
 {
-    /**
-     * @var Request
-     */
     private Request $request;
+
     private string $request_guid;
 
     /**
@@ -33,17 +31,11 @@ class LaravelSlowQueries
         $this->slowQueries = collect([]);
     }
 
-    /**
-     * @return bool
-     */
     public function isPackageEnabled(): bool
     {
-        return (bool)config('slow-queries.enabled');
+        return (bool) config('slow-queries.enabled');
     }
 
-    /**
-     * @return void
-     */
     public function startListening(): void
     {
         DB::listen(function (QueryExecuted $queryExecuted) {
@@ -56,9 +48,6 @@ class LaravelSlowQueries
         $this->registerTerminating();
     }
 
-    /**
-     * @return void
-     */
     private function registerTerminating(): void
     {
         $app = app();
@@ -69,17 +58,11 @@ class LaravelSlowQueries
         }
     }
 
-    /**
-     * @return void
-     */
     private function saveSlowQueries(): void
     {
         SaveSlowQueries::dispatch($this->slowQueries);
     }
 
-    /**
-     * @return void
-     */
     private function setRequest(): void
     {
         $request = request();
@@ -91,10 +74,6 @@ class LaravelSlowQueries
         $this->request_guid = Str::uuid();
     }
 
-    /**
-     * @param QueryExecuted $queryExecuted
-     * @return SlowQuery
-     */
     private function getDataFromQueryExecuted(QueryExecuted $queryExecuted): SlowQuery
     {
         try {
@@ -122,64 +101,38 @@ class LaravelSlowQueries
         return $slowQuery;
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return string
-     */
     private function getQueryWithBindings(QueryExecuted $query): string
     {
         return Str::replaceArray('?', $query->bindings, $query->sql);
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return string
-     */
     private function getQueryWithoutBindings(QueryExecuted $query): string
     {
         return $query->sql;
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return string
-     */
     private function getHashedQuery(QueryExecuted $query): string
     {
         return md5($query->sql);
     }
 
-    /**
-     * @return string
-     */
     private function getUri(): string
     {
         return $this->request->getRequestUri();
     }
 
-    /**
-     * @param SourceFrame|null $sourceFrame
-     * @return string
-     */
     private function getActionFromSourceFrame(?SourceFrame $sourceFrame): string
     {
         return $sourceFrame->action ?? '';
     }
 
-    /**
-     * @param SourceFrame|null $sourceFrame
-     * @return string
-     */
     private function getSourceFileFromSourceFrame(?SourceFrame $sourceFrame): string
     {
         $result = str_replace(base_path(), '', $sourceFrame->source_file ?? '');
+
         return $result;
     }
 
-    /**
-     * @param SourceFrame|null $sourceFrame
-     * @return int
-     */
     private function getLineFromSourceFrame(?SourceFrame $sourceFrame): int
     {
         return $sourceFrame->line ?? 0;
@@ -187,6 +140,7 @@ class LaravelSlowQueries
 
     /**
      * @return ?SourceFrame
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -194,13 +148,10 @@ class LaravelSlowQueries
     {
         $querySource = new QuerySource();
         $source = $querySource->findSource();
+
         return $source;
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return float
-     */
     private function getDuration(QueryExecuted $query): float
     {
         return $query->time;

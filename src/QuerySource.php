@@ -2,12 +2,7 @@
 
 namespace Libaro\LaravelSlowQueries;
 
-use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Libaro\LaravelSlowQueries\Models\SlowQuery;
 use Libaro\LaravelSlowQueries\ValueObjects\SourceFrame;
 
 class QuerySource
@@ -24,9 +19,6 @@ class QuerySource
         'LaravelSlowQueries',
     ];
 
-    /**
-     * @return SourceFrame|null
-     */
     public function findSource(): ?SourceFrame
     {
         // TODO: make configurable: backtrace limit 50
@@ -49,9 +41,7 @@ class QuerySource
     }
 
     /**
-     * @param int $index
-     * @param array<string> $trace
-     * @return SourceFrame|null
+     * @param  array<string>  $trace
      */
     protected function parseTrace(int $index, array $trace): ?SourceFrame
     {
@@ -73,8 +63,7 @@ class QuerySource
     }
 
     /**
-     * @param array<string> $trace
-     * @return string
+     * @param  array<string>  $trace
      */
     private function getSourceFile(array $trace): string
     {
@@ -82,8 +71,7 @@ class QuerySource
     }
 
     /**
-     * @param array<int> $trace
-     * @return int
+     * @param  array<int>  $trace
      */
     private function getLine(array $trace): int
     {
@@ -91,8 +79,7 @@ class QuerySource
     }
 
     /**
-     * @param array<string> $trace
-     * @return string
+     * @param  array<string>  $trace
      */
     private function getAction(array $trace): string
     {

@@ -2,7 +2,6 @@
 
 namespace Libaro\LaravelSlowQueries\Services;
 
-
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
@@ -11,7 +10,6 @@ use Libaro\LaravelSlowQueries\ValueObjects\ParsedQuery;
 
 class MissingIndexService
 {
-
     /**
      * @return array<string>
      */
@@ -38,12 +36,11 @@ class MissingIndexService
 SQL;
 
         $missingIndexes = DB::select($query);
-        return $missingIndexes;
 
+        return $missingIndexes;
     }
 
     /**
-     * @param SlowQuery $slowQuery
      * @return Collection<int, string>
      */
     public function getGuessedMissingIndexes(SlowQuery $slowQuery): Collection
@@ -66,17 +63,16 @@ SQL;
     }
 
     /**
-     * @param SlowQuery $slowQuery
      * @return Collection<int, string>
      */
     public function getSuggestedMissingIndexes(SlowQuery $slowQuery): Collection
     {
         $parsedQuery = (new QueryService())->breakupQuery($slowQuery->query_with_bindings);
+
         return $this->mapParsedQueryToFieldsArray($parsedQuery);
     }
 
     /**
-     * @param ParsedQuery $parsedQuery
      * @return Collection<int, string>
      */
     private function mapParsedQueryToFieldsArray(ParsedQuery $parsedQuery): Collection
@@ -85,24 +81,23 @@ SQL;
 
         foreach (QueryService::FIELD_COLLECTIONS as $collection) {
             foreach ($parsedQuery->$collection as $field) {
-                /** @var  Field $field */
+                /** @var Field $field */
                 $fieldType = $this->getFieldTypeForCollection($collection);
                 $column = "$field->tableNameOrAlias.$field->fieldName ($fieldType)";
 
                 $columns->push($column);
             }
-        };
+        }
 
         return $columns->unique();
     }
 
     /**
-     * @param string $collection
      * @return string
      */
     private function getFieldTypeForCollection(string $collection)
     {
-        switch($collection){
+        switch($collection) {
             case 'whereFields':
                 return 'where';
             case 'orderByFields':
@@ -111,11 +106,8 @@ SQL;
                 return '';
         }
     }
-    /**
-     * @return string
-     */
-    private
-    function getSchemaName(): string
+
+    private function getSchemaName(): string
     {
         /** @phpstan-ignore-next-line */
         return DB::getDatabaseName();
