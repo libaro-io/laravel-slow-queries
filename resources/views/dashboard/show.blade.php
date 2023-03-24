@@ -283,8 +283,10 @@
         );
 
         series.rectangles.template.setAll({
-            strokeWidth: 2,
+            strokeWidth: 1,
         });
+
+        series.get("colors").set("step", 1);
 
 // Generate and set data
 // https://www.amcharts.com/docs/v5/charts/hierarchy/#Setting_data
