@@ -129,5 +129,5 @@ return [
     |
     */
 
-    'exclude_paths' => env('LARAVEL_SLOW_QUERIES_EXCLUDE_PATHS', false)
+    'exclude_routes' => env('LARAVEL_SLOW_QUERIES_EXCLUDE_ROUTES', false)
 ];
