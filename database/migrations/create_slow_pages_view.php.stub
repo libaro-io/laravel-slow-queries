@@ -25,7 +25,9 @@ class CreateSlowPagesView extends Migration
                   sum(duration) as the_page_duration, 
                   count(*) as the_query_count, 
                   min(uri) as the_uri ,
-                  min(created_at) as created_at
+                  min(created_at) as created_at,
+                  min(route) as the_route
+
                 from 
                   slow_queries 
                 group by 

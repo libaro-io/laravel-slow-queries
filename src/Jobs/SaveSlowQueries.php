@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
 class SaveSlowQueries implements ShouldQueue
@@ -18,6 +19,10 @@ class SaveSlowQueries implements ShouldQueue
      * @var Collection<int, SlowQuery>
      */
     public Collection $slowQueries;
+    /**
+     * @var Collection<int, string>
+     */
+    protected Collection $excludedRoutes;
 
     /**
      * @param Collection<int, SlowQuery> $slowQueries
@@ -25,6 +30,7 @@ class SaveSlowQueries implements ShouldQueue
     public function __construct(Collection $slowQueries)
     {
         $this->slowQueries = $slowQueries;
+        $this->excludedRoutes = $this->getExcludeRoutes();
     }
 
     public function handle(): void
@@ -38,12 +44,29 @@ class SaveSlowQueries implements ShouldQueue
                     || $this->isQuerySlow($slowQuery)
                     || $this->hasManyQueries()
                 )
-                &&
-                !$this->isMetaQuery($slowQuery)
+                && !$this->isMetaQuery($slowQuery)
+                && !$this->isExcluded($slowQuery)
             ) {
                 $slowQuery->save();
             }
         }
+    }
+
+    /**
+     * @return Collection<int, string>
+     */
+    public function getExcludeRoutes(): Collection
+    {
+        $paths = config('slow-queries.exclude_paths');
+        $excludePaths = collect();
+
+        if ($paths && is_string($paths)) {
+            $pathsArray = explode(',', $paths);
+            $excludePaths = collect(array_map('strval', $pathsArray));
+        }
+
+        return $excludePaths;
+
     }
 
     public function getQueriesSlowerThan(): float
@@ -89,5 +112,18 @@ class SaveSlowQueries implements ShouldQueue
             str_contains($slowQuery->query_without_bindings, 'slow_queries')
             ||
             str_contains($slowQuery->source_file, 'laravel-slow-queries');
+    }
+
+    private function isExcluded(SlowQuery $slowQuery): bool
+    {
+        $isExcluded = false;
+
+        foreach ($this->excludedRoutes as $excludedRoute) {
+            if($excludedRoute === $slowQuery->route){
+                $isExcluded = true;
+            }
+        }
+
+        return $isExcluded;
     }
 }

@@ -7,7 +7,7 @@ use Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController;
 
 Route::middleware(strval(config('slow-queries.middleware')))
     ->name('slow-queries.')
-    ->prefix(strval(config('slow-queries.url-prefix')))
+    ->prefix(strval(config('slow-queries.url_prefix')))
     ->group(function () {
         Route::get('/', function () {
             return redirect(route('slow-queries.dashboard.show'));

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $the_uri
  * @property numeric $the_page_duration
  * @property int $the_query_count
+ * @property string $the_route
  */
 class SlowPage extends Model
 {
