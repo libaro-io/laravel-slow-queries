@@ -117,4 +117,17 @@ return [
 
 
     'default_date_range' => env('LARAVEL_SLOW_QUERIES_DEFAULT_DATE_RANGE', 14),
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | default_date_range
+    |--------------------------------------------------------------------------
+    |
+    |      default date range, IN DAYS
+    |
+    */
+
+    'exclude_paths' => env('LARAVEL_SLOW_QUERIES_EXCLUDE_PATHS', false)
 ];
