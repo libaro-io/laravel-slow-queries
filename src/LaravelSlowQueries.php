@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
@@ -91,6 +92,7 @@ class LaravelSlowQueries
         $slowQuery->uri = $this->getUri();
         $slowQuery->action = $action;
         $slowQuery->source_file = $sourceFile;
+        $slowQuery->route = $this->getRouteName();
         $slowQuery->line = $line;
         $slowQuery->query_hashed = $this->getHashedQuery($queryExecuted);
         $slowQuery->query_with_bindings = $this->getQueryWithBindings($queryExecuted);
@@ -136,6 +138,14 @@ class LaravelSlowQueries
     private function getLineFromSourceFrame(?SourceFrame $sourceFrame): int
     {
         return $sourceFrame->line ?? 0;
+    }
+
+    /**
+     * @return string
+     */
+    private function getRouteName(): string
+    {
+        return (Route::getCurrentRoute() && Route::getCurrentRoute()->getName()) ? Route::getCurrentRoute()->getName() : '';
     }
 
     /**

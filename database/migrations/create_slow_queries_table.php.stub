@@ -13,6 +13,7 @@ class CreateSlowQueriesTable extends Migration
 
             $table->string('uri')->nullable();
             $table->string('action')->nullable();
+            $table->string('route')->nullable();
             $table->string('source_file')->nullable();
             $table->string('line')->nullable();
             $table->string('query_hashed', 32)->nullable();
