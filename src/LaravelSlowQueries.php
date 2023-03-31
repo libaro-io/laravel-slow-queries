@@ -105,7 +105,18 @@ class LaravelSlowQueries
 
     private function getQueryWithBindings(QueryExecuted $query): string
     {
-        return Str::replaceArray('?', $query->bindings, $query->sql);
+        $queryWithBindings = Str::replaceArray(
+            '?',
+            collect($query->bindings)
+                ->map(function ($i) {
+                    if (is_object($i)) {
+                        $i = strval($i);
+                    }
+                    return (is_string($i)) ? "'$i'" : $i;
+                })->all(),
+            $query->sql);
+
+        return $queryWithBindings;
     }
 
     private function getQueryWithoutBindings(QueryExecuted $query): string
