@@ -9,10 +9,11 @@
                             <div class="truncate">
                                 <div class="flex text-sm">
                                     <p class="truncate font-bold text-indigo-600">
-                                        {{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->the_query_count)}}
-                                        {{$slowPage->the_query_count === 1 ? 'query' : 'queries'}}
+                                        {{ $slowPage->the_route}}
                                     </p>
-                                    <p class="ml-1 flex-shrink-0 font-normal text-gray-400"></p>
+                                    <p class="ml-1 flex-shrink-0 font-normal text-gray-400">
+                                        {{ \Libaro\LaravelSlowQueries\FormatHelper::formatNumber($slowPage->the_query_count)}}
+                                        {{$slowPage->the_query_count === 1 ? 'query' : 'queries'}}</p>
                                 </div>
                                 <div class="mt-2 flex">
                                     <div class="flex items-center font-medium text-sm text-red-400">
