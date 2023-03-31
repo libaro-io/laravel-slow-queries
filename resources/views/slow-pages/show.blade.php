@@ -130,7 +130,7 @@
 
     @if($slowPageAggregation->details)
         <div class="mt-10 px-4 sm:px-6 lg:px-8 w-100">
-            <div class="flex justify-between">
+            <div class="flex justify-between mb-5">
 
                     <span class="isolate inline-flex rounded-md shadow-sm">
                                 <button
