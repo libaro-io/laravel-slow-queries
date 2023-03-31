@@ -3,8 +3,16 @@
     <ul role="list" class="divide-y divide-gray-200">
 
         @foreach($slowQueries as $slowQuery)
-            <li class="collapsible">
-                <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">
+            <li >
+                <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub relative">
+
+                    <button
+                            onclick="copyToClipboard('{{$slowQuery->query_with_bindings}}');"
+                            class="absolute right-0 top-0 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <i class="fa-regular fa-copy mr-3"></i>
+                        Copy query
+                    </button>
+
                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                         <div class="w-full">
                             <div class="flex text-sm">
@@ -39,19 +47,19 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="mt-2 flex">
+                            <div class="mt-2 collapsible">
                                 <div class="flex items-center text-sm text-gray-500 w-full">
                                     <p class="truncate w-full italic cursor-pointer hover">
                                         {{$slowQuery->query_with_bindings}}
                                     </p>
                                 </div>
+                                <div class="collapsible-content mx-0 mt-3 w-full sm:px-6 lg:px-8 rounded-lg border border-gray-300 bg-white fmt-3">
+                                    <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white fhidden">{!! $slowQuery->prettyQuery !!}</dd>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
-                <div class="collapsible-content mx-5 fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 bg-white fmt-3">
-                    <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white fhidden">{!! $slowQuery->prettyQuery !!}</dd>
                 </div>
             </li>
 

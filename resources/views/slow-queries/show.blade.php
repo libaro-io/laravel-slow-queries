@@ -1,3 +1,5 @@
+<?php /** @var  Libaro\LaravelSlowQueries\Data\SlowQueryAggregation $slowQueryAggregation */ ?>
+
 @extends('slow-queries::layouts.default')
 
 @section('custom_css')
@@ -108,14 +110,20 @@
     </div>
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
         <h2 class="text-md font-medium text-gray-900">Query</h2>
-        <div class="fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3">
+        <div class="fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3 relative">
             <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQueryAggregation->prettyQuery !!}</dd>
+            <button
+                    onclick="copyToClipboard('{{$slowQueryAggregation->details->first()->query_with_bindings}}');"
+                    class="absolute right-0 top-0 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <i class="fa-regular fa-copy mr-3"></i>
+                Copy
+            </button>
         </div>
     </div>
 
     @if($slowQueryAggregation->details)
         <div class="mt-10 px-4 sm:px-6 lg:px-8 w-100">
-            <div class="flex justify-between">
+            <div class="flex justify-between mb-5">
 
                 <h2 class="text-md font-medium text-gray-900">Queries</h2>
 
@@ -212,5 +220,4 @@
 
 @section('custom_js')
     <script src="{{ asset('laravel-slow-queries/js/collapsible.js') }}"></script>
-
 @endsection
