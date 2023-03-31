@@ -25,7 +25,7 @@ __ideas for the future__
 
 [x] take a hash from the queries without the params (for easier grouping and handling of the same queries)
 
-[-] button for easier copy the query (as in copy paste)
+[+] button for easier copy the query (as in copy paste)
 
 [-] button to open source file in your favorite IDE
 
@@ -65,7 +65,7 @@ just check which columns are in the sql query for which indexes do not exist ?
 
 
 
-[-] bugfix : query
+[+] bugfix : query
 select
 `permissions`.*,
 `model_has_permissions`.`model_id` as `pivot_model_id`,
@@ -96,25 +96,24 @@ and `model_has_permissions`.`model_type` = 'App\Domains\Auth\Models\User'
 e.g. http://localhost:8000/slow-queries/queries/8
 
 
-[-] realtime data for gauge
-[-] real data for treemap
+[+] realtime data for gauge
+[+] real data for treemap
 
-[-] refactor
+[+] refactor
 [-] base class for data service
 
-[-] phpstan again
+[+] phpstan again
 
 [-] make registerRoutes, registerViews conditional
 
 
-[-] op detail pagina : 2 manieren van sorteren mogelijk : zowel chronologisch als op traagste 
-[-] eenheden aanpassen (laten varieren , human readable ) 
+[+] op detail pagina : 2 manieren van sorteren mogelijk : zowel chronologisch als op traagste 
+[+] eenheden aanpassen (laten varieren , human readable ) 
 [-] retest knop   (met transacties) 
-[-] paden excluden
-[-] paden excluden
+[+] paden excluden
 
 
-[-] naar V1 toewerken : tussenpagina voorzien / logica van index efkes disablen
+[+] naar V1 toewerken : tussenpagina voorzien / logica van index efkes disablen
 
 [x] link naar Libaro
 
