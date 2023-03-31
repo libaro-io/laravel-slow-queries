@@ -39,6 +39,7 @@ __ideas for the future__
 [-] retest button   (with transacties)
 [-] command to automatically clean data older than x days (x days = configurable)
 [-] also log queries that take to much data / MB
+[-] selectable date range in admin pages
 [-] filtering + sorting in admin pages
 [-] button to open source file in your favorite IDE
 [-] detect, analyse and suggest solutions for the laravel n+1 query problem
