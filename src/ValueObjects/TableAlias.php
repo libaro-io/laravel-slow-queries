@@ -13,7 +13,4 @@ class TableAlias
      * @var string
      */
     public $alias;
-
-
-
 }

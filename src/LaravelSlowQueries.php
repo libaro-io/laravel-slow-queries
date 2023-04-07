@@ -7,6 +7,8 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Libaro\LaravelSlowQueries\Jobs\SaveSlowQueries;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
@@ -14,13 +16,11 @@ use Libaro\LaravelSlowQueries\ValueObjects\SourceFrame;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-
 class LaravelSlowQueries
 {
-    /**
-     * @var Request
-     */
     private Request $request;
+
+    private string $request_guid;
 
     /**
      * @var Collection<int, SlowQuery>
@@ -32,17 +32,11 @@ class LaravelSlowQueries
         $this->slowQueries = collect([]);
     }
 
-    /**
-     * @return bool
-     */
     public function isPackageEnabled(): bool
     {
-        return (bool)config('slow-queries.enabled');
+        return (bool) config('slow-queries.enabled');
     }
 
-    /**
-     * @return void
-     */
     public function startListening(): void
     {
         DB::listen(function (QueryExecuted $queryExecuted) {
@@ -55,9 +49,6 @@ class LaravelSlowQueries
         $this->registerTerminating();
     }
 
-    /**
-     * @return void
-     */
     private function registerTerminating(): void
     {
         $app = app();
@@ -68,17 +59,11 @@ class LaravelSlowQueries
         }
     }
 
-    /**
-     * @return void
-     */
     private function saveSlowQueries(): void
     {
         SaveSlowQueries::dispatch($this->slowQueries);
     }
 
-    /**
-     * @return void
-     */
     private function setRequest(): void
     {
         $request = request();
@@ -86,12 +71,10 @@ class LaravelSlowQueries
         if ($request instanceof Request) {
             $this->request = $request;
         }
+
+        $this->request_guid = Str::uuid();
     }
 
-    /**
-     * @param QueryExecuted $queryExecuted
-     * @return SlowQuery
-     */
     private function getDataFromQueryExecuted(QueryExecuted $queryExecuted): SlowQuery
     {
         try {
@@ -109,80 +92,76 @@ class LaravelSlowQueries
         $slowQuery->uri = $this->getUri();
         $slowQuery->action = $action;
         $slowQuery->source_file = $sourceFile;
+        $slowQuery->route = $this->getRouteName();
         $slowQuery->line = $line;
         $slowQuery->query_hashed = $this->getHashedQuery($queryExecuted);
         $slowQuery->query_with_bindings = $this->getQueryWithBindings($queryExecuted);
         $slowQuery->query_without_bindings = $this->getQueryWithoutBindings($queryExecuted);
         $slowQuery->duration = $this->getDuration($queryExecuted);
+        $slowQuery->request_guid = $this->request_guid;
 
         return $slowQuery;
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return string
-     */
     private function getQueryWithBindings(QueryExecuted $query): string
     {
-        return Str::replaceArray('?', $query->bindings, $query->sql);
+        $queryWithBindings = Str::replaceArray(
+            '?',
+            collect($query->bindings)
+                ->map(function ($i) {
+                    if (is_object($i)) {
+                        $i = strval($i);
+                    }
+                    return (is_string($i)) ? "'$i'" : $i;
+                })->all(),
+            $query->sql);
+
+        return $queryWithBindings;
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return string
-     */
     private function getQueryWithoutBindings(QueryExecuted $query): string
     {
         return $query->sql;
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return string
-     */
     private function getHashedQuery(QueryExecuted $query): string
     {
         return md5($query->sql);
     }
 
-    /**
-     * @return string
-     */
     private function getUri(): string
     {
         return $this->request->getRequestUri();
     }
 
-    /**
-     * @param SourceFrame|null $sourceFrame
-     * @return string
-     */
     private function getActionFromSourceFrame(?SourceFrame $sourceFrame): string
     {
         return $sourceFrame->action ?? '';
     }
 
-    /**
-     * @param SourceFrame|null $sourceFrame
-     * @return string
-     */
     private function getSourceFileFromSourceFrame(?SourceFrame $sourceFrame): string
     {
         $result = str_replace(base_path(), '', $sourceFrame->source_file ?? '');
+
         return $result;
     }
 
-    /**
-     * @param SourceFrame|null $sourceFrame
-     * @return int
-     */
     private function getLineFromSourceFrame(?SourceFrame $sourceFrame): int
     {
         return $sourceFrame->line ?? 0;
     }
 
     /**
+     * @return string
+     */
+    private function getRouteName(): string
+    {
+        return (Route::getCurrentRoute() && Route::getCurrentRoute()->getName()) ? Route::getCurrentRoute()->getName() : '';
+    }
+
+    /**
      * @return ?SourceFrame
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -190,13 +169,10 @@ class LaravelSlowQueries
     {
         $querySource = new QuerySource();
         $source = $querySource->findSource();
+
         return $source;
     }
 
-    /**
-     * @param QueryExecuted $query
-     * @return float
-     */
     private function getDuration(QueryExecuted $query): float
     {
         return $query->time;

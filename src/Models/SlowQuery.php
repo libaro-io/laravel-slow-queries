@@ -8,26 +8,24 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Services\MissingIndexService;
 use Libaro\LaravelSlowQueries\Services\QueryHintService;
-use Libaro\LaravelSlowQueries\Services\QueryService;
-use Libaro\LaravelSlowQueries\ValueObjects\ParsedQuery;
 use SqlFormatter;
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $uri
  * @property string $action
  * @property string $source_file
+ * @property string $route
  * @property string $query_hashed               // hashed query is used for easier grouping and handling queries that are the same (except for the bindings values)
  * @property string $query_with_bindings
  * @property string $query_without_bindings
  * @property string $prettyQuery
- * @property integer $line
+ * @property int $line
  * @property numeric $duration
+ * @property string $request_guid
  * @property Carbon $created_at
  * @property Carbon $updated_at
- *
  * @property array $hints
- *
  */
 class SlowQuery extends Model
 {
@@ -38,7 +36,7 @@ class SlowQuery extends Model
     protected $guarded = [];
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getHintsAttribute(): array
     {
@@ -61,6 +59,7 @@ class SlowQuery extends Model
     public function getSuggestedMissingIndexesAttribute(): Collection
     {
         $result = (new MissingIndexService())->getSuggestedMissingIndexes($this);
+
         return $result;
     }
 
@@ -72,7 +71,7 @@ class SlowQuery extends Model
 //    }
 
     /**
-     * @return String
+     * @return string
      */
     public function getPrettyQueryAttribute()
     {

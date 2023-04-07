@@ -18,6 +18,4 @@ class SourceFrame
      * @var string
      */
     public $action;
-
-
 }

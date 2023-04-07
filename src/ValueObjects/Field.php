@@ -18,7 +18,4 @@ class Field
      * @var string
      */
     public $fullName;
-
-
-
 }

@@ -1,6 +1,7 @@
 {
   "name": "libaro/laravel-slow-queries",
-  "description": "This is my package laravel-slow-queries",
+  "version": 0.1,
+  "description": "Laravel Slow Queries\n\nLaravel Slow Queries is a package that allows you to easily log slow queries in your Laravel application. This package logs queries that exceed a configurable time limit and stores them in the database, making it easy to analyze and optimize your database performance.",
   "keywords": [
     "libaro",
     "laravel",
@@ -21,6 +22,7 @@
     "jdorn/sql-formatter": "^1.2"
   },
   "require-dev": {
+    "laravel/pint": "^1.5",
     "nunomaduro/larastan": "^2.0",
     "orchestra/testbench": "^v7.5.0",
     "phpstan/phpstan": "^1.8"
