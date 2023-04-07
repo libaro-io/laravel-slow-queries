@@ -43,18 +43,7 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="laravel-slow-queries-views"
 ```
 
-## Usage
 
-```php
-$laravelSlowQueries = new libaro\LaravelSlowQueries();
-echo $laravelSlowQueries->echoPhrase('Hello, libaro!');
-```
-
-## Testing
-
-```bash
-composer test
-```
 
 ## Changelog
 
