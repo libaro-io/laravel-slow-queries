@@ -8,27 +8,31 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->publishes([
-            __DIR__.'/../config/slow-queries.php' => config_path('slow-queries.php'),
-        ], 'slow-queries');
-
-        if (! class_exists('CreateSlowQueriesTable')) {
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_slow_queries_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_slow_queries_table.php'),
-            ], 'migrations');
-        }
-        if (! class_exists('CreateSlowPagesView')) {
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_slow_pages_view.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_slow_pages_view.php'),
-            ], 'migrations');
-        }
 
         if ($this->app->runningInConsole()) {
+
+            $this->publishes([
+                __DIR__ . '/../config/slow-queries.php' => config_path('slow-queries.php'),
+            ], 'slow-queries');
+
             // Publish assets
             $this->publishes([
-                __DIR__.'/../resources/assets' => public_path('laravel-slow-queries'),
+                __DIR__ . '/../resources/assets' => public_path('laravel-slow-queries'),
             ], 'assets');
 
+            // Export the migration
+            if (!class_exists('CreateSlowQueriesTable')) {
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_slow_queries_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_table_slow_queries_table.php'),
+                    // you can add any number of migrations here
+                ], 'migrations');
+            }
+            if (!class_exists('CreateSlowPagesView')) {
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_slow_pages_view.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_view_slow_pages_view.php'),
+                    // you can add any number of migrations here
+                ], 'migrations');
+            }
         }
 
         $this->startListeningWhenEnabled();
@@ -38,17 +42,17 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/slow-queries.php', 'slow-queries');
+        $this->mergeConfigFrom(__DIR__ . '/../config/slow-queries.php', 'slow-queries');
     }
 
     public function registerRoutes(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/../routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
     }
 
     public function registerViews(): void
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'slow-queries');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'slow-queries');
     }
 
     private function startListeningWhenEnabled(): void
