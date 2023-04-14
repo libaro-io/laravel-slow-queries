@@ -20,14 +20,14 @@ composer require libaro/laravel-slow-queries
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-slow-queries-migrations"
+php artisan vendor:publish --tag="slow-queries-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-slow-queries-config"
+php artisan vendor:publish --tag="slow-queries-config"
 ```
 
 This is the contents of the published config file:
@@ -37,12 +37,11 @@ return [
 ];
 ```
 
-Optionally, you can publish the views using
+You can publish the assets with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-slow-queries-views"
+php artisan vendor:publish --tag="slow-queries-assets"
 ```
-
 
 
 ## Changelog
@@ -63,7 +62,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [libaro](https://github.com/libaro)
+- [Libaro](https://github.com/libaro-io)
 - [All Contributors](../../contributors)
 
 ## License
