@@ -10,28 +10,24 @@ class LaravelSlowQueriesServiceProvider extends ServiceProvider
     {
 
         if ($this->app->runningInConsole()) {
-
             $this->publishes([
                 __DIR__ . '/../config/slow-queries.php' => config_path('slow-queries.php'),
-            ], 'slow-queries');
+            ], 'slow-queries-config');
 
-            // Publish assets
             $this->publishes([
                 __DIR__ . '/../resources/assets' => public_path('laravel-slow-queries'),
-            ], 'assets');
+            ], 'slow-queries-assets');
 
-            // Export the migration
             if (!class_exists('CreateSlowQueriesTable')) {
                 $this->publishes([
-                    __DIR__ . '/../database/migrations/create_slow_queries_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_table_slow_queries_table.php'),
-                    // you can add any number of migrations here
-                ], 'migrations');
+                    __DIR__ . '/../database/migrations/create_slow_queries_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_slow_queries_table.php'),
+                ], 'slow-queries-migrations');
             }
+
             if (!class_exists('CreateSlowPagesView')) {
                 $this->publishes([
-                    __DIR__ . '/../database/migrations/create_slow_pages_view.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_view_slow_pages_view.php'),
-                    // you can add any number of migrations here
-                ], 'migrations');
+                    __DIR__ . '/../database/migrations/create_slow_pages_view.php.stub' => database_path('migrations/' . date('Y_m_d_His', time() + 5) . '_create_slow_pages_view.php'),
+                ], 'slow-queries-migrations');
             }
         }
 
