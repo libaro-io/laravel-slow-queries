@@ -110,7 +110,7 @@
     </div>
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
         <h2 class="text-md font-medium text-gray-900">Query</h2>
-        <div class="fmx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3 relative">
+        <div class="w-full sm:px-6 lg:px-8 rounded-lg border border-gray-300 mt-3 relative">
             <dd class=" mt-4 mb-4 text-sm bg-gray-900 text-white">{!! $slowQueryAggregation->prettyQuery !!}</dd>
             <button
                     onclick="copyToClipboard('{{$slowQueryAggregation->details->first()->query_with_bindings}}');"
