@@ -54,19 +54,22 @@
     </div>
 </div>
 
+
 @push('custom_js')
     <script>
         function sendTimeRange(timeRange) {
             console.log("sending time range", timeRange);
 
-            // Replace with your backend API endpoint URL
-            const url = '/api/save-time-range';
+            const url = '{{route('slow-queries.timerange.store')}}';
+            const csrfToken = '{{ csrf_token() }}';
+
 
             // Replace with your preferred method (POST, PUT, etc.) and headers
             const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken, // Set the CSRF token in the headers
                 },
                 body: JSON.stringify({timeRange}),
             };

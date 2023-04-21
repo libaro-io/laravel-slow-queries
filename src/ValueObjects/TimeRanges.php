@@ -24,7 +24,7 @@ class TimeRanges
     }
 
     /**
-     * @return int[]
+     * @return array<int, array<string, int|string>>
      */
     public static function getValids(): array
     {
