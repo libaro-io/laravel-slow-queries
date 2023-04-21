@@ -204,7 +204,7 @@
 
 @endsection
 
-@section('custom_js')
+@push('custom_js')
     <script src="{{ asset('laravel-slow-queries/js/collapsible.js?') }}{{\Illuminate\Support\Str::random(10)}}"></script>
     <script src="{{ asset('laravel-slow-queries/js/pages.js?') }}{{\Illuminate\Support\Str::random(10)}}"></script>
 @endsection

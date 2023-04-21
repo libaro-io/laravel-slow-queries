@@ -63,18 +63,19 @@
                     </div>
                 </div>
             </div>
-
-            <main class="flex-1">
-                <div class="py-6">
-                    <div class="mx-auto fmax-w-7xl px-4 sm:px-6 md:px-8 mb-24">
-                        @yield('content')
-                    </div>
-                </div>
-            </main>
         </div>
-    </div>
 
-@yield('custom_js')
+        <main class="flex-1">
+            <div class="py-6">
+                <div class="mx-auto fmax-w-7xl px-4 sm:px-6 md:px-8 mb-24">
+                    @yield('content')
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+@stack('custom_js')
 
 </body>
 </html>
