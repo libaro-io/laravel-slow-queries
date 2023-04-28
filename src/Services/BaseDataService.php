@@ -19,8 +19,8 @@ class BaseDataService
 
     public function __construct()
     {
-        $defaultTimeRangeMinutes = intval(config('slow-queries.default_time_range'));
-        $this->from = now()->subDays($defaultTimeRangeMinutes);
+        $defaultTimeRangeMinutes = TimeRangeService::getCurrentTimeRange();
+        $this->from = now()->subMinutes($defaultTimeRangeMinutes);
         $this->to = now();
 
         $this->numberOfItemsPerWidget = intval(config('slow-queries.items_per_widget'));
