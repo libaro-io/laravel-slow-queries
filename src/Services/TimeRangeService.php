@@ -4,8 +4,10 @@ namespace Libaro\LaravelSlowQueries\Services;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
 use Libaro\LaravelSlowQueries\Data\SlowPageAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
+use Libaro\LaravelSlowQueries\ValueObjects\TimeRanges;
 
 class TimeRangeService
 {
@@ -16,20 +18,29 @@ class TimeRangeService
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getTimeRange()
+    public static function getCurrentTimeRange(): int
     {
         // Check if the timerange is set in the session
-        if (session()->has('timerange')) {
-            $timerange = session('timerange');
+        if (Session::has('timeRange')) {
+            $timerange = intval(session('timeRange'));
         } else {
             // If the timerange is not set in the session, get the default value from the configuration
-            $timerange = config('app.default_timerange');
+            $timerange = intval(config('app.default_timerange'));
         }
 
         return $timerange;
     }
 
+    /**
+     * @return string
+     */
+    public static function getCurrentTimeRangeLabel(): string
+    {
+        $minutes = self::getCurrentTimeRange();
+        $label = strval(TimeRanges::getValids()[$minutes]['label']);
 
+        return $label;
+    }
 }
