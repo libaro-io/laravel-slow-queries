@@ -8,7 +8,7 @@
                 class="inline-flex justify-between items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 px-4 w-full"
                 aria-expanded="false"
                 @click="$dispatch('toggle')">
-            <span class="text-gray-400 capitalize" x-text="label"></span>
+            <span class="text-gray-400" x-text="label"></span>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="#9CA3AF" aria-hidden="true">
                 <path fill-rule="evenodd"
                       d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
@@ -65,7 +65,7 @@
             console.log("sending time range", timeRange);
             document.getElementById('timerangepicker').dispatchEvent(new CustomEvent('close'));
 
-            const url = '{{route('slow-queries.timerange.store')}}';
+            const url = '{{route('slow-queries.api.timerange.store')}}';
             const csrfToken = '{{ csrf_token() }}';
 
             // Replace with your preferred method (POST, PUT, etc.) and headers

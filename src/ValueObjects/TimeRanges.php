@@ -31,31 +31,31 @@ class TimeRanges
     {
         return [
             self::THIRTY_MINUTES => [
-                'label' => 'thirty minutes',
+                'label' => 'Thirty minutes',
                 'duration' => self::THIRTY_MINUTES
             ],
             self::THREE_HOURS => [
-                'label' => 'three hours',
+                'label' => 'Three hours',
                 'duration' => self::THREE_HOURS
             ],
             self::TWELVE_HOURS => [
-                'label' => 'twelve hours',
+                'label' => 'Twelve hours',
                 'duration' => self::TWELVE_HOURS
             ],
             self::ONE_DAY => [
-                'label' => 'one day',
+                'label' => 'One day',
                 'duration' => self::ONE_DAY
             ],
             self::ONE_WEEK => [
-                'label' => 'one week',
+                'label' => 'One week',
                 'duration' => self::ONE_WEEK
             ],
             self::FOUR_WEEKS => [
-                'label' => 'four weeks',
+                'label' => 'Four weeks',
                 'duration' => self::FOUR_WEEKS
             ],
             self::THREE_MONTHS => [
-                'label' => 'three months',
+                'label' => 'Three months',
                 'duration' => self::THREE_MONTHS
             ]
         ];
