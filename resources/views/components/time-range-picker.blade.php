@@ -1,12 +1,14 @@
-<div class="daterange fflex justify-end" x-data="{ open: false }" >
+<div id='timerangepicker'
+     class="daterange fflex justify-end"
+     x-data="{ open: false, label: '{{\Libaro\LaravelSlowQueries\Services\TimeRangeService::getCurrentTimeRangeLabel()}}' }"
+     @toggle="open = !open"
+     @close="open = false">
     <div class="relative flex justify-end w-full min-w-[200px] border py-3">
         <button type="button"
                 class="inline-flex justify-between items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 px-4 w-full"
                 aria-expanded="false"
-                x-on:click="open = ! open"
-
-        >
-            <span class="text-gray-400">Time picker</span>
+                @click="$dispatch('toggle')">
+            <span class="text-gray-400 capitalize" x-text="label"></span>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="#9CA3AF" aria-hidden="true">
                 <path fill-rule="evenodd"
                       d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
@@ -16,7 +18,9 @@
 
         <div class="absolute top-0 mt-[50px] right-0 z-10 fmt-12 flex w-[200px]"
              x-show="open"
-             @click.outside="open = false">
+             @click.outside="open = false"
+             style="display: none;"
+                >
             <div class="w-screen max-w-md flex-auto overflow-hidden bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5 lg:max-w-3xl">
                 <div class="grid grid-cols-1 gap-x-6 gap-y-1 px-4">
                     <div class="group relative flex gap-x-6 rounded-lg px-4 py-1 w-full ">
@@ -25,7 +29,7 @@
 
                             @foreach(\Libaro\LaravelSlowQueries\ValueObjects\TimeRanges::getValids() as $timeRange)
                                 <li class="flex gap-x-4 py-2 items-center text-gray-400 w-full hover:text-gray-900 hover:cursor-pointer"
-                                    @click="sendTimeRange('{{$timeRange['duration']}}')">
+                                    @click="sendTimeRange('{{$timeRange['duration']}}, {{$timeRange['label']}}')">
 
                                     {{--                                    <i class="fa-solid fa-circle-check text-"></i>--}}
                                     <i class="fa-regular fa-clock"></i>
@@ -57,12 +61,12 @@
 
 @push('custom_js')
     <script>
-        function sendTimeRange(timeRange) {
+        function sendTimeRange(timeRange, label) {
             console.log("sending time range", timeRange);
+            document.getElementById('timerangepicker').dispatchEvent(new CustomEvent('close'));
 
             const url = '{{route('slow-queries.timerange.store')}}';
             const csrfToken = '{{ csrf_token() }}';
-
 
             // Replace with your preferred method (POST, PUT, etc.) and headers
             const options = {
@@ -79,6 +83,8 @@
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Failed to save time range');
+                    } else {
+                        location.reload();
                     }
                 })
                 .catch(error => {
