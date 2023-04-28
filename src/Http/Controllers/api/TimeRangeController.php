@@ -2,16 +2,11 @@
 
 namespace Libaro\LaravelSlowQueries\Http\Controllers\api;
 
-use Illuminate\Auth\Access\Response;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
 use Libaro\LaravelSlowQueries\Http\Controllers\Controller;
-use Libaro\LaravelSlowQueries\Services\DashboardDataService;
-use Libaro\LaravelSlowQueries\Services\SlowPagesDataService;
-use Libaro\LaravelSlowQueries\Services\SlowQueriesDataService;
 
 class TimeRangeController extends Controller
 {
@@ -22,7 +17,8 @@ class TimeRangeController extends Controller
     public function store(Request $request): JsonResponse
     {
         $timeRange = intval($request->input('timeRange'));
-        session()->put('timeRange', $timeRange);
-        return response()->json(['message' => 'Time range saved successfully']);
+        Session::put('timeRange', $timeRange);
+
+        return Response::json(['message' => 'Time range saved successfully']);
     }
 }
