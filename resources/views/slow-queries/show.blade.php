@@ -214,4 +214,4 @@
 
 @push('custom_js')
     <script src="{{ asset('laravel-slow-queries/js/collapsible.js') }}"></script>
-@endsection
+@endpush
