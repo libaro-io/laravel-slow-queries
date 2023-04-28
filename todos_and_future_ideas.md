@@ -2,7 +2,7 @@ __ideas for the future__
 
 
 [+] also log guid/id for same request to slowQuery table
-[x] also save queries without the params
+[+] also save queries without the params
 [+] take a hash from the queries without the params (for easier grouping and handling of the same queries)
 [+] refactor
 [+] phpstan again
@@ -16,6 +16,8 @@ __ideas for the future__
 [+] button for easier copy the query (as in copy paste)
 [+] bugfix : query with bindings : missing quotes
 [+] prepare V1 : add intermediate level / temporary disable index features
+[+] base class for data service
+[+] selectable date range in admin pages
 
 
 [-] add dashboard widgets
@@ -33,13 +35,11 @@ __ideas for the future__
 
 
 [-] more consistency in names (variables, package prefixes for tables, etc)
-[-] base class for data service
 [-] query abbrevation on slow-queries index + detail : is now abbreviated with php => TODO: only abbreviate with css so the number of characters shown is ‘responsive‘ with the page width
 [-] make registerRoutes, registerViews conditional (should ui admin pages also be disabled when the package is disabled?)
 [-] retest button   (with transacties)
 [-] command to automatically clean data older than x days (x days = configurable)
 [-] also log queries that take to much data / MB
-[-] selectable date range in admin pages
 [-] filtering + sorting in admin pages
 [-] button to open source file in your favorite IDE
 [-] detect, analyse and suggest solutions for the laravel n+1 query problem
