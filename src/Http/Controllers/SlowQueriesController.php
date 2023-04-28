@@ -21,6 +21,10 @@ class SlowQueriesController extends Controller
         $slowQueriesDataService = new SlowQueriesDataService();
         $slowQueryAggregation = $slowQueriesDataService->getSlowQueryAggregation($queryHashed);
 
+        if(!$slowQueryAggregation){
+            return redirect(route('slow-queries.slow-queries.index'));
+        }
+
         return view('slow-queries::slow-queries.show', ['slowQueryAggregation' => $slowQueryAggregation]);
     }
 }

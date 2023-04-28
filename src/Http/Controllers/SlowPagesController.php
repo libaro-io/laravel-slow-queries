@@ -28,6 +28,10 @@ class SlowPagesController extends Controller
         $slowPagesDataService = new SlowPagesDataService();
         $slowPageAggregation = $slowPagesDataService->getSlowPageAggregation($uri);
 
+        if(!$slowPageAggregation){
+            return redirect(route('slow-queries.slow-pages.index'));
+        }
+
         return view('slow-queries::slow-pages.show', ['slowPageAggregation' => $slowPageAggregation]);
     }
 }
