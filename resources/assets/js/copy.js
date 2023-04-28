@@ -12,3 +12,7 @@ function copyToClipboard(text) {
     // remove the input element from the DOM
     document.body.removeChild(input);
 }
+
+function reRun(query){
+
+}
