@@ -17,7 +17,7 @@ class DashboardDataService
 
     public function __construct()
     {
-        $defaultDateRangeDays = intval(config('slow-queries.default_date_range'));
+        $defaultDateRangeDays = intval(config('slow-queries.default_time_range'));
         $this->from = now()->subDays($defaultDateRangeDays);
         $this->to = now();
 
