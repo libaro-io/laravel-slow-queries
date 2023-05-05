@@ -33,16 +33,18 @@ __ideas for the future__
 
 
 
+[-] retest button   (with transacties)
+[-] command to automatically clean data older than x days (x days = configurable)
+
+[-] also log queries that take to much data / MB
+[-] filtering + sorting in admin pages
+[-] detect, analyse and suggest solutions for the laravel n+1 query problem
 
 [-] more consistency in names (variables, package prefixes for tables, etc)
 [-] query abbrevation on slow-queries index + detail : is now abbreviated with php => TODO: only abbreviate with css so the number of characters shown is ‘responsive‘ with the page width
 [-] make registerRoutes, registerViews conditional (should ui admin pages also be disabled when the package is disabled?)
-[-] retest button   (with transacties)
-[-] command to automatically clean data older than x days (x days = configurable)
-[-] also log queries that take to much data / MB
-[-] filtering + sorting in admin pages
+
 [-] button to open source file in your favorite IDE
-[-] detect, analyse and suggest solutions for the laravel n+1 query problem
 [-] bugfix : also parse and + or in where, etc  e.g. http://localhost:8000/slow-queries/queries/8
 [-] use sticky headings (https://tailwindui.com/components/application-ui/lists/stacked-lists)
 
