@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Libaro\LaravelSlowQueries\Http\Controllers\DashboardController;
+use Libaro\LaravelSlowQueries\Http\Controllers\SettingsController;
 use Libaro\LaravelSlowQueries\Http\Controllers\SlowPagesController;
 use Libaro\LaravelSlowQueries\Http\Controllers\SlowQueriesController;
 
@@ -36,4 +37,10 @@ Route::middleware(strval(config('slow-queries.middleware')))
 
         Route::get('/slow-pages/{uriBase64Encoded}', SlowPagesController::class.'@show')
             ->name('slow-pages.show');
+
+        /****************************************************************
+         * Settings
+         ****************************************************************/
+        Route::get('/settings', SettingsController::class.'@index')
+            ->name('settings.index');
     });
