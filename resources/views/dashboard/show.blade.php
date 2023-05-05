@@ -1,8 +1,7 @@
 @extends('slow-queries::layouts.default')
+@section('pagetitle', 'Dashboard')
 
 @section('content')
-    <h1>Dashboard</h1>
-
     <div class="grid grid-cols-2 gap-5">
         {{----------------------------------}}
         {{-- slowest queries              --}}
