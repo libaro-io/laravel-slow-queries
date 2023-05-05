@@ -13,14 +13,14 @@
             <dl class="divide-y divide-gray-100">
 
                 @foreach($settings as $setting)
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 flex items-center">
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium">
                             <div class="text-gray-900">
                             {{$setting['name']}}
                             </div>
                             <div class="text-gray-400">{{$setting['description']}}</div>
                         </dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center">
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                             {{$setting['value']}}
                         </dd>
                     </div>
