@@ -20,6 +20,18 @@ return [
 
     'enabled' => env('LARAVEL_SLOW_QUERIES_ENABLED', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | debug: whether debug mode is on or not
+    |--------------------------------------------------------------------------
+    |
+    |      - disabled by default
+    |      - when enabled, the package will log
+    |
+    */
+
+    'debug' => env('LARAVEL_SLOW_QUERIES_DEBUG', false),
+
 
     /*
     |--------------------------------------------------------------------------
