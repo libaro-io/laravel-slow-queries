@@ -214,4 +214,51 @@
 
 @push('custom_js')
     <script src="{{ asset('laravel-slow-queries/js/collapsible.js') }}"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
+" rel="stylesheet">
+
+    @push('custom_js')
+        <script>
+            function rerunQuery(slowQueryId) {
+                console.log("re run query", slowQueryId);
+                
+                const url = '{{route('slow-queries.api.query.rerun.store')}}';
+                const csrfToken = '{{ csrf_token() }}';
+
+                // Replace with your preferred method (POST, PUT, etc.) and headers
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken, // Set the CSRF token in the headers
+                    },
+                    body: JSON.stringify({slowQueryId}),
+                };
+
+                // Send the request to the backend
+                fetch(url, options)
+                    .then(response => {
+                        console.log(response);
+                        if (!response.ok) {
+                            throw new Error('Failed to rerun query');
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Query rerun has started',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        </script>
+    @endpush
 @endpush
