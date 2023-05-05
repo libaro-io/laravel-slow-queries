@@ -3,12 +3,21 @@
     <ul role="list" class="divide-y divide-gray-200">
         @foreach($details as $slowQuery)
             <li class=" relative">
-                <button
-                        onclick="copyToClipboard('{{$slowQuery->query_with_bindings}}');"
-                        class="absolute right-0 top-0 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    <i class="fa-regular fa-copy mr-3"></i>
-                    Copy query
-                </button>
+                <div class="absolute right-0 top-0">
+                    <button
+                            onclick="rerunQuery('{{$slowQuery->id}}');"
+                            class=" rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        Rerun query
+                    </button>
+                    <button
+                            onclick="copyToClipboard('{{$slowQuery->query_with_bindings}}');"
+                            class="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <i class="fa-regular fa-copy mr-3"></i>
+                        Copy query
+                    </button>
+                </div>
+
 
                     <div class="flex items-center px-4 py-4 sm:px-6 collapsible-sub">
                         <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">

@@ -71,7 +71,7 @@
                         @yield('pagetitle')
                     </div>
 
-                    <div class="flex items-center w-1/2 justify-between">
+                    <div class="flex items-center justify-between gap-x-12">
                         @include('slow-queries::components.time-range-picker')
 
                         <div class="backbutton">@yield('backbutton')</div>
