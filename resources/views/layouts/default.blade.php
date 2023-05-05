@@ -42,6 +42,11 @@
                         <i class="fa-solid fa-file fa-fw"></i>&nbsp;&nbsp;
                         Slow Pages
                     </a>
+                    <a href="{{ route('slow-queries.settings.index') }}"
+                       class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                        <i class="fa-solid fa-file fa-fw"></i>&nbsp;&nbsp;
+                        Settings
+                    </a>
                     {{--                        <a href="{{ route('slow-queries.slow-pages.index') }}" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">--}}
                     {{--                            <i class="fa-solid fa-circle-plus fa-fw"></i>&nbsp;&nbsp;--}}
                     {{--                            N+1 Queries--}}
