@@ -29,7 +29,7 @@ class TimeRangeService
         }
         if($timerange === 0){
             // If the timerange is not set in the session, get the default value from the configuration
-            $timerange = intval(config('app.default_timerange'));
+            $timerange = intval(config('slow-queries.default_time_range'));
         }
         if($timerange === 0){
             $timerange = 60*24;      // if not timerange is set anywhere: set it hardcoded to a day
