@@ -2,6 +2,8 @@
 
 namespace Libaro\LaravelSlowQueries\Jobs;
 
+use Error;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -33,8 +35,13 @@ class SaveSlowQueries implements ShouldQueue
         $this->excludedRoutes = $this->getExcludeRoutes();
     }
 
+    /**
+     * @throws Exception
+     */
     public function handle(): void
     {
+        $this->backoffJobWhenHeavyLoad();
+
         $isPageSlow = $this->isPageSlow();
 
         foreach ($this->slowQueries as $slowQuery) {
@@ -113,7 +120,7 @@ class SaveSlowQueries implements ShouldQueue
             ||
             str_contains($slowQuery->source_file, 'laravel-slow-queries')
             ||
-            str_contains($slowQuery->uri, config('slow-queries.url_prefix'))
+            str_contains($slowQuery->uri, strval(config('slow-queries.url_prefix')))
             ||
             str_contains($slowQuery->action, 'LaravelSlowQueries')
             ||
@@ -132,5 +139,75 @@ class SaveSlowQueries implements ShouldQueue
         }
 
         return $isExcluded;
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    private function backoffJobWhenHeavyLoad(){
+        $isHighLoad = $this->isHighLoad();
+
+        if($isHighLoad){
+            Log::info('high load');
+            throw new Error('Can not process job now because server load is too high. Backing off...');
+        }
+    }
+
+    public function backoff(): int
+    {
+        $load = $this->getLoad();
+        $load = ($load + 1) * ($load + 1);      // backoff exponentially slower
+        Log::info('load_1 ' . $load);
+        $backoff = $load * intval(config('slow-queries.jobs_delay'));
+        Log::info('backoff ' . $backoff);
+        $backoff = max(10, $backoff);
+
+        Log::info("backing off for " . strval($backoff) . ' seconds');
+        return $backoff;
+    }
+
+
+    /**
+     * @return bool
+     */
+    private function isHighLoad(){
+        return $this->getLoad() > intval(config('slow-queries.delay_jobs_when_load_is_higher_than'));
+    }
+
+    private function getLoad(): float|int
+    {
+        $avgLoad = sys_getloadavg();
+        $weightedAverage = $avgLoad ? ($avgLoad[0] * 3 + $avgLoad[1] * 2 + $avgLoad[2]) / 6 : 0;
+
+        $load = $weightedAverage / $this->numberOfCores();
+
+        Log::info(strval($load));
+        Log::info(strval($this->numberOfCores()));
+        return $load;
+    }
+
+    /**
+     * @return int
+     */
+    private function numberOfCores(): int
+    {
+        $cores = 1; // default value
+        if (is_readable('/proc/cpuinfo')) {
+            $cpuinfo = file_get_contents('/proc/cpuinfo');
+            preg_match_all('/^processor/m', strval($cpuinfo), $matches);
+            $cores = count($matches[0]);
+        } else if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+            $process = @popen('wmic cpu get NumberOfCores', 'rb');
+            if (false !== $process) {
+                fgets($process);
+                $cores = intval(fgets($process));
+                pclose($process);
+            }
+        } else {
+            $cores = intval(shell_exec('sysctl -n hw.ncpu'));
+        }
+
+        return max(1, $cores);
     }
 }
