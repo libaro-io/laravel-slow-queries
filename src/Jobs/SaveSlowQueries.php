@@ -111,7 +111,14 @@ class SaveSlowQueries implements ShouldQueue
         return
             str_contains($slowQuery->query_without_bindings, 'slow_queries')
             ||
-            str_contains($slowQuery->source_file, 'laravel-slow-queries');
+            str_contains($slowQuery->source_file, 'laravel-slow-queries')
+            ||
+            str_contains($slowQuery->uri, config('slow-queries.url_prefix'))
+            ||
+            str_contains($slowQuery->action, 'LaravelSlowQueries')
+            ||
+            str_contains($slowQuery->route, 'slow-queries')
+            ;
     }
 
     private function isExcluded(SlowQuery $slowQuery): bool
