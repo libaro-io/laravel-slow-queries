@@ -163,6 +163,6 @@ return [
     |
     */
 
-    'jobs_delay' => env('LARAVEL_SLOW_QUERIES_JOBS_DELAY', 30),
+    'jobs_delay' => env('LARAVEL_SLOW_QUERIES_JOBS_DELAY', 300),
 
 ];

@@ -17,6 +17,13 @@ class SaveSlowQueries implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+	/**
+	 * The number of times the job may be attempted.
+	 *
+	 * @var int
+	 */
+	public $tries = 3;
+
     /**
      * @var Collection<int, SlowQuery>
      */
@@ -149,37 +156,42 @@ class SaveSlowQueries implements ShouldQueue
         $isHighLoad = $this->isHighLoad();
 
         if($isHighLoad){
-            Log::info('high load');
+            Log::info('high load --');
 
-			$this->backoff();
-			$this->fail();
+			$reason = new Exception('Server load is too high at the moment to process the slow query. Backing off');
+			$this->fail($reason);
 
-            throw new Error('Can not process job now because server load is too high. Backing off...');
-        }
+			$this->release(60);;
+			throw $reason;
+        } else {
+
+			Log::info('no high load -- continue');
+		}
     }
 
-    public function backoff(): int
-    {
-        $load = $this->getLoad();
-        $load = ($load + 1);      // backoff exponentially slower
-        Log::info('load_1 ' . $load);
-        $backoffSeconds = $load * intval(config('slow-queries.jobs_delay'));
-        Log::info('backoff ' . $backoffSeconds);
-		$backoffSeconds = max(30*60, $backoffSeconds);
-		$backoffSeconds = min(60, $backoffSeconds);
-		$backoffMinutes = intval($backoffSeconds / 60);
-
-        Log::info("backing off for " . strval($backoffMinutes) . ' minutes');
-        return $backoffMinutes;
-    }
+//    public function backoff(): int
+//    {
+//        $load = $this->getLoad();
+//        $load = ($load + 1) * ($load + 1);      // backoff exponentially slower
+////        Log::info('load_1 ' . $load);
+//        $backoffSeconds = $load * intval(config('slow-queries.jobs_delay'));
+////        Log::info('backoff seconds' . $backoffSeconds);
+//		$backoffSeconds = min(30*60, $backoffSeconds);
+//		$backoffSeconds = max(60, $backoffSeconds);
+////		Log::info('backoff seconds ' . $backoffSeconds);
+//		$backoffMinutes = intval($backoffSeconds / 60);
+//
+//        Log::info("backing off for -- " . strval($backoffMinutes) . ' minutes');
+//        return $backoffMinutes;
+//    }
 
 
     /**
      * @return bool
      */
     private function isHighLoad(){
-		Log::info('getLoad: ' . $this->getLoad());
-		Log::info('config.load: ' . intval(config('slow-queries.delay_jobs_when_load_is_higher_than')));
+//		Log::info('getLoad: ' . $this->getLoad());
+//		Log::info('config.load: ' . intval(config('slow-queries.delay_jobs_when_load_is_higher_than')));
 
         return $this->getLoad() > intval(config('slow-queries.delay_jobs_when_load_is_higher_than'));
     }
@@ -191,8 +203,8 @@ class SaveSlowQueries implements ShouldQueue
 
         $load = $weightedAverage / $this->numberOfCores();
 
-        Log::info(strval($load));
-        Log::info(strval($this->numberOfCores()));
+//        Log::info(strval($load));
+//        Log::info(strval($this->numberOfCores()));
         return $load;
     }
 
