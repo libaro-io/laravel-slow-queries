@@ -153,6 +153,9 @@ class SaveSlowQueries implements ShouldQueue
      * @throws Exception
      */
     private function backoffJobWhenHeavyLoad(){
+		// TODO : refactor and test
+		// so that it works both in sync and in queue
+		// note: retry of job will not be possible when in sync; just stop the job when cpu is too high
         $isHighLoad = $this->isHighLoad();
 
         if($isHighLoad){
