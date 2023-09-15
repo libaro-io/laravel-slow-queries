@@ -7,22 +7,8 @@ use Illuminate\Support\Collection;
 use Libaro\LaravelSlowQueries\Data\SlowPageAggregation;
 use Libaro\LaravelSlowQueries\Models\SlowQuery;
 
-class DashboardDataService
+class DashboardDataService extends BaseDataService
 {
-    protected Carbon $from;
-
-    protected Carbon $to;
-
-    protected int $numberOfItems;
-
-    public function __construct()
-    {
-        $defaultDateRangeDays = intval(config('slow-queries.default_time_range'));
-        $this->from = now()->subDays($defaultDateRangeDays);
-        $this->to = now();
-
-        $this->numberOfItems = intval(config('slow-queries.items_per_widget'));
-    }
 
     /**
      * @return mixed
@@ -45,7 +31,7 @@ class DashboardDataService
     {
         $data = $slowestPages->map(function ($item, $key) {
             return [
-                'name' => 'node' . ($this->numberOfItems - $key),
+                'name' => 'node' . ($this->numberOfItemsPerWidget - $key),
                 'children' => [[
                     'name' => $item->uri === '/' ? '/ (home)' : $item->uri,
                     'value' => ceil($item->avgDuration),

@@ -20,8 +20,15 @@ class BaseDataService
     public function __construct()
     {
         $defaultTimeRangeMinutes = TimeRangeService::getCurrentTimeRange();
-        $this->from = now()->subMinutes($defaultTimeRangeMinutes);
-        $this->to = now();
+
+		if($defaultTimeRangeMinutes === 60*24-1) // hack for special case: today was selected
+		{
+			$this->from = now()->startOfDay();
+			$this->to = now()->endOfDay();
+		} else {
+        	$this->from = now()->subMinutes($defaultTimeRangeMinutes);
+        	$this->to = now();
+		}
 
         $this->numberOfItemsPerWidget = intval(config('slow-queries.items_per_widget'));
         $this->numberOfItemsPerPage = intval(config('slow-queries.items_per_page'));

@@ -116,7 +116,7 @@ return [
     */
 
 
-    'default_time_range' => env('LARAVEL_SLOW_QUERIES_DEFAULT_TIME_RANGE', 1440),
+    'default_time_range' => env('LARAVEL_SLOW_QUERIES_DEFAULT_TIME_RANGE', 1439),
 
 
 
