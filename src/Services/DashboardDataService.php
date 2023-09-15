@@ -20,7 +20,7 @@ class DashboardDataService extends BaseDataService
             ->where('created_at', '<=', $this->to)
             ->avg('duration');
 
-        return $avgDuration;
+        return $avgDuration ?? 0;
     }
 
     /**
