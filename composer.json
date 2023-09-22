@@ -24,8 +24,9 @@
   "require-dev": {
     "laravel/pint": "^1.5",
     "nunomaduro/larastan": "^2.0",
-    "orchestra/testbench": "^v7.5.0",
-    "phpstan/phpstan": "^1.8"
+    "orchestra/testbench": "^7.22",
+    "phpstan/phpstan": "^1.8",
+    "phpunit/phpunit": "^9.6"
   },
   "autoload": {
     "psr-4": {
@@ -45,7 +46,10 @@
     "test-coverage": "vendor/bin/pest --coverage"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   },
   "extra": {
     "laravel": {
