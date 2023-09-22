@@ -2,6 +2,8 @@
 
 namespace Libaro\LaravelSlowQueries\Jobs;
 
+use Error;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,6 +16,13 @@ use Libaro\LaravelSlowQueries\Models\SlowQuery;
 class SaveSlowQueries implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+	/**
+	 * The number of times the job may be attempted.
+	 *
+	 * @var int
+	 */
+	public $tries = 3;
 
     /**
      * @var Collection<int, SlowQuery>
@@ -33,8 +42,13 @@ class SaveSlowQueries implements ShouldQueue
         $this->excludedRoutes = $this->getExcludeRoutes();
     }
 
+    /**
+     * @throws Exception
+     */
     public function handle(): void
     {
+        $this->backoffJobWhenHeavyLoad();
+
         $isPageSlow = $this->isPageSlow();
 
         foreach ($this->slowQueries as $slowQuery) {
@@ -113,7 +127,7 @@ class SaveSlowQueries implements ShouldQueue
             ||
             str_contains($slowQuery->source_file, 'laravel-slow-queries')
             ||
-            str_contains($slowQuery->uri, config('slow-queries.url_prefix'))
+            str_contains($slowQuery->uri, strval(config('slow-queries.url_prefix')))
             ||
             str_contains($slowQuery->action, 'LaravelSlowQueries')
             ||
@@ -132,5 +146,92 @@ class SaveSlowQueries implements ShouldQueue
         }
 
         return $isExcluded;
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    private function backoffJobWhenHeavyLoad(){
+		// TODO : refactor and test
+		// so that it works both in sync and in queue
+		// note: retry of job will not be possible when in sync; just stop the job when cpu is too high
+        $isHighLoad = $this->isHighLoad();
+
+        if($isHighLoad){
+            Log::info('high load --');
+
+			$reason = new Exception('Server load is too high at the moment to process the slow query. Backing off');
+			$this->fail($reason);
+
+			$this->release(60);;
+			throw $reason;
+        } else {
+
+			Log::info('no high load -- continue');
+		}
+    }
+
+//    public function backoff(): int
+//    {
+//        $load = $this->getLoad();
+//        $load = ($load + 1) * ($load + 1);      // backoff exponentially slower
+////        Log::info('load_1 ' . $load);
+//        $backoffSeconds = $load * intval(config('slow-queries.jobs_delay'));
+////        Log::info('backoff seconds' . $backoffSeconds);
+//		$backoffSeconds = min(30*60, $backoffSeconds);
+//		$backoffSeconds = max(60, $backoffSeconds);
+////		Log::info('backoff seconds ' . $backoffSeconds);
+//		$backoffMinutes = intval($backoffSeconds / 60);
+//
+//        Log::info("backing off for -- " . strval($backoffMinutes) . ' minutes');
+//        return $backoffMinutes;
+//    }
+
+
+    /**
+     * @return bool
+     */
+    private function isHighLoad(){
+//		Log::info('getLoad: ' . $this->getLoad());
+//		Log::info('config.load: ' . intval(config('slow-queries.delay_jobs_when_load_is_higher_than')));
+
+        return $this->getLoad() > intval(config('slow-queries.delay_jobs_when_load_is_higher_than'));
+    }
+
+    public function getLoad(): float|int
+    {
+        $avgLoad = sys_getloadavg();
+        $weightedAverage = $avgLoad ? ($avgLoad[0] * 3 + $avgLoad[1] * 2 + $avgLoad[2]) / 6 : 0;
+
+        $load = $weightedAverage / $this->numberOfCores();
+
+//        Log::info(strval($load));
+//        Log::info(strval($this->numberOfCores()));
+        return $load;
+    }
+
+    /**
+     * @return int
+     */
+    private function numberOfCores(): int
+    {
+        $cores = 1; // default value
+        if (is_readable('/proc/cpuinfo')) {
+            $cpuinfo = file_get_contents('/proc/cpuinfo');
+            preg_match_all('/^processor/m', strval($cpuinfo), $matches);
+            $cores = count($matches[0]);
+        } else if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+            $process = @popen('wmic cpu get NumberOfCores', 'rb');
+            if (false !== $process) {
+                fgets($process);
+                $cores = intval(fgets($process));
+                pclose($process);
+            }
+        } else {
+            $cores = intval(shell_exec('sysctl -n hw.ncpu'));
+        }
+
+        return max(1, $cores);
     }
 }

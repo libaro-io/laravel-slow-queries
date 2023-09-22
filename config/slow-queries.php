@@ -116,22 +116,12 @@ return [
     */
 
 
-    'default_time_range' => env('LARAVEL_SLOW_QUERIES_DEFAULT_TIME_RANGE', 1440),
+    'default_time_range' => env('LARAVEL_SLOW_QUERIES_DEFAULT_TIME_RANGE', 1439),
 
 
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | default_date_range
-    |--------------------------------------------------------------------------
-    |
-    |      default date range, IN DAYS
-    |
-    */
 
-
-    'default_date_range' => env('LARAVEL_SLOW_QUERIES_DEFAULT_DATE_RANGE', 14),
 
 
 
@@ -144,5 +134,35 @@ return [
     |
     */
 
-    'exclude_routes' => env('LARAVEL_SLOW_QUERIES_EXCLUDE_ROUTES', false)
+    'exclude_routes' => env('LARAVEL_SLOW_QUERIES_EXCLUDE_ROUTES', false),
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | delay_jobs_when_load_is_higher_than
+    |--------------------------------------------------------------------------
+    |
+    |      Delay jobs (backoff) when server load is too high
+    |
+    */
+
+    'delay_jobs_when_load_is_higher_than' => env('LARAVEL_SLOW_QUERIES_DELAY_JOBS_WHEN_LOAD_IS_HIGHER_THAN', 0.65),
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | jobs_delay
+    |--------------------------------------------------------------------------
+    |
+    |      For how many seconds a job should be delayed when load is high
+    |
+    */
+
+    'jobs_delay' => env('LARAVEL_SLOW_QUERIES_JOBS_DELAY', 300),
+
 ];
