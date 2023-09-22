@@ -25,6 +25,8 @@
     "laravel/pint": "^1.5",
     "nunomaduro/larastan": "^2.0",
     "orchestra/testbench": "^7.22",
+    "pestphp/pest": "^1.23",
+    "pestphp/pest-plugin-laravel": "^1.4",
     "phpstan/phpstan": "^1.8",
     "phpunit/phpunit": "^9.6"
   },
@@ -36,6 +38,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "Libaro\\LaravelSlowQueries\\": "src",
       "Libaro\\LaravelSlowQueries\\Tests\\": "tests"
     }
   },
