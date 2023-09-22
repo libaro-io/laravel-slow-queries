@@ -23,7 +23,7 @@ class TimeRanges
      */
     public static function isValid(string $type): bool
     {
-        return in_array($type, self::getValids(), true);
+        return in_array($type, self::getValids(), true) || $type === '1439';
     }
 
     /**
