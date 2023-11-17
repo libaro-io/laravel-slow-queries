@@ -10,3 +10,5 @@ node_modules
 .php-cs-fixer.cache
 resources/.DS_Store
 resources/assets/.DS_Store
+.phpunit.cache/test-results
+.DS_Store
