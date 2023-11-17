@@ -18,7 +18,7 @@ class SlowQueriesController extends Controller
         $slowQueriesDataService = new SlowQueriesDataService();
         $slowQueries = $slowQueriesDataService->getAggregations();
 
-        return view('slow-queries::slow-queries.index', compact('slowQueries'));
+        return view('slow-queries::slow-queries.index', ['slowQueries' => $slowQueries]);
     }
 
     /**

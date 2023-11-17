@@ -72,6 +72,6 @@ class SettingsController extends Controller
             ],
         ];
 
-        return view('slow-queries::settings.index', compact('settings'));
+        return view('slow-queries::settings.index', ['settings' => $settings]);
     }
 }

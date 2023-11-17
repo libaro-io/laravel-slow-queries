@@ -44,6 +44,6 @@ class RerunQuery implements ShouldQueue
         DB::raw($sql);
         $time = microtime(true) - $start;
 
-        dd($time, $sql);
+//        dd($time, $sql);
     }
 }

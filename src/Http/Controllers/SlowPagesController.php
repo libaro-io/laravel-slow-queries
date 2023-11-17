@@ -17,7 +17,7 @@ class SlowPagesController extends Controller
         $slowPagesService = new SlowPagesDataService();
         $slowPagesAggregations = $slowPagesService->getAggregations();
 
-        return view('slow-queries::slow-pages.index', compact('slowPagesAggregations'));
+        return view('slow-queries::slow-pages.index', ['slowPagesAggregations' => $slowPagesAggregations]);
     }
 
     /**
